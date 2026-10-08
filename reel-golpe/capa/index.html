@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Capa — Golpe do falso advogado</title>
+    <style>
+      @font-face { font-family: "Playfair Display"; font-weight: 800; src: url("assets/PlayfairDisplay-ExtraBold.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/Montserrat-SemiBold.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/Montserrat-ExtraBold.ttf") format("truetype"); }
+      :root { --navy: #0e1a2e; --gold: #c8a060; --gold-hi: #f1d9a4; --red: #e8203c; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Montserrat", sans-serif; color: #fff;
+        background: radial-gradient(110% 65% at 50% 46%, #1f3354 0%, #0e1a2e 55%, #070e1a 100%); }
+      .beam { position: absolute; width: 1600px; left: -260px; transform: rotate(-24deg); filter: blur(6px);
+        background: linear-gradient(90deg, rgba(200,160,96,0) 0%, rgba(200,160,96,0.14) 45%, rgba(241,217,164,0.24) 50%, rgba(200,160,96,0.14) 55%, rgba(200,160,96,0) 100%); }
+      .beamR { background: linear-gradient(90deg, rgba(232,32,60,0) 0%, rgba(232,32,60,0.16) 50%, rgba(232,32,60,0) 100%); }
+      .dot { position: absolute; border-radius: 50%; background: var(--gold); filter: blur(1px); }
+
+      .logo { position: absolute; left: 790px; top: 150px; width: 200px; height: 85px; }
+
+      /* cartão de vidro */
+      .glass { position: absolute; left: 80px; top: 300px; width: 920px; height: 1240px; border-radius: 48px;
+        background: linear-gradient(160deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0.07) 100%);
+        border: 2px solid rgba(255,255,255,0.18);
+        box-shadow: 0 50px 110px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 60px rgba(200,160,96,0.08);
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+      .glass .kicker { position: absolute; left: 50%; top: 56px; transform: translateX(-50%); white-space: nowrap; padding: 12px 24px 12px 20px; border-radius: 30px;
+        border: 2px solid rgba(232,32,60,0.85); background: rgba(232,32,60,0.12); font-weight: 800; font-size: 24px; letter-spacing: 0.14em; color: #ffc7cf; display: flex; align-items: center; gap: 12px; }
+      .title { position: absolute; left: 50px; width: 820px; top: 150px; text-align: center; font-family: "Playfair Display", serif; font-weight: 800; text-transform: uppercase; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+      .title .l1 { display: block; font-size: 84px; line-height: 1.02; }
+      .title .l2 { display: block; font-size: 94px; line-height: 1.0; margin-top: 18px; color: var(--red);
+        text-shadow: -3px 0 rgba(232,32,60,0.55), 3px 0 rgba(0,220,255,0.25), 0 10px 30px rgba(0,0,0,0.5); }
+
+      /* oficial x falso */
+      .duo { position: absolute; left: 0; top: 690px; width: 920px; height: 470px; }
+      .pc { position: absolute; top: 0; width: 330px; height: 420px; border-radius: 26px; overflow: hidden; }
+      .pc img { position: absolute; left: 75px; top: 46px; width: 180px; height: 180px; border-radius: 50%; }
+      .pc .n { position: absolute; left: 0; right: 0; top: 256px; text-align: center; font-weight: 800; font-size: 28px; }
+      .pc .s { position: absolute; left: 0; right: 0; top: 302px; text-align: center; font-weight: 600; font-size: 17px; letter-spacing: 0.22em; }
+      .of { left: 90px; transform: rotate(-4deg); background: linear-gradient(160deg, #24365a, #0e182a); border: 3px solid var(--gold); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+      .of img { box-shadow: 0 0 0 5px var(--gold); }
+      .of .s { color: var(--gold); }
+      .of .ok { position: absolute; left: 50%; top: 350px; transform: translateX(-50%); padding: 8px 18px; border-radius: 20px; background: var(--gold); color: var(--navy); font-weight: 800; font-size: 20px; letter-spacing: 0.08em; white-space: nowrap; }
+      .fk { left: 500px; transform: rotate(4deg); background: linear-gradient(170deg, #2a0f18, #160609); border: 3px solid var(--red); box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(232,32,60,0.35); }
+      .fk img { box-shadow: 0 0 0 4px rgba(255,255,255,0.15); filter: saturate(0.8); }
+      .fk .tint { position: absolute; left: 75px; top: 46px; width: 180px; height: 180px; border-radius: 50%; background: rgba(232,32,60,0.25); }
+      .fk .s { color: #ff8a99; }
+      .stamp { position: absolute; left: 596px; top: 1050px; width: 300px; height: 120px; transform: rotate(-14deg);
+        border: 8px solid var(--red); border-radius: 16px; display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 76px; letter-spacing: 0.08em; color: var(--red); background: rgba(26,6,10,0.6);
+        box-shadow: inset 0 0 0 5px rgba(26,6,10,0.9), inset 0 0 0 9px rgba(232,32,60,0.75), 0 18px 50px rgba(0,0,0,0.5); }
+      .vs { position: absolute; left: 500px; top: 1150px; width: 80px; height: 80px; border-radius: 50%; background: var(--navy); border: 3px solid rgba(255,255,255,0.35);
+        display: flex; align-items: center; justify-content: center; font-family: "Playfair Display", serif; font-weight: 800; font-size: 34px; color: #fff; }
+      .foot { position: absolute; left: 0; width: 920px; top: 1146px; text-align: center; font-weight: 800; font-size: 28px; letter-spacing: 0.12em; color: var(--gold-hi); }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="beam" style="top: 520px; height: 110px"></div>
+      <div class="beam beamR" style="top: 1180px; height: 70px"></div>
+      <div class="beam" style="top: 1420px; height: 30px; opacity: 0.6"></div>
+      <div id="dots"></div>
+      <img class="logo" src="assets/logo_claro.png" alt="Arthur Pires Nascimento" />
+
+      <div class="glass">
+        <div class="kicker"><svg width="30" height="27" viewBox="0 0 62 56"><path d="M31 4 L58 52 H4 Z" fill="none" stroke="#ff8a99" stroke-width="6" stroke-linejoin="round" /><path d="M31 20 V36" stroke="#ff8a99" stroke-width="6" stroke-linecap="round" /><circle cx="31" cy="44" r="3.6" fill="#ff8a99" /></svg>ALERTA DE GOLPE</div>
+        <div class="title"><span class="l1">Golpe do falso advogado:</span><span class="l2">Estão usando meu nome</span></div>
+        <div class="duo">
+          <div class="pc of"><img src="assets/foto_oficial.png" alt="Arthur Pires Nascimento" /><div class="n">Dr. Arthur Pires</div><div class="s">OFICIAL</div><div class="ok">✓ VERDADEIRO</div></div>
+          <div class="pc fk"><img src="assets/foto_oficial.png" alt="" /><div class="tint"></div><div class="n">Dr. Arthur Pires</div><div class="s">+55 •• •••••-••••</div></div>
+        </div>
+        <div class="foot">SAIBA COMO SE PROTEGER</div>
+      </div>
+      <div class="vs">×</div>
+      <div class="stamp">FALSO</div>
+    </div>
+    <script>
+      (function () {
+        var wrap = document.getElementById("dots"), seed = 23;
+        function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+        for (var i = 0; i < 30; i++) {
+          var d = document.createElement("div"), s = 3 + Math.round(rnd() * 6);
+          d.className = "dot"; d.style.width = s + "px"; d.style.height = s + "px";
+          d.style.left = Math.round(rnd() * 1060) + "px"; d.style.top = Math.round(120 + rnd() * 1700) + "px";
+          d.style.opacity = (0.1 + rnd() * 0.3).toFixed(2);
+          wrap.appendChild(d);
+        }
+      })();
+    </script>
+  </body>
+</html>
