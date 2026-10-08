@@ -95,7 +95,10 @@
       }
       #cardA { left: -90px; }
       #cardB { left: 570px; }
-      .card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      /* mesmo zoom (4%) nos dois cards; sem ampliação acima da resolução original */
+      .card video { position: absolute; left: -2%; top: -2%; width: 104%; height: 104%; object-fit: cover; object-position: 50% 50%; }
+      /* recorte 2: enquadramento alinhado à esquerda para deixar fora do quadro o selo do canto superior direito do vídeo original */
+      .card video#v-lula { left: 0; object-position: 0% 50%; }
       .card .sheen {
         position: absolute; inset: 0;
         background: linear-gradient(125deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(200,160,96,0.10) 100%);
@@ -321,9 +324,10 @@
         background: linear-gradient(180deg, #0b1424, #0e1a2e); border: 2px solid #0a0f18;
         box-shadow: inset 0 4px 14px rgba(0,0,0,0.6);
       }
-      #calc .disp .cur { position: absolute; left: 22px; top: 18px; font-size: 26px; font-weight: 600; color: #8f99a8; }
-      #calcVal { position: absolute; right: 20px; top: 52px; font-size: 52px; font-weight: 800; color: #ffffff; letter-spacing: 0.01em; white-space: nowrap; }
-      #calcArrow { position: absolute; left: 16px; top: 62px; width: 38px; height: 48px; }
+      #calc .meter { position: absolute; left: 76px; right: 24px; top: 52px; height: 36px; border-radius: 18px; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.12); overflow: hidden; }
+      #calcFill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 18px; background: linear-gradient(90deg, #a8803f, #e3c27f); }
+      #calc .ticks { position: absolute; left: 76px; right: 24px; top: 98px; height: 14px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.25) 0 2px, transparent 2px 28px); }
+      #calcArrow { position: absolute; left: 20px; top: 40px; width: 40px; height: 60px; }
       #calc .keys { position: absolute; left: 28px; right: 28px; top: 198px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
       #calc .keys i {
         display: flex; align-items: center; justify-content: center; height: 70px; border-radius: 16px; font-style: normal;
@@ -597,7 +601,7 @@
           <svg id="bigX" viewBox="0 0 500 500"><path id="x1" d="M80 80 L420 420" stroke="#e8a33c" stroke-width="46" stroke-linecap="round" fill="none" /><path id="x2" d="M420 80 L80 420" stroke="#e8a33c" stroke-width="46" stroke-linecap="round" fill="none" /></svg>
           <div id="calcwrap">
             <div id="calc">
-              <div class="disp"><div class="cur">R$</div><svg id="calcArrow" viewBox="0 0 44 54"><path d="M22 4 V42 M8 30 L22 46 L36 30" fill="none" stroke="#e8a33c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg><div id="calcVal">2.480,00</div></div>
+              <div class="disp"><svg id="calcArrow" viewBox="0 0 44 54"><path d="M22 4 V42 M8 30 L22 46 L36 30" fill="none" stroke="#e8a33c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg><div class="meter"><div id="calcFill"></div></div><div class="ticks"></div></div>
               <div class="keys"><i>7</i><i>8</i><i>9</i><i>÷</i><i>4</i><i>5</i><i>6</i><i>x</i><i>1</i><i>2</i><i>3</i><i>-</i><i>0</i><i>,</i><i>%</i><i class="k">=</i></div>
             </div>
           </div>
@@ -981,11 +985,9 @@
       gsap.set("#calc", { rotationY: -18, rotationX: 6, transformOrigin: "50% 50%" });
       tl.fromTo("#calc", { opacity: 0, x: 220 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 74.18);
       fin("#calcArrow", 74.68, 0.2, { y: -10 });
-      var calcObj = { v: 2480 };
-      var calcEl = document.getElementById("calcVal");
-      function fmt(v) { var n = Math.round(v); var s = String(n); var i = s.length > 3 ? s.slice(0, s.length - 3) + "." + s.slice(-3) : s; return i + ",00"; }
-      tl.fromTo(calcObj, { v: 2480 }, { v: 1730, duration: 0.9, ease: "power2.out", onUpdate: function () { calcEl.textContent = fmt(calcObj.v); } }, 74.68);
-      tl.to("#calcVal", { color: "#e8a33c", duration: 0.3 }, 74.9);
+      // medidor ilustrativo (sem valores): o nível desce
+      tl.fromTo("#calcFill", { scaleX: 0.88, transformOrigin: "0% 50%" }, { scaleX: 0.5, duration: 0.9, ease: "power2.out" }, 74.68);
+      tl.to("#calcFill", { background: "linear-gradient(90deg, #b9782a, #e8a33c)", duration: 0.3 }, 74.9);
       // sem volta
       tl.to("#iso", { opacity: 0, duration: 0.35 }, 75.75);
       fin("#noBack", 76.1, 0.4, { scale: 0.7 });
