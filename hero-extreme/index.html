@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>2º HERO EXTREME — reel</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/legendas_data.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; font-weight: 400; src: url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Oswald"; font-weight: 500; src: url("assets/fonts/oswald-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Oswald"; font-weight: 600; src: url("assets/fonts/oswald-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Oswald"; font-weight: 700; src: url("assets/fonts/oswald-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("assets/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url("assets/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("assets/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-style: italic; font-weight: 800; src: url("assets/fonts/barlow-condensed-latin-800-italic.woff2") format("woff2"); }
+
+      :root {
+        --preto: #070707;
+        --grafite: #171717;
+        --laranja: #f47a16;
+        --cobre: #d65b16;
+        --ambar: #f5b500;
+        --branco: #f5f3ed;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--preto); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--preto); color: var(--branco); font-family: "Oswald", sans-serif; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .layer { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      svg.full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .center-x { left: 0; right: 0; text-align: center; }
+
+      /* ---------- tipografia */
+      .anton { font-family: "Anton", sans-serif; font-weight: 400; text-transform: uppercase; line-height: 0.95; }
+      .barlow { font-family: "Barlow Condensed", sans-serif; font-weight: 800; text-transform: uppercase; }
+      .eyebrow { font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 60px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--branco); display: flex; align-items: center; justify-content: center; gap: 26px; }
+      .eyebrow .rule { width: 110px; height: 4px; background: var(--branco); display: inline-block; }
+      .eyebrow b { color: var(--laranja); font-weight: 800; }
+      .shadow { text-shadow: 0 6px 24px rgba(0, 0, 0, 0.85), 0 2px 4px rgba(0, 0, 0, 0.9); }
+
+      /* letreiro EXTREME (título da campanha — composição separada da logomarca) */
+      .extreme {
+        font-family: "Anton", sans-serif; text-transform: uppercase; line-height: 1; letter-spacing: 0.01em;
+        background: linear-gradient(180deg, #ff9b2e 0%, #f47a16 45%, #d65b16 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+        -webkit-mask-image: url("assets/media/tinta_desgastada.png"); -webkit-mask-size: 100% 100%;
+        mask-image: url("assets/media/tinta_desgastada.png"); mask-size: 100% 100%;
+        padding: 0 30px;
+      }
+      .extreme-wrap { transform: rotate(-4deg) skewX(-11deg); filter: drop-shadow(0 8px 0 rgba(0, 0, 0, 0.95)) drop-shadow(0 0 28px rgba(244, 122, 22, 0.45)); }
+
+      /* rótulos de cena com pincelada */
+      .tag { position: absolute; left: 0; right: 0; text-align: center; }
+      .tag .brush { position: absolute; left: 50%; top: 50%; width: 800px; height: 300px; transform: translate(-50%, -46%) rotate(-3deg); background: url("assets/media/pincelada_laranja.png") center / 100% 100% no-repeat; }
+      .tag .brush::before { content: ""; position: absolute; left: 5%; right: 5%; top: 24%; bottom: 24%; background: linear-gradient(90deg, #d65b16, #f47a16 40%, #f58a1e); border-radius: 6px; z-index: -1; }
+      .tag .brush { isolation: isolate; }
+      .tag .word { position: relative; font-family: "Anton", sans-serif; font-size: 140px; line-height: 1.12; padding-top: 14px; color: var(--preto); text-transform: uppercase; display: inline-block; transform: rotate(-3deg); }
+
+      /* ---------- overlays globais */
+      #vinheta { background: radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.62) 100%); pointer-events: none; }
+      #grao { background: url("assets/media/grao.png") 0 0 / 512px 512px repeat; opacity: 0.13; mix-blend-mode: overlay; }
+      #sujeira { background: url("assets/media/sujeira.png") 0 0 / 1080px 1920px no-repeat; opacity: 0.22; }
+      #arranhoes { background: url("assets/media/arranhoes.png") 0 0 / 1080px 1920px repeat; opacity: 0.1; mix-blend-mode: screen; }
+      #flash { background: radial-gradient(ellipse at 50% 50%, #fff3d6 0%, #f5b500 45%, #f47a16 100%); opacity: 0; mix-blend-mode: screen; }
+      #fx { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; mix-blend-mode: screen; }
+
+      /* ---------- legendas (área segura: 80 px laterais, acima de 1600 px) */
+      #capBand { left: 0; right: 0; top: 1300px; height: 420px; background: linear-gradient(180deg, rgba(7, 7, 7, 0) 0%, rgba(7, 7, 7, 0.55) 40%, rgba(7, 7, 7, 0.55) 70%, rgba(7, 7, 7, 0) 100%); opacity: 0; }
+      .cap { position: absolute; left: 80px; right: 80px; top: 1418px; height: 170px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; align-content: center; text-align: center; visibility: hidden; opacity: 0; }
+      .cap span { font-family: "Oswald", sans-serif; font-weight: 600; font-size: 60px; line-height: 1.18; color: var(--branco); margin: 0 9px; display: inline-block; text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 1); opacity: 0; }
+      .cap span.h { color: var(--ambar); }
+
+      /* ---------- cena 1: as quatro paredes */
+      .painel { position: absolute; background: linear-gradient(135deg, #1b1b1b, #0d0d0d 70%); overflow: hidden; }
+      .painel::after { content: ""; position: absolute; inset: 0; background: url("assets/media/sujeira.png") center / 1080px 1920px; opacity: 0.6; }
+      #p-tl { left: 0; top: 0; width: 538px; height: 758px; }
+      #p-tr { left: 542px; top: 0; width: 538px; height: 758px; }
+      #p-bl { left: 0; top: 762px; width: 538px; height: 1158px; }
+      #p-br { left: 542px; top: 762px; width: 538px; height: 1158px; }
+      #cruzLuz { opacity: 0; mix-blend-mode: screen; }
+
+      /* ---------- cena 7 */
+      #s7 .bandaData { position: absolute; left: 0; width: 1080px; top: 840px; height: 392px; background: url("assets/media/pincelada_laranja.png") center / 1160px 100% no-repeat; isolation: isolate; }
+      #s7 .bandaData::before { content: ""; position: absolute; left: 3%; right: 3%; top: 21%; bottom: 21%; background: linear-gradient(90deg, #d65b16, #f47a16 35%, #f58a1e 75%, #f5a020); z-index: -1; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="59" data-width="1080" data-height="1920">
+      <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="59" data-track-index="20" data-volume="1"></audio>
+
+      <!-- ======================================================= definições compartilhadas -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+          <radialGradient id="gSol" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#fffaf0" />
+            <stop offset="0.45" stop-color="#ffe08a" />
+            <stop offset="0.8" stop-color="#f5b500" />
+            <stop offset="1" stop-color="#f47a16" />
+          </radialGradient>
+          <radialGradient id="gHalo" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#ffcf5a" stop-opacity="0.75" />
+            <stop offset="0.35" stop-color="#f5a623" stop-opacity="0.35" />
+            <stop offset="1" stop-color="#f47a16" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="gBrilhoQuente" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#ffb347" stop-opacity="0.9" />
+            <stop offset="0.4" stop-color="#f47a16" stop-opacity="0.45" />
+            <stop offset="1" stop-color="#d65b16" stop-opacity="0" />
+          </radialGradient>
+          <radialGradient id="gLampada" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#fff2c0" stop-opacity="1" />
+            <stop offset="0.25" stop-color="#ffd27a" stop-opacity="0.7" />
+            <stop offset="1" stop-color="#f5a623" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="gRaio" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#ffe7a8" stop-opacity="0.55" />
+            <stop offset="1" stop-color="#ffe7a8" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="gChama" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#fff1b0" />
+            <stop offset="0.25" stop-color="#ffc23a" />
+            <stop offset="0.6" stop-color="#f47a16" />
+            <stop offset="1" stop-color="#d65b16" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="gCarne" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#9a5326" />
+            <stop offset="0.5" stop-color="#6e3417" />
+            <stop offset="1" stop-color="#3a180a" />
+          </linearGradient>
+          <linearGradient id="gLinguica" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#b0482a" />
+            <stop offset="0.5" stop-color="#7c2a16" />
+            <stop offset="1" stop-color="#3e130a" />
+          </linearGradient>
+          <linearGradient id="gPagina" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#fbf6e8" />
+            <stop offset="1" stop-color="#d8c49b" />
+          </linearGradient>
+                <linearGradient id="gCeu1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#050505" />
+                  <stop offset="0.3" stop-color="#0e0b09" />
+                  <stop offset="0.47" stop-color="#2c160a" />
+                  <stop offset="0.56" stop-color="#8a3f0e" />
+                  <stop offset="0.6" stop-color="#f08a1c" />
+                  <stop offset="0.61" stop-color="#ffcf6e" />
+                </linearGradient>
+                <linearGradient id="gCeu3a" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#0a0706" />
+                  <stop offset="0.28" stop-color="#2a1309" />
+                  <stop offset="0.43" stop-color="#9c4210" />
+                  <stop offset="0.515" stop-color="#f5a623" />
+                  <stop offset="0.52" stop-color="#ffd27a" />
+                </linearGradient>
+                <linearGradient id="gAgua" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#a5521a" />
+                  <stop offset="0.25" stop-color="#4a220c" />
+                  <stop offset="1" stop-color="#060504" />
+                </linearGradient>
+                <linearGradient id="gCeu3c" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#060505" />
+                  <stop offset="0.4" stop-color="#1c0f08" />
+                  <stop offset="0.6" stop-color="#6e300c" />
+                  <stop offset="0.66" stop-color="#c8641a" />
+                </linearGradient>
+              <linearGradient id="gCeu5" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#070606" />
+                <stop offset="0.3" stop-color="#1c0f08" />
+                <stop offset="0.46" stop-color="#8a3f0e" />
+                <stop offset="0.53" stop-color="#f5a623" />
+                <stop offset="0.535" stop-color="#ffd27a" />
+              </linearGradient>
+              <linearGradient id="gEstrada" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#c8641a" />
+                <stop offset="0.3" stop-color="#5a2a0e" />
+                <stop offset="1" stop-color="#1a0d06" />
+              </linearGradient>
+          <filter id="fBlur6" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" /></filter>
+          <filter id="fBlur14" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14" /></filter>
+          <filter id="fBlur30" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="30" /></filter>
+        </defs>
+      </svg>
+
+      <div id="stage" class="layer">
+        <!-- ======================================================= CENA 1 · 0–8,3 s · além das quatro paredes -->
+        <section id="s1" class="clip" data-start="0" data-duration="8.3" data-track-index="1">
+          <div id="s1land" class="layer">
+            <svg class="full" viewBox="0 0 1080 1920">
+              <rect width="1080" height="1920" fill="url(#gCeu1)" />
+              <circle id="s1halo" cx="540" cy="1165" r="640" fill="url(#gHalo)" />
+              <g id="s1raios" style="mix-blend-mode:screen" filter="url(#fBlur6)" opacity="0.5"></g>
+              <circle cx="540" cy="1165" r="118" fill="url(#gSol)" />
+              <path d="M0 1150 C 160 1112 300 1136 420 1150 S 700 1118 820 1146 S 1000 1124 1080 1140 L1080 1920 L0 1920 Z" fill="#3b1f0d" />
+              <image href="assets/media/fumaca.png" id="s1nevoa" x="-300" y="930" width="1700" height="560" opacity="0.32" preserveAspectRatio="none" />
+              <path d="M0 1232 C 200 1182 380 1222 540 1236 S 860 1190 1080 1214 V1920 H0 Z" fill="#1a0e07" />
+              <path d="M0 1430 C 300 1386 700 1446 1080 1404 V1920 H0 Z" fill="#090605" />
+              <g id="s1arvores" fill="#040302" stroke="#040302"></g>
+              <g id="s1capim" fill="#030202"></g>
+            </svg>
+          </div>
+          <!-- as quatro paredes -->
+          <div id="s1paredes" class="layer">
+            <div id="p-tl" class="painel"></div>
+            <div id="p-tr" class="painel"></div>
+            <div id="p-bl" class="painel"></div>
+            <div id="p-br" class="painel"></div>
+          </div>
+          <svg id="cruzLuz" class="full" viewBox="0 0 1080 1920">
+            <g filter="url(#fBlur30)">
+              <rect x="515" y="0" width="50" height="1920" fill="#f5a623" />
+              <rect x="0" y="735" width="1080" height="50" fill="#f5a623" />
+            </g>
+            <g filter="url(#fBlur6)">
+              <rect x="532" y="0" width="16" height="1920" fill="#ffd27a" />
+              <rect x="0" y="752" width="1080" height="16" fill="#ffd27a" />
+            </g>
+            <rect x="538" y="0" width="4" height="1920" fill="#fff6dc" />
+            <rect x="0" y="758" width="1080" height="4" fill="#fff6dc" />
+          </svg>
+          <div id="s1titulo" class="abs center-x" style="top: 470px">
+            <div id="s1a" class="barlow shadow" style="font-size: 66px; letter-spacing: 0.32em; color: var(--ambar); padding-left: 0.32em">Além das</div>
+            <div id="s1b" class="anton shadow" style="font-size: 142px; margin-top: 8px">Quatro paredes</div>
+          </div>
+        </section>
+
+        <!-- ======================================================= CENA 2 · 7,9–13,7 s · VEM AÍ O 2º HERO EXTREME -->
+        <section id="s2" class="clip" data-start="7.9" data-duration="5.8" data-track-index="2">
+          <div class="layer" style="background: #070707"></div>
+          <div id="s2brilho" class="layer" style="background: radial-gradient(ellipse 85% 42% at 50% 100%, rgba(244,122,22,0.85) 0%, rgba(214,91,22,0.45) 38%, rgba(7,7,7,0) 75%)"></div>
+          <svg class="full" viewBox="0 0 1080 1920">
+            <image class="fumacaSobe" href="assets/media/fumaca.png" x="140" y="1050" width="800" height="800" opacity="0.18" />
+            <g id="s2fogo" transform="translate(540 1790)"></g>
+          </svg>
+          <div class="layer" style="background: url('assets/media/sujeira.png') center / 1080px 1920px; opacity: 0.5"></div>
+          <div id="s2pincel" class="abs" style="left: -200px; top: 640px; width: 1480px; height: 520px; background: url('assets/media/pincelada_laranja.png') center / 100% 100% no-repeat; transform: rotate(-8deg); opacity: 0"></div>
+          <div id="s2stack" class="layer">
+            <div id="s2vem" class="abs center-x eyebrow shadow" style="top: 470px"><span class="rule"></span><span>Vem aí o <b>2º</b></span><span class="rule"></span></div>
+            <img id="s2logo" src="assets/brand/logo_hero_patrocinio.png" alt="HERO Patrocínio/MG" class="abs" style="left: 140px; top: 568px; width: 800px; height: 367px" />
+            <div id="s2ext" class="abs center-x" style="top: 960px"><div class="extreme-wrap"><div class="extreme" style="font-size: 224px">Extreme</div></div></div>
+            <div id="s2lag" class="abs center-x barlow shadow" style="top: 1268px; font-size: 54px; letter-spacing: 0.22em; padding-left: 0.22em">Lagoinha Patrocínio</div>
+          </div>
+        </section>
+
+        <!-- ======================================================= CENA 3 · 13,3–21,3 s · pesca, churrasco, comunhão -->
+        <section id="s3" class="clip" data-start="13.3" data-duration="8.0" data-track-index="3">
+          <!-- A · pesca -->
+          <div id="s3a" class="layer">
+            <svg class="full" viewBox="0 0 1080 1920">
+              <rect width="1080" height="1920" fill="url(#gCeu3a)" />
+              <circle cx="660" cy="1000" r="520" fill="url(#gHalo)" />
+              <circle cx="660" cy="1000" r="150" fill="url(#gSol)" />
+              <path d="M0 985 C 60 962 110 975 170 958 C 230 944 260 970 330 962 C 420 952 450 978 520 972 C 600 966 640 990 700 992 C 780 994 820 968 900 962 C 970 956 1020 972 1080 960 L1080 1002 L0 1002 Z" fill="#140a05" />
+              <rect y="1000" width="1080" height="920" fill="url(#gAgua)" />
+              <g id="s3reflexo" fill="#ffd27a" style="mix-blend-mode:screen"></g>
+              <ellipse id="s3onda" cx="985" cy="1262" rx="40" ry="8" fill="none" stroke="#ffd27a" stroke-width="3" opacity="0.7" />
+              <path d="M0 1505 C 180 1470 380 1488 560 1520 C 640 1534 700 1560 740 1600 L740 1920 L0 1920 Z" fill="#070504" />
+              <g id="s3juncos" fill="#050403"></g>
+              <g id="s3pescadores" fill="#060403"></g>
+              <path id="s3linha" d="M 905 690 Q 960 900 985 1262" fill="none" stroke="#ffe7b0" stroke-width="2" opacity="0.65" />
+            </svg>
+            <div class="tag" style="top: 300px"><div class="brush"></div><div class="word">Pesca</div></div>
+          </div>
+          <!-- B · churrasco -->
+          <div id="s3b" class="layer">
+            <svg class="full" viewBox="0 0 1080 1920">
+              <rect width="1080" height="1920" fill="#0a0705" />
+              <ellipse cx="540" cy="1260" rx="760" ry="520" fill="url(#gBrilhoQuente)" opacity="0.85" />
+              <g id="s3chamas" transform="translate(0 1235)"></g>
+              <g id="s3espetos"></g>
+              <g id="s3grelha" stroke="#3a3a3a" stroke-width="5">
+                <line x1="40" y1="1190" x2="1040" y2="1190" />
+                <line x1="40" y1="1222" x2="1040" y2="1222" />
+                <line x1="40" y1="1190" x2="40" y2="1222" />
+                <line x1="1040" y1="1190" x2="1040" y2="1222" />
+              </g>
+              <g id="s3brasas"></g>
+              <path d="M0 1262 L1080 1262 L1080 1920 L0 1920 Z" fill="#100b08" />
+              <g id="s3tijolos" stroke="#000" stroke-width="5" opacity="0.6"></g>
+              <rect y="1262" width="1080" height="16" fill="#2b1a10" />
+              <image class="fumacaSobe2" href="assets/media/fumaca.png" x="120" y="520" width="840" height="840" opacity="0.22" />
+            </svg>
+            <div class="tag" style="top: 300px"><div class="brush"></div><div class="word">Churrasco</div></div>
+          </div>
+          <!-- C · comunhão -->
+          <div id="s3c" class="layer">
+            <svg class="full" viewBox="0 0 1080 1920">
+              <rect width="1080" height="1920" fill="url(#gCeu3c)" />
+              <path d="M0 1250 C 200 1222 360 1246 540 1240 S 900 1220 1080 1238 V1920 H0 Z" fill="#120a06" />
+              <g id="s3luzes"></g>
+              <ellipse cx="540" cy="1600" rx="520" ry="300" fill="url(#gBrilhoQuente)" />
+              <g id="s3roda" fill="#050403" style="filter: drop-shadow(0 0 7px rgba(244,122,22,0.75))"></g>
+              <g id="s3fogueira" transform="translate(540 1640)"></g>
+              <path d="M0 1700 C 300 1680 780 1690 1080 1700 V1920 H0 Z" fill="#050403" />
+            </svg>
+            <div class="tag" style="top: 300px"><div class="brush"></div><div class="word">Comunhão</div></div>
+          </div>
+        </section>
+
+        <!-- ======================================================= CENA 4 · 20,9–31,0 s · louvor, adoração, Palavra -->
+        <section id="s4" class="clip" data-start="20.9" data-duration="10.1" data-track-index="4">
+          <div class="layer" style="background: #070707"></div>
+          <!-- A · feixe de luz -->
+          <div id="s4a" class="layer">
+            <svg class="full" viewBox="0 0 1080 1920">
+              <g id="s4feixe" style="mix-blend-mode:screen">
+                <polygon points="470,0 610,0 760,1920 320,1920" fill="#f5b500" opacity="0.16" filter="url(#fBlur30)" />
+                <polygon points="510,0 570,0 640,1920 440,1920" fill="#ffd27a" opacity="0.22" filter="url(#fBlur14)" />
+                <rect id="s4flare" x="90" y="690" width="900" height="26" fill="#ffd27a" opacity="0.5" filter="url(#fBlur14)" />
+              </g>
+            </svg>
+            <div id="s4alem" class="abs center-x anton shadow" style="top: 900px; font-size: 176px; color: var(--ambar)">Muito além</div>
+          </div>
+          <!-- B · mãos erguidas -->
+          <div id="s4b" class="layer">
+            <svg class="full" viewBox="0 0 1080 1920">
+              <circle cx="540" cy="520" r="900" fill="url(#gHalo)" />
+              <g id="s4raios" style="mix-blend-mode:screen" filter="url(#fBlur6)" opacity="0.45"></g>
+              <circle cx="540" cy="520" r="140" fill="url(#gSol)" opacity="0.85" filter="url(#fBlur14)" />
+              <g id="s4maos" fill="#050404"></g>
+              <g id="s4multidao" fill="#040303"></g>
+            </svg>
+            <div id="s4tags" class="abs center-x" style="top: 250px">
+              <div id="s4t1" class="anton shadow" style="font-size: 116px">Louvor</div>
+              <div id="s4t2" class="anton shadow" style="font-size: 116px; margin-top: 18px; color: var(--ambar)">Adoração</div>
+              <div id="s4t3" class="anton shadow" style="font-size: 116px; margin-top: 18px; color: var(--laranja)">Palavra</div>
+            </div>
+          </div>
+          <!-- C · Bíblia aberta -->
+          <div id="s4c" class="layer">
+            <svg class="full" viewBox="0 0 1080 1920">
+              <rect width="1080" height="1920" fill="#070707" />
+              <ellipse id="s4cglow" cx="540" cy="1020" rx="560" ry="420" fill="url(#gBrilhoQuente)" />
+              <g id="s4craios" style="mix-blend-mode:screen" filter="url(#fBlur14)" opacity="0.55">
+                <polygon points="520,1080 560,1080 700,250 380,250" fill="#ffd27a" opacity="0.35" />
+                <polygon points="500,1080 520,1080 200,300 120,360" fill="#ffd27a" opacity="0.18" />
+                <polygon points="560,1080 580,1080 960,360 880,300" fill="#ffd27a" opacity="0.18" />
+              </g>
+              <g id="s4livro">
+                <path d="M 96 1095 Q 320 1020 540 1080 L 540 1150 Q 320 1100 96 1170 Z" fill="#2a160c" />
+                <path d="M 984 1095 Q 760 1020 540 1080 L 540 1150 Q 760 1100 984 1170 Z" fill="#2a160c" />
+                <path d="M 120 1060 Q 330 990 536 1050 L 536 1330 Q 330 1270 110 1340 Z" fill="url(#gPagina)" />
+                <path d="M 960 1060 Q 750 990 544 1050 L 544 1330 Q 750 1270 970 1340 Z" fill="url(#gPagina)" />
+                <g id="s4linhas" stroke="#8a7a5c" stroke-width="5" stroke-linecap="round" opacity="0.55" fill="none"></g>
+                <rect x="526" y="1048" width="28" height="284" fill="#000" opacity="0.25" filter="url(#fBlur6)" />
+                <path d="M 120 1060 Q 330 990 536 1050 L 536 1330 Q 330 1270 110 1340 Z" fill="#fff4cf" opacity="0" id="s4brilhoPag" style="mix-blend-mode:screen" />
+                <path d="M 960 1060 Q 750 990 544 1050 L 544 1330 Q 750 1270 970 1340 Z" fill="#fff4cf" opacity="0" id="s4brilhoPag2" style="mix-blend-mode:screen" />
+              </g>
+            </svg>
+          </div>
+        </section>
+
+        <!-- ======================================================= CENA 5 · 30,6–39,4 s · ninguém caminha sozinho -->
+        <section id="s5" class="clip" data-start="30.6" data-duration="8.8" data-track-index="5">
+          <svg class="full" viewBox="0 0 1080 1920" id="s5cena">
+            <rect width="1080" height="1920" fill="url(#gCeu5)" />
+            <circle cx="540" cy="1030" r="700" fill="url(#gHalo)" />
+            <g id="s5raios" style="mix-blend-mode:screen" filter="url(#fBlur6)" opacity="0.4"></g>
+            <circle cx="540" cy="1030" r="125" fill="url(#gSol)" />
+            <path d="M0 1010 C 160 990 300 1012 420 1022 S 700 1000 820 1016 S 1000 1002 1080 1010 L1080 1920 L0 1920 Z" fill="#2a160a" />
+            <path d="M0 1070 C 250 1050 420 1075 540 1072 S 850 1050 1080 1066 V1920 H0 Z" fill="#150b06" />
+            <path d="M 520 1072 L 560 1072 L 900 1920 L 180 1920 Z" fill="url(#gEstrada)" />
+            <g id="s5capim" fill="#060403"></g>
+            <g id="s5grupo" fill="#050403" style="filter: drop-shadow(0 0 6px rgba(245,166,35,0.6))"></g>
+          </svg>
+          <div id="s5pilares" class="abs center-x" style="top: 270px">
+            <div class="anton shadow" style="font-size: 104px"><span id="s5p1">Fé</span> <span id="s5d1" style="color: var(--laranja)">•</span> <span id="s5p2">Família</span></div>
+            <div class="anton shadow" style="font-size: 104px; margin-top: 10px"><span id="s5p3">Propósito</span> <span id="s5d2" style="color: var(--laranja)">•</span> <span id="s5p4">Legado</span></div>
+          </div>
+          <div id="s5ninguem" class="abs center-x" style="top: 300px">
+            <div class="anton shadow" style="font-size: 150px; color: var(--ambar)">Ninguém</div>
+            <div class="anton shadow" style="font-size: 116px; margin-top: 6px">caminha sozinho</div>
+          </div>
+        </section>
+
+        <!-- ======================================================= CENA 6 · 39,0–45,4 s · chame um amigo -->
+        <section id="s6" class="clip" data-start="39.0" data-duration="6.4" data-track-index="6">
+          <div class="layer" style="background: #070707"></div>
+          <div class="layer" style="background: radial-gradient(ellipse 90% 55% at 50% 45%, rgba(214,91,22,0.35) 0%, rgba(7,7,7,0) 70%)"></div>
+          <div id="s6painel1" class="abs" data-layout-allow-overflow style="left: -40px; top: 200px; width: 1160px; height: 300px; overflow: hidden; transform: skewY(-5deg); border-top: 6px solid var(--laranja); border-bottom: 6px solid var(--laranja)">
+            <div id="s6v1" class="abs" data-layout-allow-overflow style="left:0; top:-60px; width:1160px; height:420px"></div>
+          </div>
+          <div id="s6painel2" class="abs" data-layout-allow-overflow style="left: -40px; top: 530px; width: 1160px; height: 300px; overflow: hidden; transform: skewY(-5deg); border-top: 6px solid var(--ambar); border-bottom: 6px solid var(--ambar)">
+            <div id="s6v2" class="abs" data-layout-allow-overflow style="left:0; top:-60px; width:1160px; height:420px"></div>
+          </div>
+          <div id="s6painel3" class="abs" data-layout-allow-overflow style="left: -40px; top: 860px; width: 1160px; height: 300px; overflow: hidden; transform: skewY(-5deg); border-top: 6px solid var(--laranja); border-bottom: 6px solid var(--laranja)">
+            <div id="s6v3" class="abs" data-layout-allow-overflow style="left:0; top:-60px; width:1160px; height:420px"></div>
+          </div>
+          <div id="s6chame" class="abs center-x" style="top: 1188px">
+            <div class="anton shadow" style="font-size: 148px">Chame <span style="color: var(--ambar)">um amigo</span></div>
+          </div>
+          <div id="s6venha" class="abs center-x" style="top: 1192px">
+            <div class="anton shadow" style="font-size: 100px">Venha viver</div>
+            <div class="anton shadow" style="font-size: 100px; color: var(--laranja)">essa experiência</div>
+          </div>
+        </section>
+
+        <!-- ======================================================= CENA 7 · 45,0–59,0 s · cartela final -->
+        <section id="s7" class="clip" data-start="45.0" data-duration="14.0" data-track-index="7">
+          <div class="layer" style="background: #070707"></div>
+          <div id="s7brilho" class="layer" style="background: radial-gradient(ellipse 90% 36% at 50% 100%, rgba(244,122,22,0.7) 0%, rgba(214,91,22,0.32) 40%, rgba(7,7,7,0) 78%)"></div>
+          <svg class="full" viewBox="0 0 1080 1920">
+            <image class="fumacaSobe3" href="assets/media/fumaca.png" x="100" y="1100" width="880" height="880" opacity="0.16" />
+            <g data-layout-allow-overflow id="s7fogo" transform="translate(540 1860) scale(0.8)"></g>
+          </svg>
+          <div class="layer" style="background: url('assets/media/sujeira.png') center / 1080px 1920px; opacity: 0.55"></div>
+          <div data-layout-allow-occlusion id="s7vem" class="abs center-x eyebrow shadow" style="top: 196px; font-size: 54px"><span class="rule"></span><span>Vem aí o <b>2º</b></span><span class="rule"></span></div>
+          <img id="s7logo" src="assets/brand/logo_hero_patrocinio.png" alt="HERO Patrocínio/MG" class="abs" style="left: 180px; top: 276px; width: 720px; height: 330px" />
+          <div data-layout-allow-occlusion id="s7ext" class="abs center-x" style="top: 612px"><div class="extreme-wrap"><div class="extreme" style="font-size: 196px">Extreme</div></div></div>
+          <div id="s7banda" class="bandaData"></div>
+          <div data-layout-allow-occlusion id="s7data" class="abs center-x" style="top: 905px; color: #070707">
+            <div class="anton" style="font-size: 150px; transform: rotate(-2deg)"><span id="s7d1">20,</span> <span id="s7d2">21</span> <span id="s7d3">e 22</span></div>
+            <div id="s7d4" class="anton" style="font-size: 86px; margin-top: 4px; transform: rotate(-2deg)">de novembro</div>
+          </div>
+          <div id="s7lag" class="abs center-x barlow shadow" style="top: 1248px; font-size: 56px; letter-spacing: 0.14em; padding-left: 0.14em">Lagoinha Patrocínio/MG</div>
+          <div id="s7insta" class="abs center-x barlow shadow" style="top: 1314px; font-size: 46px; letter-spacing: 0.1em; color: var(--ambar); font-weight: 700">@heropatrocinio</div>
+          <div id="s7slogan" class="abs center-x" style="top: 1408px">
+            <div class="anton shadow" style="font-size: 84px"><span id="s7s1">Muito</span> <span id="s7s2">além</span> <span id="s7s3">das</span></div>
+            <div class="anton shadow" style="font-size: 84px; color: var(--ambar)"><span id="s7s4">quatro</span> <span id="s7s5">paredes</span></div>
+          </div>
+          <div id="s7brilhoVarre" class="layer" data-layout-allow-overflow data-layout-allow-occlusion style="background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,240,200,0.55) 50%, rgba(255,255,255,0) 60%); mix-blend-mode: screen; transform: translateX(-1200px)"></div>
+        </section>
+      </div>
+
+      <!-- ======================================================= camadas globais -->
+      <canvas id="fx" width="1080" height="1920" data-layout-allow-overflow data-layout-allow-occlusion></canvas>
+      <div id="vinheta" class="layer" data-layout-allow-occlusion></div>
+      <div id="sujeira" class="layer" data-layout-allow-occlusion></div>
+      <div id="arranhoes" class="layer" data-layout-allow-occlusion></div>
+      <div id="grao" class="layer" data-layout-allow-occlusion></div>
+      <div id="capBand" class="abs"></div>
+      <div id="caps" class="layer"></div>
+      <div id="flash" class="layer" data-layout-allow-occlusion></div>
+    </div>
+
+    <script>
+      // ------------------------------------------------------------------ utilitários determinísticos
+      function rnd(seed) {
+        var a = seed >>> 0;
+        return function () {
+          a = (a + 0x6d2b79f5) >>> 0;
+          var t = a;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      var NS = "http://www.w3.org/2000/svg";
+      function html(sel, s) { document.querySelector(sel).innerHTML = s; }
+      function f1(n) { return Math.round(n * 10) / 10; }
+
+      // ------------------------------------------------------------------ geradores de ilustração
+      function raios(cx, cy, n, len, seed) {
+        var r = rnd(seed), s = "";
+        for (var i = 0; i < n; i++) {
+          var a = (i / n) * Math.PI * 2 + r() * 0.2, w = 0.05 + r() * 0.06;
+          var x1 = cx + Math.cos(a - w) * len, y1 = cy + Math.sin(a - w) * len;
+          var x2 = cx + Math.cos(a + w) * len, y2 = cy + Math.sin(a + w) * len;
+          s += '<polygon points="' + cx + "," + cy + " " + f1(x1) + "," + f1(y1) + " " + f1(x2) + "," + f1(y2) + '" fill="#ffe7a8" opacity="' + (0.25 + r() * 0.35).toFixed(2) + '"/>';
+        }
+        return s;
+      }
+
+      function arvore(x, base, h, seed, flip) {
+        var r = rnd(seed), s = "", k = flip ? -1 : 1;
+        // tronco retorcido (cerrado)
+        var topX = x + k * (h * 0.12), topY = base - h * 0.55;
+        s += '<path d="M' + (x - 26) + " " + base + " C " + (x - 30 + k * 40) + " " + (base - h * 0.2) + " " + (topX - 40 * k) + " " + (topY + h * 0.15) + " " + (topX - 10) + " " + topY + " L " + (topX + 12) + " " + topY + " C " + (topX - 20 * k + 22) + " " + (topY + h * 0.18) + " " + (x + 30 + k * 30) + " " + (base - h * 0.22) + " " + (x + 26) + " " + base + ' Z" stroke="none"/>';
+        // galhos
+        var copa = [];
+        for (var i = 0; i < 6; i++) {
+          var a = -Math.PI / 2 + (r() - 0.5) * 2.2;
+          var L = h * (0.18 + r() * 0.22);
+          var bx = topX + Math.cos(a) * L, by = topY + Math.sin(a) * L * 0.8;
+          s += '<path d="M' + f1(topX) + " " + f1(topY) + " Q " + f1((topX + bx) / 2 + (r() - 0.5) * 60) + " " + f1((topY + by) / 2) + " " + f1(bx) + " " + f1(by) + '" fill="none" stroke-width="' + (8 + r() * 8).toFixed(0) + '" stroke-linecap="round"/>';
+          copa.push([bx, by]);
+        }
+        // copa em tufos
+        copa.forEach(function (c) {
+          for (var j = 0; j < 7; j++) {
+            s += '<ellipse cx="' + f1(c[0] + (r() - 0.5) * 120) + '" cy="' + f1(c[1] + (r() - 0.5) * 60) + '" rx="' + f1(30 + r() * 46) + '" ry="' + f1(20 + r() * 30) + '" stroke="none"/>';
+          }
+        });
+        return s;
+      }
+
+      function capim(y0, n, hmin, hmax, seed, x0, x1) {
+        var r = rnd(seed), s = "";
+        if (x0 === undefined) { x0 = -20; x1 = 1100; }
+        for (var i = 0; i < n; i++) {
+          var x = x0 + r() * (x1 - x0), h = hmin + r() * (hmax - hmin), lean = (r() - 0.5) * 60, w = 3 + r() * 5;
+          var yb = y0 + r() * 40;
+          s += '<path d="M' + f1(x - w) + " " + f1(yb) + " Q " + f1(x + lean * 0.3) + " " + f1(yb - h * 0.6) + " " + f1(x + lean) + " " + f1(yb - h) + " Q " + f1(x + lean * 0.3 + w) + " " + f1(yb - h * 0.55) + " " + f1(x + w) + " " + f1(yb) + ' Z"/>';
+        }
+        return s;
+      }
+
+      // pessoa em silhueta (vista de costas/frente), pés na origem; altura ~ 295 unidades
+      function braco(lado, tipo, alvo) {
+        var sx = 46 * lado, y = -214, d;
+        if (tipo === "baixo") d = "M" + sx + " " + y + " Q " + (sx + 12 * lado) + " -170 " + (sx + 6 * lado) + " -126";
+        else if (tipo === "cintura") d = "M" + sx + " " + y + " L " + (sx + 26 * lado) + " -170 L " + (sx - 2 * lado) + " -140";
+        else if (tipo === "alto") d = "M" + sx + " " + y + " Q " + (sx + 22 * lado) + " -262 " + (sx + 14 * lado) + " -330";
+        else if (tipo === "gesto") d = "M" + sx + " " + y + " Q " + (sx + 40 * lado) + " -186 " + (sx + 58 * lado) + " -236";
+        else if (tipo === "ombro") d = "M" + sx + " " + y + " Q " + (sx + (alvo / 2) * lado) + " -250 " + (sx + (alvo - 20) * lado) + " -222";
+        else if (tipo === "vara") d = "M" + sx + " " + y + " Q " + (sx + 20 * lado) + " -176 " + 36 + " -156";
+        var extra = "";
+        if (tipo === "alto" || tipo === "gesto") {
+          var ex = tipo === "alto" ? sx + 14 * lado : sx + 58 * lado, ey = tipo === "alto" ? -330 : -236;
+          extra = '<circle cx="' + ex + '" cy="' + (ey - 6) + '" r="12" stroke="none"/>';
+        }
+        return '<path d="' + d + '" fill="none" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>' + extra;
+      }
+      function pessoa(o) {
+        var s = '<g transform="translate(' + o.x + " " + o.y + ") scale(" + (o.s * (o.w || 1)) + " " + o.s + ')" ' + (o.id ? 'id="' + o.id + '"' : "") + ">";
+        s += '<g class="corpo">';
+        s += '<rect class="pernaE" x="-40" y="-134" width="32" height="136" rx="12"/>';
+        s += '<rect class="pernaD" x="8" y="-134" width="32" height="136" rx="12"/>';
+        s += '<rect x="-44" y="-146" width="88" height="26" rx="8"/>';
+        s += '<path d="M-40 -230 Q -50 -228 -54 -212 L -46 -136 L 46 -136 L 54 -212 Q 50 -228 40 -230 Z"/>';
+        s += '<rect x="-10" y="-250" width="20" height="24"/>';
+        s += '<ellipse cx="0" cy="-268" rx="21" ry="24"/>';
+        if (o.bone) s += '<path d="M-24 -270 Q -23 -296 0 -297 Q 23 -296 24 -270 Z"/><rect x="-26" y="-274" width="52" height="7" rx="3"/>';
+        s += '<g stroke="' + (o.cor || "#050403") + '">' + braco(-1, o.bE || "baixo", o.aE) + braco(1, o.bD || "baixo", o.aD) + "</g>";
+        if (o.caneca) s += '<rect x="' + (o.caneca * 60 - 14) + '" y="-362" width="28" height="34" rx="5"/>';
+        s += "</g></g>";
+        return s;
+      }
+
+      function mao(x, y, rot, sc, seed) {
+        var r = rnd(seed), s = '<g transform="translate(' + x + " " + y + ") rotate(" + rot + ") scale(" + sc + ')" class="mao">';
+        s += '<path d="M -17 0 L -13 -230 L 13 -230 L 17 0 Z"/>';
+        s += '<path d="M -22 -226 Q -26 -268 -23 -300 L 23 -300 Q 26 -268 22 -226 Z"/>';
+        var fx = [-21, -9, 3, 14], fh = [46, 56, 53, 42];
+        for (var i = 0; i < 4; i++) {
+          var sp = (i - 1.5) * (3 + r() * 3);
+          s += '<rect x="' + fx[i] + '" y="' + (-296 - fh[i]) + '" width="10" height="' + (fh[i] + 8) + '" rx="5" transform="rotate(' + sp.toFixed(1) + " " + (fx[i] + 5) + ' -296)"/>';
+        }
+        s += '<rect x="-34" y="-282" width="11" height="44" rx="5.5" transform="rotate(-38 -23 -244)"/>';
+        return s + "</g>";
+      }
+
+      function chamas(n, larg, alt, seed, cls) {
+        var r = rnd(seed), s = "";
+        for (var i = 0; i < n; i++) {
+          var x = (i / (n - 1) - 0.5) * larg + (r() - 0.5) * 30, h = alt * (0.55 + r() * 0.6), w = 40 + r() * 50;
+          s += '<path class="' + cls + '" style="transform-box: fill-box; transform-origin: 50% 100%" d="M' + f1(x - w / 2) + " 0 C " + f1(x - w / 2) + " " + f1(-h * 0.4) + " " + f1(x - w * 0.1) + " " + f1(-h * 0.6) + " " + f1(x + (r() - 0.5) * 30) + " " + f1(-h) + " C " + f1(x + w * 0.25) + " " + f1(-h * 0.55) + " " + f1(x + w / 2) + " " + f1(-h * 0.35) + " " + f1(x + w / 2) + ' 0 Z" fill="url(#gChama)" opacity="' + (0.65 + r() * 0.35).toFixed(2) + '"/>';
+        }
+        return s;
+      }
+      function fogueira(seed, cls) {
+        var s = '<ellipse cx="0" cy="-40" rx="260" ry="120" fill="url(#gBrilhoQuente)"/>';
+        s += chamas(7, 220, 300, seed, cls);
+        s += '<rect x="-190" y="-26" width="380" height="40" rx="20" fill="#1c0e06" transform="rotate(12)"/>';
+        s += '<rect x="-190" y="-26" width="380" height="40" rx="20" fill="#25120a" transform="rotate(-12)"/>';
+        s += '<rect x="-150" y="-10" width="300" height="34" rx="17" fill="#120904"/>';
+        return s;
+      }
+
+      // ------------------------------------------------------------------ montagem das cenas
+      // cena 1
+      html("#s1raios", raios(540, 1165, 14, 1400, 11));
+      html("#s1arvores", arvore(120, 1500, 1050, 21, false) + arvore(-40, 1560, 780, 22, false) + arvore(960, 1520, 1000, 23, true) + arvore(1110, 1600, 700, 24, true));
+      html("#s1capim", capim(1930, 160, 60, 260, 31));
+
+      // cena 3A pesca
+      (function () {
+        var r = rnd(41), s = "";
+        for (var i = 0; i < 26; i++) {
+          var y = 1012 + i * i * 1.15, w = 260 - i * 6 + r() * 60;
+          s += '<rect class="refl" x="' + f1(660 - w / 2 + (r() - 0.5) * 50) + '" y="' + f1(y) + '" width="' + f1(w) + '" height="' + f1(3 + i * 0.35) + '" rx="2" opacity="' + (0.75 - i * 0.025).toFixed(2) + '"/>';
+        }
+        html("#s3reflexo", s);
+        html("#s3juncos", capim(1640, 40, 120, 320, 43, 760, 1100) + capim(1560, 30, 80, 200, 44, -20, 300));
+        var p = pessoa({ x: 330, y: 1545, s: 1.55, bone: true, bD: "vara", bE: "vara" });
+        p += pessoa({ x: 160, y: 1530, s: 1.48, w: 1.06, bD: "ombro", aD: 170, bE: "cintura" });
+        p += '<path d="M 386 1305 L 905 690" stroke="#060403" stroke-width="7" stroke-linecap="round"/>';
+        html("#s3pescadores", p);
+      })();
+
+      // cena 3B churrasco
+      (function () {
+        html("#s3chamas", chamas(11, 1000, 230, 51, "chamaB"));
+        var r = rnd(52), s = "";
+        var linhas = [[1100, 0.95], [1148, 1.0], [1186, 1.06]];
+        linhas.forEach(function (L, li) {
+          var y = L[0], k = L[1];
+          s += '<line x1="20" y1="' + y + '" x2="1060" y2="' + (y - 6) + '" stroke="#8d8d8d" stroke-width="' + (5 * k).toFixed(1) + '"/>';
+          for (var i = 0; i < 9; i++) {
+            var cx = 120 + i * 105 + (r() - 0.5) * 16, w = (78 + r() * 18) * k, h = (58 + r() * 14) * k;
+            var lin = li === 1 && i % 2 === 1;
+            var rot = (r() - 0.5) * 14;
+            s += '<g transform="rotate(' + rot.toFixed(1) + " " + f1(cx) + " " + y + ')">';
+            s += '<rect x="' + f1(cx - w / 2) + '" y="' + f1(y - h / 2) + '" width="' + f1(w) + '" height="' + f1(h) + '" rx="' + f1(lin ? h / 2 : h * 0.42) + '" fill="url(#' + (lin ? "gLinguica" : "gCarne") + ')"/>';
+            if (!lin) for (var j = 0; j < 2; j++) s += '<line x1="' + f1(cx - w * 0.3 + j * w * 0.32) + '" y1="' + f1(y - h * 0.32) + '" x2="' + f1(cx - w * 0.12 + j * w * 0.32) + '" y2="' + f1(y + h * 0.32) + '" stroke="#1f0c05" stroke-width="5" stroke-linecap="round" opacity="0.75"/>';
+            s += "</g>";
+            s += '<rect x="' + f1(cx - w * 0.35) + '" y="' + f1(y - h / 2 + 6) + '" width="' + f1(w * 0.5) + '" height="5" rx="2.5" fill="#ffcf8a" opacity="0.35"/>';
+          }
+        });
+        html("#s3espetos", s);
+        var b = "";
+        for (var i = 0; i < 70; i++) {
+          var cols = ["#ff9a2a", "#f47a16", "#d65b16", "#7a1e08", "#ffc24a"];
+          b += '<rect class="brasa" x="' + f1(40 + r() * 980) + '" y="' + f1(1226 + r() * 26) + '" width="' + f1(30 + r() * 40) + '" height="' + f1(16 + r() * 14) + '" rx="9" fill="' + cols[Math.floor(r() * 5)] + '"/>';
+        }
+        html("#s3brasas", b);
+        var t = "";
+        for (var y = 1330; y < 1920; y += 70) {
+          t += '<line x1="0" y1="' + y + '" x2="1080" y2="' + y + '"/>';
+          for (var x = ((y / 70) % 2) * 80; x < 1080; x += 160) t += '<line x1="' + x + '" y1="' + (y - 70) + '" x2="' + x + '" y2="' + y + '"/>';
+        }
+        html("#s3tijolos", t);
+      })();
+
+      // cena 3C comunhão
+      (function () {
+        var r = rnd(61), s = '<path d="M -20 640 Q 540 880 1100 700" fill="none" stroke="#1a120c" stroke-width="3"/>';
+        for (var i = 0; i <= 16; i++) {
+          var u = i / 16, x = (1 - u) * (1 - u) * -20 + 2 * (1 - u) * u * 540 + u * u * 1100, y = (1 - u) * (1 - u) * 640 + 2 * (1 - u) * u * 880 + u * u * 700;
+          s += '<circle class="lamp" cx="' + f1(x) + '" cy="' + f1(y + 14) + '" r="34" fill="url(#gLampada)"/><circle cx="' + f1(x) + '" cy="' + f1(y + 14) + '" r="7" fill="#fff4cf"/>';
+        }
+        html("#s3luzes", s);
+        var g = "";
+        g += pessoa({ x: 390, y: 1420, s: 0.95, bone: true, bD: "alto", caneca: 1 });
+        g += pessoa({ x: 690, y: 1430, s: 0.98, w: 1.08, bE: "gesto" });
+        g += pessoa({ x: 540, y: 1405, s: 0.86, bE: "cintura", bD: "baixo" });
+        g += pessoa({ x: 170, y: 1660, s: 1.42, w: 1.05, bD: "gesto" });
+        g += pessoa({ x: 905, y: 1670, s: 1.46, bone: true, bE: "ombro", aE: 0, bD: "cintura" });
+        html("#s3roda", g);
+        html("#s3fogueira", fogueira(62, "chamaC"));
+      })();
+
+      // cena 4
+      html("#s4raios", raios(540, 520, 18, 1500, 71));
+      (function () {
+        var r = rnd(72), s = "";
+        var pos = [[150, 1720, -14, 1.25], [300, 1600, -6, 1.15], [430, 1700, 4, 1.3], [560, 1560, -3, 1.05], [700, 1680, 8, 1.28], [830, 1590, 12, 1.12], [960, 1730, 16, 1.3], [240, 1820, -10, 1.45], [640, 1840, 2, 1.5], [880, 1850, 10, 1.4]];
+        pos.forEach(function (p, i) { s += mao(p[0], p[1], p[2], p[3], 80 + i); });
+        html("#s4maos", s);
+        var c = "";
+        for (var i = 0; i < 12; i++) {
+          var x = -40 + i * 100 + (r() - 0.5) * 40, y = 1690 + r() * 90, sc = 1.2 + r() * 0.35;
+          c += '<g transform="translate(' + f1(x) + " " + f1(y) + ") scale(" + sc.toFixed(2) + ')"><ellipse cx="0" cy="-60" rx="34" ry="40"/><path d="M -90 60 Q -84 -10 -36 -16 L 36 -16 Q 84 -10 90 60 L 90 260 L -90 260 Z"/></g>';
+        }
+        html("#s4multidao", c);
+        var l = "";
+        for (var k = 0; k < 8; k++) {
+          var yy = 1085 + k * 28;
+          l += '<path d="M 160 ' + (yy + 22 - k * 1.5) + " Q 330 " + (yy - 46 + k * 0.5) + " 505 " + (yy + 2) + '"/>';
+          l += '<path d="M 575 ' + (yy + 2) + " Q 750 " + (yy - 46 + k * 0.5) + " 920 " + (yy + 22 - k * 1.5) + '"/>';
+        }
+        html("#s4linhas", l);
+      })();
+
+      // cena 5
+      html("#s5raios", raios(540, 1030, 14, 1400, 81));
+      html("#s5capim", capim(1930, 120, 50, 200, 82).replace(/M(-?[\d.]+) /g, function (m, x) { x = parseFloat(x); return "M" + (x > 300 && x < 780 ? (x < 540 ? x - 260 : x + 260) : x) + " "; }));
+      (function () {
+        var g = "";
+        g += pessoa({ x: -190, y: 0, s: 1, bone: true, bD: "ombro", aD: 125, id: "c1" });
+        g += pessoa({ x: -64, y: 6, s: 1.04, w: 1.05, bE: "baixo", bD: "baixo", id: "c2" });
+        g += pessoa({ x: 64, y: 2, s: 1.0, bE: "baixo", bD: "ombro", aD: 125, id: "c3" });
+        g += pessoa({ x: 192, y: 8, s: 1.06, bone: true, bE: "baixo", id: "c4" });
+        html("#s5grupo", '<g id="s5andar" transform="translate(540 1640) scale(1.5)">' + g + "</g>");
+      })();
+
+      // fogo das cenas 2 e 7
+      html("#s2fogo", fogueira(91, "chamaA"));
+      html("#s7fogo", fogueira(92, "chamaD"));
+
+
+      // cena 6: painéis com recortes das ilustrações (clones sem ids)
+      [["#s3a svg", "#s6v1", "0 760 1080 560"], ["#s3c svg", "#s6v2", "0 1180 1080 560"], ["#s4b svg", "#s6v3", "0 1180 1080 560"]].forEach(function (c) {
+        var cl = document.querySelector(c[0]).cloneNode(true);
+        cl.querySelectorAll("[id]").forEach(function (e) { e.removeAttribute("id"); });
+        cl.removeAttribute("class");
+        cl.setAttribute("viewBox", c[2]); cl.setAttribute("width", "1160"); cl.setAttribute("height", "420");
+        cl.setAttribute("preserveAspectRatio", "xMidYMid slice");
+        cl.querySelectorAll(".mao,.lamp,.chamaC,.brasa,.refl").forEach(function (e) { e.setAttribute("class", ""); });
+        document.querySelector(c[1]).appendChild(cl);
+      });
+
+      // ------------------------------------------------------------------ legendas
+      (function () {
+        var box = document.getElementById("caps"), h = "";
+        window.LEGENDAS.forEach(function (f, i) {
+          h += '<div class="cap" id="cap' + i + '">';
+          f.w.forEach(function (w, j) { h += '<span id="cap' + i + "w" + j + '"' + (w.h ? ' class="h"' : "") + ">" + w.t + "</span>"; });
+          h += "</div>";
+        });
+        box.innerHTML = h;
+      })();
+
+      // ------------------------------------------------------------------ partículas (brasas e poeira), desenhadas a partir do tempo
+      var cv = document.getElementById("fx"), ctx = cv.getContext("2d");
+      var rp = rnd(2026), EMB = [], POE = [];
+      for (var i = 0; i < 150; i++) EMB.push({ x: rp() * 1080, per: 2.2 + rp() * 3.2, off: rp() * 6, wf: 0.8 + rp() * 1.8, wa: 18 + rp() * 40, dx: (rp() - 0.5) * 220, s: 1.4 + rp() * 3.2, a: 0.5 + rp() * 0.5, rise: 0.45 + rp() * 0.5 });
+      for (var j = 0; j < 90; j++) POE.push({ x: rp() * 1080, y: rp() * 1920, vx: (rp() - 0.5) * 14, vy: 4 + rp() * 14, wf: 0.3 + rp() * 0.8, ph: rp() * 6.28, wa: 10 + rp() * 30, s: 1 + rp() * 2.4, a: 0.25 + rp() * 0.5, tw: 0.8 + rp() * 2 });
+      function rampa(t, a, b, fi, fo) { return Math.max(0, Math.min(1, (t - a) / fi, (b - t) / fo)); }
+      var grao = document.getElementById("grao"), arr = document.getElementById("arranhoes");
+      function desenhar(t) {
+        ctx.clearRect(0, 0, 1080, 1920);
+        var ie = Math.max(rampa(t, 7.9, 13.4, 0.15, 0.4), 0.85 * rampa(t, 15.6, 18.2, 0.3, 0.3), 0.55 * rampa(t, 18.1, 21.0, 0.3, 0.3), 0.9 * rampa(t, 45.0, 59.2, 0.15, 0.5));
+        var id = Math.max(0.7 * rampa(t, 4.6, 8.0, 0.8, 0.2), 0.8 * rampa(t, 20.9, 31.0, 0.6, 0.4), 0.6 * rampa(t, 30.6, 39.2, 0.4, 0.3));
+        if (ie > 0) {
+          for (var i = 0; i < EMB.length; i++) {
+            var p = EMB[i], ph = ((t + p.off) % p.per) / p.per;
+            var y = 1960 - ph * 1920 * p.rise, x = p.x + Math.sin((t + p.off) * p.wf) * p.wa + ph * p.dx;
+            var al = ie * Math.sin(Math.PI * ph) * p.a, sz = p.s * (1 - ph * 0.5);
+            ctx.fillStyle = "rgba(244,122,22," + (al * 0.22).toFixed(3) + ")";
+            ctx.beginPath(); ctx.arc(x, y, sz * 4, 0, 6.2832); ctx.fill();
+            ctx.fillStyle = "rgba(255,206,110," + al.toFixed(3) + ")";
+            ctx.beginPath(); ctx.arc(x, y, sz, 0, 6.2832); ctx.fill();
+          }
+        }
+        if (id > 0) {
+          for (var k = 0; k < POE.length; k++) {
+            var q = POE[k];
+            var xx = (((q.x + t * q.vx + Math.sin(t * q.wf + q.ph) * q.wa) % 1080) + 1080) % 1080;
+            var yy = (((q.y - t * q.vy) % 1920) + 1920) % 1920;
+            var aa = id * q.a * (0.55 + 0.45 * Math.sin(t * q.tw + q.ph));
+            ctx.fillStyle = "rgba(255,232,180," + aa.toFixed(3) + ")";
+            ctx.beginPath(); ctx.arc(xx, yy, q.s, 0, 6.2832); ctx.fill();
+          }
+        }
+        var fr = Math.floor(t * 15);
+        grao.style.backgroundPosition = ((fr * 137) % 512) + "px " + ((fr * 251) % 512) + "px";
+        arr.style.backgroundPosition = ((fr * 41) % 23) + "px " + ((fr * 613) % 1920) + "px";
+      }
+
+      // ------------------------------------------------------------------ linha do tempo
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      var relogio = { t: 0 };
+      tl.to(relogio, { t: 59, duration: 59, ease: "none", onUpdate: function () { desenhar(relogio.t); } }, 0);
+
+      function fin(sel, t, d, de) { var a = Object.assign({ opacity: 0 }, de || {}); var b = { opacity: 1, duration: d, ease: "power3.out" }; Object.keys(de || {}).forEach(function (k) { b[k] = k === "scale" ? 1 : k === "filter" ? "blur(0px)" : 0; }); tl.fromTo(sel, a, b, t); }
+      function fout(sel, t, d) { tl.to(sel, { opacity: 0, duration: d, ease: "power2.in" }, t); }
+      function flash(t, pico, d) { tl.fromTo("#flash", { opacity: pico }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, t); }
+      function tremor(t, amp, n) { for (var i = 0; i < n; i++) { var k = 1 - i / n; tl.to("#stage", { x: (i % 2 ? -1 : 1) * amp * k, y: (i % 3 - 1) * amp * 0.6 * k, duration: 0.03, ease: "none" }, t + i * 0.035); } tl.to("#stage", { x: 0, y: 0, duration: 0.05 }, t + n * 0.035); }
+      function tremeluzir(sel, t0, t1, seed) {
+        var els = document.querySelectorAll(sel), r = rnd(seed);
+        els.forEach(function (el) { var d = 0.11 + r() * 0.1, n = Math.floor((t1 - t0) / d); tl.fromTo(el, { scaleY: 0.82 + r() * 0.1, scaleX: 1 }, { scaleY: 1.12 + r() * 0.12, scaleX: 0.92, duration: d, ease: "sine.inOut", yoyo: true, repeat: n, immediateRender: false }, t0 + r() * 0.1); });
+      }
+
+      // ===== CENA 1 · 0–8,3 =====
+      gsap.set(["#s1a", "#s1b"], { opacity: 0 });
+      tl.fromTo("#cruzLuz", { opacity: 0 }, { opacity: 0.55, duration: 2.0, ease: "sine.inOut" }, 0.4);
+      tl.to("#cruzLuz", { opacity: 1, duration: 2.0, ease: "sine.in" }, 2.4);
+      tl.fromTo("#s1paredes", { scale: 1.0 }, { scale: 1.07, duration: 4.6, ease: "sine.inOut" }, 0);
+      gsap.set("#cruzLuz", { transformOrigin: "50% 39.6%" });
+      tl.to("#cruzLuz", { scale: 1.07, duration: 4.6, ease: "sine.inOut" }, 0);
+      gsap.set("#s1paredes", { transformOrigin: "50% 39.6%" });
+      // as paredes se afastam um pouco (a luz forçando as frestas)
+      tl.to("#p-tl", { x: -8, y: -6, duration: 2.0, ease: "sine.in" }, 2.6);
+      tl.to("#p-tr", { x: 8, y: -6, duration: 2.0, ease: "sine.in" }, 2.6);
+      tl.to("#p-bl", { x: -8, y: 6, duration: 2.0, ease: "sine.in" }, 2.6);
+      tl.to("#p-br", { x: 8, y: 6, duration: 2.0, ease: "sine.in" }, 2.6);
+      // ... e se abrem: fora das quatro paredes
+      tl.to("#p-tl", { x: -640, y: -820, rotation: -6, duration: 1.25, ease: "power3.inOut" }, 4.62);
+      tl.to("#p-tr", { x: 640, y: -820, rotation: 6, duration: 1.25, ease: "power3.inOut" }, 4.62);
+      tl.to("#p-bl", { x: -640, y: 1200, rotation: 6, duration: 1.25, ease: "power3.inOut" }, 4.62);
+      tl.to("#p-br", { x: 640, y: 1200, rotation: -6, duration: 1.25, ease: "power3.inOut" }, 4.62);
+      tl.to("#cruzLuz", { opacity: 0, duration: 0.9, ease: "power2.out" }, 4.9);
+      flash(4.7, 0.45, 0.9);
+      tl.fromTo("#s1land", { scale: 1.22, y: 40 }, { scale: 1.0, y: 0, duration: 3.3, ease: "power2.out" }, 4.62);
+      tl.fromTo("#s1raios", { rotation: -4, svgOrigin: "540 1165" }, { rotation: 6, duration: 8.3, ease: "none" }, 0);
+      tl.fromTo("#s1nevoa", { x: -120 }, { x: 160, duration: 8.3, ease: "none" }, 0);
+      fin("#s1a", 5.9, 0.5, { y: 20 });
+      fin("#s1b", 6.1, 0.6, { y: 30, scale: 1.08 });
+      tl.to("#s1titulo", { scale: 1.12, opacity: 0, duration: 0.3, ease: "power2.in" }, 7.65);
+      tl.to("#s1land", { scale: 1.12, duration: 0.36, ease: "power3.in" }, 7.94);
+
+      // ===== CENA 2 · 7,9–13,7 =====
+      flash(7.9, 0.85, 0.42);
+      tremor(7.9, 22, 10);
+      gsap.set(["#s2vem", "#s2logo", "#s2ext", "#s2lag"], { opacity: 0 });
+      tl.fromTo("#s2pincel", { opacity: 1, x: -1700 }, { x: 1700, duration: 0.55, ease: "power2.inOut" }, 7.9);
+      tl.set("#s2pincel", { opacity: 0 }, 8.46);
+      tl.fromTo("#s2brilho", { opacity: 0.3 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 7.9);
+      tl.to("#s2brilho", { opacity: 0.75, duration: 0.5, yoyo: true, repeat: 9, ease: "sine.inOut" }, 8.5);
+      tremeluzir(".chamaA", 7.9, 13.7, 101);
+      tl.fromTo(".fumacaSobe", { y: 120, scale: 0.9, transformOrigin: "50% 50%" }, { y: -420, scale: 1.3, duration: 5.8, ease: "none" }, 7.9);
+      fin("#s2vem", 8.6, 0.5, { y: -24 });
+      tl.fromTo("#s2vem .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out" }, 8.75);
+      tl.fromTo("#s2logo", { opacity: 0, scale: 1.6, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.32, ease: "power4.in" }, 9.66);
+      tremor(9.98, 14, 7);
+      flash(9.98, 0.35, 0.4);
+      tl.fromTo("#s2ext", { opacity: 0, scale: 1.7, x: 120 }, { opacity: 1, scale: 1, x: 0, duration: 0.28, ease: "power4.in" }, 10.08);
+      tremor(10.36, 10, 6);
+      fin("#s2lag", 10.75, 0.6, { y: 20 });
+      tl.fromTo("#s2stack", { scale: 1 }, { scale: 1.05, duration: 2.45, ease: "sine.inOut" }, 10.4);
+      tl.to("#s2stack", { scale: 1.3, opacity: 0, filter: "blur(8px)", duration: 0.45, ease: "power3.in" }, 12.9);
+
+      // ===== CENA 3 · 13,3–21,3 =====
+      gsap.set(["#s3b", "#s3c"], { opacity: 0 });
+      // A · pesca 13,3–15,9
+      tl.fromTo("#s3a", { clipPath: "polygon(0% 0%, 0% 0%, -20% 100%, -20% 100%)" }, { clipPath: "polygon(0% 0%, 120% 0%, 100% 100%, -20% 100%)", duration: 0.5, ease: "power3.out" }, 13.3);
+      tl.fromTo("#s3a svg", { scale: 1.12, transformOrigin: "50% 60%" }, { scale: 1.0, duration: 2.8, ease: "sine.out" }, 13.3);
+      tl.fromTo("#s3reflexo", { opacity: 0.6 }, { opacity: 1, duration: 0.35, yoyo: true, repeat: 7, ease: "sine.inOut" }, 13.3);
+      tl.fromTo("#s3onda", { attr: { rx: 10, ry: 2 }, opacity: 0.9 }, { attr: { rx: 70, ry: 14 }, opacity: 0, duration: 1.2, repeat: 1, ease: "sine.out" }, 13.5);
+      tl.fromTo("#s3linha", { attr: { d: "M 905 690 Q 960 900 985 1262" } }, { attr: { d: "M 905 690 Q 930 920 985 1262" }, duration: 0.8, yoyo: true, repeat: 2, ease: "sine.inOut" }, 13.3);
+      tl.fromTo("#s3a .tag", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.in" }, 13.85);
+      // B · churrasco 15,6–18,2
+      tl.fromTo("#s3b", { opacity: 1, clipPath: "polygon(100% 0%, 120% 0%, 120% 100%, 100% 100%)" }, { opacity: 1, clipPath: "polygon(-20% 0%, 120% 0%, 120% 100%, 0% 100%)", duration: 0.45, ease: "power3.out" }, 15.6);
+      tl.fromTo("#s3b svg", { scale: 1.15, transformOrigin: "50% 62%" }, { scale: 1.02, duration: 2.8, ease: "sine.out" }, 15.6);
+      tremeluzir(".chamaB", 15.6, 18.4, 102);
+      tl.fromTo(".brasa", { opacity: 0.55 }, { opacity: 1, duration: 0.23, stagger: { each: 0.013, repeat: 9, yoyo: true }, ease: "sine.inOut" }, 15.6);
+      tl.fromTo(".fumacaSobe2", { y: 200, scale: 0.8, transformOrigin: "50% 50%" }, { y: -500, scale: 1.4, duration: 3.0, ease: "none" }, 15.6);
+      tl.fromTo("#s3b .tag", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.in" }, 15.78);
+      // C · comunhão 18,1–21,3
+      tl.fromTo("#s3c", { opacity: 1, clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }, { opacity: 1, clipPath: "polygon(0% -10%, 100% 0%, 100% 100%, 0% 100%)", duration: 0.45, ease: "power3.out" }, 18.1);
+      tl.fromTo("#s3c svg", { scale: 1.1, transformOrigin: "50% 75%" }, { scale: 1.0, duration: 3.2, ease: "sine.out" }, 18.1);
+      tremeluzir(".chamaC", 18.1, 21.3, 103);
+      tl.fromTo(".lamp", { opacity: 0.65 }, { opacity: 1, duration: 0.5, stagger: { each: 0.07, repeat: 5, yoyo: true }, ease: "sine.inOut" }, 18.1);
+      tl.fromTo("#s3c .tag", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.in" }, 18.3);
+      tl.to("#s3c .tag", { opacity: 0, duration: 0.3 }, 20.5);
+
+      // ===== CENA 4 · 20,9–31,0 =====
+      gsap.set(["#s4alem", "#s4t1", "#s4t2", "#s4t3"], { opacity: 0 });
+      tl.fromTo("#s4", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 20.9);
+      tl.fromTo("#s4feixe", { opacity: 0, scaleY: 0.4, transformOrigin: "50% 0%" }, { opacity: 1, scaleY: 1, duration: 1.6, ease: "power2.out" }, 21.0);
+      tl.fromTo("#s4flare", { scaleX: 0, transformOrigin: "50% 50%" }, { scaleX: 1, duration: 1.4, ease: "power2.out" }, 21.9);
+      fin("#s4alem", 22.7, 0.7, { y: 26, filter: "blur(8px)" });
+      tl.to("#s4a", { opacity: 0, duration: 0.6, ease: "sine.inOut" }, 23.9);
+      // B · mãos erguidas 24,2–27,6
+      tl.fromTo("#s4b", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "sine.inOut" }, 24.2);
+      tl.fromTo("#s4maos", { y: 220 }, { y: 0, duration: 3.2, ease: "power2.out" }, 24.2);
+      tl.fromTo(".mao", { rotation: -2 }, { rotation: 2, duration: 1.1, yoyo: true, repeat: 2, ease: "sine.inOut", stagger: 0.12, svgOrigin: "0 0" }, 24.2);
+      tl.fromTo("#s4raios", { rotation: -5, svgOrigin: "540 520" }, { rotation: 5, duration: 3.6, ease: "none" }, 24.2);
+      fin("#s4t1", 25.35, 0.45, { y: 24 });
+      fin("#s4t2", 25.95, 0.45, { y: 24 });
+      fin("#s4t3", 26.55, 0.45, { y: 24 });
+      tl.to("#s4tags", { opacity: 0, y: -30, duration: 0.5, ease: "power2.in" }, 27.45);
+      tl.to("#s4b", { opacity: 0, duration: 0.6, ease: "sine.inOut" }, 27.5);
+      // C · Bíblia 27,5–31,0 (na presença de Deus)
+      tl.fromTo("#s4c", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "sine.inOut" }, 27.4);
+      tl.fromTo("#s4livro", { scale: 1.12, y: 40, transformOrigin: "50% 60%" }, { scale: 1.0, y: 0, duration: 3.5, ease: "sine.out" }, 27.4);
+      tl.fromTo("#s4craios", { opacity: 0 }, { opacity: 0.6, duration: 1.4, ease: "sine.inOut" }, 28.0);
+      tl.fromTo(["#s4brilhoPag", "#s4brilhoPag2"], { opacity: 0 }, { opacity: 0.45, duration: 1.0, ease: "sine.inOut" }, 28.4);
+      tl.fromTo("#s4cglow", { opacity: 0.5 }, { opacity: 1, duration: 1.5, ease: "sine.inOut" }, 28.0);
+
+      // ===== CENA 5 · 30,6–39,4 =====
+      gsap.set(["#s5p1", "#s5p2", "#s5p3", "#s5p4", "#s5d1", "#s5d2", "#s5ninguem"], { opacity: 0 });
+      tl.fromTo("#s5", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.inOut" }, 30.6);
+      tl.fromTo("#s5andar", { attr: { transform: "translate(540 1690) scale(1.62)" } }, { attr: { transform: "translate(540 1470) scale(1.08)" }, duration: 8.8, ease: "none" }, 30.6);
+      ["c1", "c2", "c3", "c4"].forEach(function (c, i) {
+        var ph = i % 2 ? 0.18 : 0;
+        tl.fromTo("#" + c + " .pernaE", { rotation: -9, svgOrigin: "-24 -134" }, { rotation: 9, duration: 0.36, ease: "sine.inOut", yoyo: true, repeat: 23 }, 30.6 + ph);
+        tl.fromTo("#" + c + " .pernaD", { rotation: 9, svgOrigin: "24 -134" }, { rotation: -9, duration: 0.36, ease: "sine.inOut", yoyo: true, repeat: 23 }, 30.6 + ph);
+        tl.fromTo("#" + c + " .corpo", { y: 0 }, { y: -4, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 47 }, 30.6 + ph);
+      });
+      tl.fromTo("#s5raios", { rotation: -4, svgOrigin: "540 1030" }, { rotation: 5, duration: 8.8, ease: "none" }, 30.6);
+      fin("#s5p1", 31.3, 0.4, { y: 24 });
+      fin("#s5d1", 31.75, 0.3, { scale: 0.3 });
+      fin("#s5p2", 31.9, 0.4, { y: 24 });
+      fin("#s5p3", 32.6, 0.4, { y: 24 });
+      fin("#s5d2", 33.05, 0.3, { scale: 0.3 });
+      fin("#s5p4", 33.2, 0.4, { y: 24 });
+      tl.to("#s5pilares", { opacity: 0, y: -30, duration: 0.45, ease: "power2.in" }, 35.6);
+      fin("#s5ninguem", 36.15, 0.6, { y: 30, filter: "blur(8px)" });
+
+      // ===== CENA 6 · 39,0–45,4 =====
+      gsap.set(["#s6chame", "#s6venha"], { opacity: 0 });
+      tl.fromTo("#s6", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 39.0);
+      tl.fromTo("#s6painel1", { x: -1300 }, { x: 0, duration: 0.55, ease: "power3.out" }, 39.0);
+      tl.fromTo("#s6painel2", { x: 1300 }, { x: 0, duration: 0.55, ease: "power3.out" }, 39.18);
+      tl.fromTo("#s6painel3", { x: -1300 }, { x: 0, duration: 0.55, ease: "power3.out" }, 39.36);
+      tl.fromTo("#s6v1", { x: 0 }, { x: -60, duration: 6.4, ease: "none" }, 39.0);
+      tl.fromTo("#s6v2", { x: -60 }, { x: 0, duration: 6.4, ease: "none" }, 39.0);
+      tl.fromTo("#s6v3", { x: 0, y: 0 }, { x: -40, y: -30, duration: 6.4, ease: "none" }, 39.0);
+      fin("#s6chame", 40.35, 0.4, { scale: 1.3 });
+      tl.to("#s6chame", { opacity: 0, y: -30, duration: 0.3, ease: "power2.in" }, 41.25);
+      fin("#s6venha", 41.45, 0.5, { y: 30 });
+      tl.to(["#s6painel1", "#s6painel2", "#s6painel3"], { scale: 1.04, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut", stagger: 0.08 }, 41.4);
+      tl.to("#s6", { scale: 1.15, opacity: 0, duration: 0.45, ease: "power3.in" }, 44.6);
+
+      // ===== CENA 7 · 45,0–59,0 =====
+      flash(45.0, 0.85, 0.45);
+      tremor(45.0, 22, 10);
+      gsap.set(["#s7vem", "#s7logo", "#s7ext", "#s7lag", "#s7insta", "#s7d1", "#s7d2", "#s7d3", "#s7d4", "#s7s1", "#s7s2", "#s7s3", "#s7s4", "#s7s5"], { opacity: 0 });
+      tremeluzir(".chamaD", 45.0, 59.0, 104);
+      tl.fromTo("#s7brilho", { opacity: 0.4 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 45.0);
+      tl.to("#s7brilho", { opacity: 0.75, duration: 0.6, yoyo: true, repeat: 21, ease: "sine.inOut" }, 45.6);
+      tl.fromTo(".fumacaSobe3", { y: 100, scale: 0.9, transformOrigin: "50% 50%" }, { y: -500, scale: 1.4, duration: 14, ease: "none" }, 45.0);
+      fin("#s7vem", 45.15, 0.45, { y: -20 });
+      tl.fromTo("#s7logo", { opacity: 0, scale: 1.5, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "power4.in" }, 45.15);
+      tl.fromTo("#s7ext", { opacity: 0, scale: 1.7, x: 120 }, { opacity: 1, scale: 1, x: 0, duration: 0.28, ease: "power4.in" }, 45.42);
+      tremor(45.7, 10, 6);
+      tl.fromTo("#s7banda", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.55, ease: "power3.out" }, 45.95);
+      // data no ritmo da locução: "dias vinte, vinte e um e vinte e dois de novembro"
+      fin("#s7d1", 46.55, 0.3, { scale: 1.5 });
+      fin("#s7d2", 46.95, 0.3, { scale: 1.5 });
+      fin("#s7d3", 47.45, 0.3, { scale: 1.5 });
+      fin("#s7d4", 48.4, 0.4, { y: 20 });
+      // "Segundo HERO EXTREME. Lagoinha Patrocínio!"
+      tl.to(["#s7logo", "#s7ext"], { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1, ease: "sine.inOut" }, 50.7);
+      tl.fromTo("#s7brilhoVarre", { x: -1200 }, { x: 1200, duration: 1.0, ease: "power2.inOut" }, 50.5);
+      fin("#s7lag", 51.35, 0.5, { y: 20 });
+      fin("#s7insta", 52.2, 0.5, { y: 20 });
+      // "Muito além das quatro paredes!"
+      fin("#s7s1", 53.4, 0.3, { y: 20 });
+      fin("#s7s2", 54.2, 0.3, { y: 20 });
+      fin("#s7s3", 54.45, 0.3, { y: 20 });
+      fin("#s7s4", 54.62, 0.3, { y: 20 });
+      fin("#s7s5", 55.02, 0.3, { y: 20 });
+      flash(55.65, 0.28, 0.6);
+      tremor(55.65, 12, 7);
+      tl.fromTo("#s7brilhoVarre", { x: -1200 }, { x: 1200, duration: 1.1, ease: "power2.inOut", immediateRender: false }, 55.7);
+      tl.fromTo("#s7slogan", { scale: 1 }, { scale: 1.06, duration: 0.35, yoyo: true, repeat: 1, ease: "sine.inOut" }, 55.65);
+
+      // ===== LEGENDAS =====
+      tl.fromTo("#capBand", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.9);
+      tl.to("#capBand", { opacity: 0, duration: 0.3 }, 7.4);
+      tl.to("#capBand", { opacity: 1, duration: 0.3 }, 13.5);
+      tl.to("#capBand", { opacity: 0, duration: 0.4 }, 44.1);
+      window.LEGENDAS.forEach(function (f, i) {
+        var id = "#cap" + i;
+        tl.set(id, { visibility: "visible", opacity: 1 }, f.s);
+        f.w.forEach(function (w, j) {
+          tl.fromTo("#cap" + i + "w" + j, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, w.s);
+        });
+        tl.set(id, { opacity: 0, visibility: "hidden" }, f.e);
+      });
+
+      tl.set({}, {}, 59);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
