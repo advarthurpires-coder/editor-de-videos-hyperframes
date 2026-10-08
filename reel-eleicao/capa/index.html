@@ -8,36 +8,116 @@
       @font-face { font-family: "Playfair Display"; font-weight: 700; src: url("assets/PlayfairDisplay-Bold.ttf") format("truetype"); }
       @font-face { font-family: "Playfair Display"; font-weight: 800; src: url("assets/PlayfairDisplay-ExtraBold.ttf") format("truetype"); }
       @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/Montserrat-SemiBold.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/Montserrat-ExtraBold.ttf") format("truetype"); }
+      :root { --navy: #0e1a2e; --gold: #c8a060; --gold-hi: #f1d9a4; --slate: #3a4452; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0e1a2e; }
-      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: radial-gradient(120% 70% at 50% 30%, #1c2e4c 0%, #0e1a2e 55%, #08101d 100%); font-family: "Montserrat", sans-serif; }
-      .glow { position: absolute; left: 140px; top: 520px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(closest-side, rgba(200,160,96,0.22), rgba(200,160,96,0)); }
-      .grid { position: absolute; left: -40%; width: 180%; top: 1250px; height: 800px; background-image: linear-gradient(rgba(200,160,96,0.10) 2px, transparent 2px), linear-gradient(90deg, rgba(200,160,96,0.10) 2px, transparent 2px); background-size: 120px 120px; transform: perspective(900px) rotateX(68deg); transform-origin: 50% 0%; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0)); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0)); }
-      .card {
-        position: absolute; left: 100px; top: 600px; width: 840px; height: 640px; border-radius: 48px;
-        background: linear-gradient(160deg, rgba(36,56,92,0.62) 0%, rgba(16,30,54,0.72) 100%);
-        border: 2px solid rgba(255,255,255,0.14);
-        box-shadow: 0 50px 120px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 0 1px rgba(200,160,96,0.18);
-        backdrop-filter: blur(18px);
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden; font-family: "Montserrat", sans-serif; color: #fff;
+        background: radial-gradient(110% 65% at 50% 46%, #1f3354 0%, #0e1a2e 55%, #070e1a 100%);
       }
-      .card::before { content: ""; position: absolute; inset: 0; border-radius: 48px; background: linear-gradient(125deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 35%); }
-      .bar { position: absolute; left: 90px; top: 110px; width: 120px; height: 6px; border-radius: 3px; background: #c8a060; }
-      .title { position: absolute; left: 86px; top: 160px; width: 680px; font-family: "Playfair Display", serif; font-weight: 800; font-size: 78px; line-height: 1.1; color: #ffffff; text-transform: uppercase; letter-spacing: 0.005em; }
-      .title .g { color: #c8a060; display: block; margin-top: 22px; }
-      .logo { position: absolute; left: 640px; top: 330px; width: 300px; height: 127px; }
-      .handle { position: absolute; left: 90px; top: 530px; font-weight: 600; font-size: 28px; color: #c9d0db; letter-spacing: 0.02em; }
+
+      /* ------------------------------------------------ fundo dinâmico */
+      .beam { position: absolute; width: 1600px; height: 120px; left: -260px;
+        background: linear-gradient(90deg, rgba(200,160,96,0) 0%, rgba(200,160,96,0.16) 45%, rgba(241,217,164,0.28) 50%, rgba(200,160,96,0.16) 55%, rgba(200,160,96,0) 100%); filter: blur(6px); }
+      .b1 { top: 820px; transform: rotate(-24deg); }
+      .b2 { top: 1010px; height: 40px; transform: rotate(-24deg); opacity: 0.8; }
+      .b3 { top: 560px; height: 26px; transform: rotate(-24deg); opacity: 0.5; }
+      .bigq { position: absolute; left: 0; width: 1080px; top: 520px; text-align: center; font-family: "Playfair Display", serif; font-weight: 800; font-size: 1100px; line-height: 1000px; color: rgba(200,160,96,0.05); }
+      .grid { position: absolute; left: -40%; width: 180%; top: 1300px; height: 700px;
+        background-image: linear-gradient(rgba(200,160,96,0.12) 2px, transparent 2px), linear-gradient(90deg, rgba(200,160,96,0.12) 2px, transparent 2px);
+        background-size: 120px 120px; transform: perspective(900px) rotateX(68deg); transform-origin: 50% 0%;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0)); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0)); }
+      .dot { position: absolute; border-radius: 50%; background: var(--gold); filter: blur(1px); }
+
+      /* ------------------------------------------------ cabeçalho */
+      .logo { position: absolute; left: 770px; top: 296px; width: 180px; height: 76px; }
+      .kicker { position: absolute; left: 130px; top: 306px; padding: 12px 22px; border-radius: 30px; border: 2px solid rgba(200,160,96,0.8);
+        font-weight: 800; font-size: 22px; letter-spacing: 0.12em; color: var(--gold-hi); background: rgba(14,26,46,0.6); }
+      .title { position: absolute; left: 90px; width: 900px; top: 412px; text-align: center; font-family: "Playfair Display", serif; font-weight: 800; text-transform: uppercase; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+      .title .l1 { display: block; font-size: 68px; line-height: 1.05; letter-spacing: 0.01em; }
+      .title .l2 { display: block; font-size: 98px; line-height: 1.04; margin-top: 8px; color: var(--gold);
+        background: linear-gradient(180deg, #f6e2b4 0%, #c8a060 55%, #a8803f 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-shadow: none; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.45)); }
+
+      /* ------------------------------------------------ cards dos candidatos (tratamento idêntico, espelhado) */
+      .stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 1700px; perspective-origin: 50% 900px; }
+      .card { position: absolute; top: 690px; width: 380px; height: 506px; border-radius: 26px; overflow: hidden;
+        border: 3px solid var(--gold); background: #0b1424;
+        box-shadow: 0 46px 90px rgba(0,0,0,0.6), 0 0 34px rgba(200,160,96,0.35); }
+      .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .card .sheen { position: absolute; inset: 0; background: linear-gradient(125deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 30%); }
+      .card .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 150px; background: linear-gradient(to bottom, rgba(8,16,30,0), rgba(8,16,30,0.85)); }
+      .cardL { left: 128px; transform: rotateY(14deg) rotateZ(-2deg); }
+      .cardR { left: 572px; transform: rotateY(-14deg) rotateZ(2deg); }
+      .tag { position: absolute; top: 1150px; width: 350px; padding: 14px 10px; white-space: nowrap; text-align: center; border-radius: 14px;
+        background: rgba(10,19,34,0.95); border: 2px solid rgba(200,160,96,0.7); box-shadow: 0 14px 30px rgba(0,0,0,0.5);
+        font-weight: 800; font-size: 25px; letter-spacing: 0.01em; }
+      .tagL { left: 140px; }
+      .tagR { left: 590px; }
+      .medal { position: absolute; left: 470px; top: 870px; width: 140px; height: 140px; border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #fbe8bd 0%, #d9b46e 40%, #a8803f 80%, #7d5d2a 100%);
+        box-shadow: 0 0 0 6px rgba(14,26,46,0.95), 0 0 0 9px rgba(241,217,164,0.8), 0 0 60px rgba(200,160,96,0.7), 0 20px 40px rgba(0,0,0,0.6);
+        display: flex; align-items: center; justify-content: center;
+        font-family: "Playfair Display", serif; font-weight: 800; font-size: 104px; line-height: 1; color: #0e1a2e; padding-bottom: 8px; }
+      .spark { position: absolute; width: 4px; height: 70px; border-radius: 2px; background: linear-gradient(var(--gold-hi), rgba(241,217,164,0)); transform-origin: 50% 0; }
+
+      /* ------------------------------------------------ enquete (convite à interação) */
+      .poll { position: absolute; left: 150px; top: 1262px; width: 780px; padding: 30px 34px 34px; border-radius: 34px;
+        background: #ffffff; box-shadow: 0 30px 70px rgba(0,0,0,0.55); transform: rotate(-2deg); }
+      .poll .q { text-align: center; font-weight: 800; font-size: 34px; line-height: 1.15; color: var(--navy); letter-spacing: 0.005em; }
+      .poll .opts { display: flex; gap: 18px; margin-top: 22px; }
+      .poll .opt { flex: 1; height: 84px; border-radius: 42px; display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 30px; letter-spacing: 0.04em; }
+      .poll .opt { background: #f3f1ec; color: var(--navy); border: 3px solid var(--gold); box-shadow: 0 6px 14px rgba(168,128,63,0.25); }
+      .hand { position: absolute; left: 500px; top: 1430px; width: 96px; height: 110px; filter: drop-shadow(0 8px 14px rgba(0,0,0,0.5)); }
+      .ring { position: absolute; left: 508px; top: 1418px; width: 56px; height: 56px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.9); box-shadow: 0 0 0 10px rgba(255,255,255,0.25); }
+      .cta { position: absolute; left: 0; width: 1080px; top: 1562px; text-align: center; font-weight: 800; font-size: 26px; letter-spacing: 0.16em; color: var(--gold-hi); }
+      .cta svg { display: inline-block; vertical-align: -5px; margin-right: 12px; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="capa" data-start="0" data-duration="1" data-width="1080" data-height="1920">
-      <div class="glow"></div>
-      <div class="grid" data-layout-allow-overflow></div>
+    <div id="root">
+      <div class="bigq">?</div>
+      <div class="beam b3"></div>
+      <div class="beam b1"></div>
+      <div class="beam b2"></div>
+      <div class="grid"></div>
+      <div id="dots"></div>
+
+      <div class="kicker">2º TURNO</div>
       <img class="logo" src="assets/logo_claro.png" alt="Arthur Pires Nascimento" />
-      <div class="card">
-        <div class="bar"></div>
-        <div class="title">Eleição e aposentadoria: <span class="g">O que é real?</span></div>
-        <div class="handle">@adv.arthurpiresnascimento</div>
+      <div class="title"><span class="l1">Eleição e aposentadoria:</span><span class="l2">O que é real?</span></div>
+
+      <!-- quadros reais extraídos dos recortes (sem IA, sem filtro), mesmo tamanho e moldura -->
+      <div class="stage">
+        <div class="card cardL"><img src="assets/foto_flavio.png" alt="Flávio Bolsonaro" /><div class="fade"></div><div class="sheen"></div></div>
+        <div class="card cardR"><img src="assets/foto_lula.png" alt="Lula" /><div class="fade"></div><div class="sheen"></div></div>
       </div>
+      <div class="tag tagL">Flávio Bolsonaro (PL)</div>
+      <div class="tag tagR">Lula (PT)</div>
+      <div class="spark" style="left: 538px; top: 800px; transform: rotate(180deg)"></div>
+      <div class="medal">?</div>
+
+      <div class="poll">
+        <div class="q">O QUE PROTEGE SUA APOSENTADORIA?</div>
+        <div class="opts"><div class="opt">PROMESSA</div><div class="opt">CONSTITUIÇÃO</div></div>
+      </div>
+      <div class="ring"></div>
+      <svg class="hand" viewBox="0 0 96 110"><path d="M30 52 V14 a9 9 0 0 1 18 0 V48 l4-1 V30 a8 8 0 0 1 16 0 V50 l3 0 V38 a8 8 0 0 1 16 0 V70 c0 22 -14 36 -34 36 h-6 c-12 0 -20 -6 -27 -16 L4 70 a8 8 0 0 1 12 -10 Z" fill="#ffffff" stroke="#0e1a2e" stroke-width="4" stroke-linejoin="round" /></svg>
+      <div class="cta"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="none" stroke="#f1d9a4" stroke-width="2.5" /><path d="M10 7 L19 13 L10 19 Z" fill="#f1d9a4" /></svg>TOQUE E DESCUBRA EM 90 SEGUNDOS</div>
     </div>
+    <script>
+      (function () {
+        var wrap = document.getElementById("dots"), seed = 11;
+        function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+        for (var i = 0; i < 34; i++) {
+          var d = document.createElement("div"), s = 3 + Math.round(rnd() * 6);
+          d.className = "dot"; d.style.width = s + "px"; d.style.height = s + "px";
+          d.style.left = Math.round(rnd() * 1060) + "px"; d.style.top = Math.round(250 + rnd() * 1400) + "px";
+          d.style.opacity = (0.12 + rnd() * 0.35).toFixed(2);
+          wrap.appendChild(d);
+        }
+      })();
+    </script>
   </body>
 </html>
