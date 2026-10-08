@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Capa — Eleição e aposentadoria</title>
+    <style>
+      @font-face { font-family: "Playfair Display"; font-weight: 700; src: url("assets/PlayfairDisplay-Bold.ttf") format("truetype"); }
+      @font-face { font-family: "Playfair Display"; font-weight: 800; src: url("assets/PlayfairDisplay-ExtraBold.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/Montserrat-SemiBold.ttf") format("truetype"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0e1a2e; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: radial-gradient(120% 70% at 50% 30%, #1c2e4c 0%, #0e1a2e 55%, #08101d 100%); font-family: "Montserrat", sans-serif; }
+      .glow { position: absolute; left: 140px; top: 520px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(closest-side, rgba(200,160,96,0.22), rgba(200,160,96,0)); }
+      .grid { position: absolute; left: -40%; width: 180%; top: 1250px; height: 800px; background-image: linear-gradient(rgba(200,160,96,0.10) 2px, transparent 2px), linear-gradient(90deg, rgba(200,160,96,0.10) 2px, transparent 2px); background-size: 120px 120px; transform: perspective(900px) rotateX(68deg); transform-origin: 50% 0%; -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0)); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0)); }
+      .card {
+        position: absolute; left: 100px; top: 600px; width: 840px; height: 640px; border-radius: 48px;
+        background: linear-gradient(160deg, rgba(36,56,92,0.62) 0%, rgba(16,30,54,0.72) 100%);
+        border: 2px solid rgba(255,255,255,0.14);
+        box-shadow: 0 50px 120px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 0 1px rgba(200,160,96,0.18);
+        backdrop-filter: blur(18px);
+      }
+      .card::before { content: ""; position: absolute; inset: 0; border-radius: 48px; background: linear-gradient(125deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 35%); }
+      .bar { position: absolute; left: 90px; top: 110px; width: 120px; height: 6px; border-radius: 3px; background: #c8a060; }
+      .title { position: absolute; left: 86px; top: 160px; width: 680px; font-family: "Playfair Display", serif; font-weight: 800; font-size: 78px; line-height: 1.1; color: #ffffff; text-transform: uppercase; letter-spacing: 0.005em; }
+      .title .g { color: #c8a060; display: block; margin-top: 22px; }
+      .logo { position: absolute; left: 640px; top: 330px; width: 300px; height: 127px; }
+      .handle { position: absolute; left: 90px; top: 530px; font-weight: 600; font-size: 28px; color: #c9d0db; letter-spacing: 0.02em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="capa" data-start="0" data-duration="1" data-width="1080" data-height="1920">
+      <div class="glow"></div>
+      <div class="grid" data-layout-allow-overflow></div>
+      <img class="logo" src="assets/logo_claro.png" alt="Arthur Pires Nascimento" />
+      <div class="card">
+        <div class="bar"></div>
+        <div class="title">Eleição e aposentadoria: <span class="g">O que é real?</span></div>
+        <div class="handle">@adv.arthurpiresnascimento</div>
+      </div>
+    </div>
+  </body>
+</html>

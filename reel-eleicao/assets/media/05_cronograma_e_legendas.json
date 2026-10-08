@@ -1,0 +1,1688 @@
+{
+ "duracao_total_s": 90.8,
+ "inicio_narracao_s": 14.859,
+ "cenas": [
+  {
+   "cena": 1,
+   "inicio": 0.0,
+   "fim": 7.5,
+   "conteudo": "Recorte Flávio Bolsonaro (com áudio original do clipe, já na trilha mestre)"
+  },
+  {
+   "cena": 2,
+   "inicio": 7.5,
+   "fim": 14.56,
+   "conteudo": "Recorte Lula (com áudio original do clipe, já na trilha mestre)"
+  },
+  {
+   "cena": 3,
+   "inicio": 14.56,
+   "fim": 29.22,
+   "conteudo": "Alarmismo eleitoral: celular 3D, notificações dos dois lados, lupa, carimbo EXAGERO; palavra 'calma' em neon dourado",
+   "marco_calma": [
+    28.6,
+    29.06
+   ]
+  },
+  {
+   "cena": 4,
+   "inicio": 29.22,
+   "fim": 31.74,
+   "conteudo": "Transição 'VAMOS AO QUE É REAL' (véu/flash)"
+  },
+  {
+   "cena": 5,
+   "inicio": 31.74,
+   "fim": 36.76,
+   "conteudo": "PROMESSA ≠ GARANTIA: mesa 3D, Constituição pousa com brilho dourado"
+  },
+  {
+   "cena": 6,
+   "inicio": 36.76,
+   "fim": 51.2,
+   "conteudo": "Capítulo 1 — O QUE É GARANTIDO: escudo + cadeado sobre moedas 'SEU BENEFÍCIO'"
+  },
+  {
+   "cena": 7,
+   "inicio": 51.2,
+   "fim": 65.02,
+   "conteudo": "Capítulo 2 — O QUE PODE MUDAR: gráfico de ganho real travando, parlamento genérico, ampulheta"
+  },
+  {
+   "cena": 8,
+   "inicio": 65.02,
+   "fim": 77.32,
+   "conteudo": "Capítulo 3 — O ERRO A EVITAR: boneco correndo à agência genérica, X âmbar, calculadora caindo"
+  },
+  {
+   "cena": 9,
+   "inicio": 77.32,
+   "fim": 86.36,
+   "conteudo": "Informação séria + CTA: celular volta calmo, balão de compartilhar"
+  },
+  {
+   "cena": 10,
+   "inicio": 86.66,
+   "fim": 90.8,
+   "conteudo": "Assinatura final: logo em fundo branco"
+  }
+ ],
+ "legendas_frases": [
+  {
+   "texto": "Em época de eleição",
+   "s": 14.86,
+   "e": 15.88,
+   "destaques": [
+    "eleição"
+   ]
+  },
+  {
+   "texto": "aparece tudo",
+   "s": 16.18,
+   "e": 17.04,
+   "destaques": []
+  },
+  {
+   "texto": "vídeo",
+   "s": 17.32,
+   "e": 17.8,
+   "destaques": []
+  },
+  {
+   "texto": "áudio",
+   "s": 18.2,
+   "e": 18.56,
+   "destaques": []
+  },
+  {
+   "texto": "mensagem dizendo que se",
+   "s": 18.76,
+   "e": 20.18,
+   "destaques": []
+  },
+  {
+   "texto": "o outro ganhar",
+   "s": 20.18,
+   "e": 20.86,
+   "destaques": []
+  },
+  {
+   "texto": "sua aposentadoria acaba",
+   "s": 21.18,
+   "e": 22.36,
+   "destaques": []
+  },
+  {
+   "texto": "e isso vem dos",
+   "s": 22.8,
+   "e": 23.48,
+   "destaques": []
+  },
+  {
+   "texto": "dois lados",
+   "s": 23.48,
+   "e": 23.96,
+   "destaques": [
+    "dois",
+    "lados"
+   ]
+  },
+  {
+   "texto": "Muita coisa é exagero",
+   "s": 24.42,
+   "e": 25.56,
+   "destaques": [
+    "exagero"
+   ]
+  },
+  {
+   "texto": "feito só pra ganhar",
+   "s": 25.56,
+   "e": 26.66,
+   "destaques": []
+  },
+  {
+   "texto": "seu voto",
+   "s": 26.66,
+   "e": 27.28,
+   "destaques": [
+    "voto"
+   ]
+  },
+  {
+   "texto": "então tenha muita calma",
+   "s": 27.46,
+   "e": 29.06,
+   "destaques": [
+    "calma"
+   ]
+  },
+  {
+   "texto": "vamos ao que realmente",
+   "s": 29.22,
+   "e": 30.42,
+   "destaques": []
+  },
+  {
+   "texto": "é real",
+   "s": 30.42,
+   "e": 31.12,
+   "destaques": [
+    "real"
+   ]
+  },
+  {
+   "texto": "Promessa de campanha não",
+   "s": 31.74,
+   "e": 33.2,
+   "destaques": [
+    "Promessa"
+   ]
+  },
+  {
+   "texto": "é garantia",
+   "s": 33.2,
+   "e": 33.86,
+   "destaques": [
+    "garantia"
+   ]
+  },
+  {
+   "texto": "quem garante é a",
+   "s": 34.2,
+   "e": 35.4,
+   "destaques": []
+  },
+  {
+   "texto": "Constituição Federal",
+   "s": 35.4,
+   "e": 36.34,
+   "destaques": [
+    "Constituição",
+    "Federal"
+   ]
+  },
+  {
+   "texto": "Se você já é",
+   "s": 36.76,
+   "e": 37.5,
+   "destaques": []
+  },
+  {
+   "texto": "aposentado ou pensionista do",
+   "s": 37.5,
+   "e": 38.96,
+   "destaques": []
+  },
+  {
+   "texto": "INSS",
+   "s": 38.96,
+   "e": 39.36,
+   "destaques": []
+  },
+  {
+   "texto": "seu benefício ou aposentadoria",
+   "s": 39.82,
+   "e": 41.32,
+   "destaques": []
+  },
+  {
+   "texto": "não pode ser reduzido",
+   "s": 41.32,
+   "e": 42.8,
+   "destaques": [
+    "reduzido"
+   ]
+  },
+  {
+   "texto": "já se você completou",
+   "s": 43.02,
+   "e": 44.76,
+   "destaques": []
+  },
+  {
+   "texto": "os requisitos e mesmo",
+   "s": 44.76,
+   "e": 46.2,
+   "destaques": []
+  },
+  {
+   "texto": "assim ainda não pediu",
+   "s": 46.2,
+   "e": 47.2,
+   "destaques": []
+  },
+  {
+   "texto": "pro INSS",
+   "s": 47.2,
+   "e": 47.82,
+   "destaques": []
+  },
+  {
+   "texto": "o seu direito também",
+   "s": 48.22,
+   "e": 49.44,
+   "destaques": [
+    "direito"
+   ]
+  },
+  {
+   "texto": "não pode ser retirado",
+   "s": 49.44,
+   "e": 50.7,
+   "destaques": [
+    "retirado"
+   ]
+  },
+  {
+   "texto": "Mas o que pode",
+   "s": 51.2,
+   "e": 52.0,
+   "destaques": []
+  },
+  {
+   "texto": "ser mudado é o",
+   "s": 52.0,
+   "e": 53.06,
+   "destaques": []
+  },
+  {
+   "texto": "aumento acima da inflação",
+   "s": 53.06,
+   "e": 54.56,
+   "destaques": [
+    "inflação"
+   ]
+  },
+  {
+   "texto": "de quem ganha um",
+   "s": 54.56,
+   "e": 55.38,
+   "destaques": []
+  },
+  {
+   "texto": "salário mínimo",
+   "s": 55.38,
+   "e": 56.02,
+   "destaques": [
+    "salário",
+    "mínimo"
+   ]
+  },
+  {
+   "texto": "e as regras pra",
+   "s": 56.38,
+   "e": 57.14,
+   "destaques": [
+    "regras"
+   ]
+  },
+  {
+   "texto": "quem ainda não se",
+   "s": 57.14,
+   "e": 57.96,
+   "destaques": []
+  },
+  {
+   "texto": "aposentou",
+   "s": 57.96,
+   "e": 58.48,
+   "destaques": []
+  },
+  {
+   "texto": "mas pra isso mudar",
+   "s": 58.74,
+   "e": 59.62,
+   "destaques": []
+  },
+  {
+   "texto": "isso precisa passar pelo",
+   "s": 59.9,
+   "e": 61.28,
+   "destaques": []
+  },
+  {
+   "texto": "Congresso Nacional",
+   "s": 61.28,
+   "e": 62.16,
+   "destaques": [
+    "Congresso",
+    "Nacional"
+   ]
+  },
+  {
+   "texto": "não depende somente de",
+   "s": 62.56,
+   "e": 64.16,
+   "destaques": []
+  },
+  {
+   "texto": "promessa",
+   "s": 64.16,
+   "e": 64.66,
+   "destaques": [
+    "promessa"
+   ]
+  },
+  {
+   "texto": "o maior erro agora",
+   "s": 65.02,
+   "e": 66.16,
+   "destaques": [
+    "erro"
+   ]
+  },
+  {
+   "texto": "seria justamente sair correndo",
+   "s": 66.16,
+   "e": 68.1,
+   "destaques": []
+  },
+  {
+   "texto": "pro INSS com medo",
+   "s": 68.1,
+   "e": 69.56,
+   "destaques": [
+    "medo"
+   ]
+  },
+  {
+   "texto": "e sair fazendo requerimento",
+   "s": 69.56,
+   "e": 71.58,
+   "destaques": []
+  },
+  {
+   "texto": "a torto e a",
+   "s": 71.58,
+   "e": 72.19,
+   "destaques": []
+  },
+  {
+   "texto": "direito",
+   "s": 72.19,
+   "e": 72.34,
+   "destaques": [
+    "direito"
+   ]
+  },
+  {
+   "texto": "Pedido feito às pressas",
+   "s": 72.74,
+   "e": 74.1,
+   "destaques": []
+  },
+  {
+   "texto": "pode sair menor e",
+   "s": 74.18,
+   "e": 75.48,
+   "destaques": [
+    "menor"
+   ]
+  },
+  {
+   "texto": "pode ser que não",
+   "s": 75.48,
+   "e": 76.1,
+   "destaques": []
+  },
+  {
+   "texto": "tenha volta",
+   "s": 76.1,
+   "e": 76.7,
+   "destaques": [
+    "volta"
+   ]
+  },
+  {
+   "texto": "então antes de acreditar",
+   "s": 77.32,
+   "e": 79.1,
+   "destaques": []
+  },
+  {
+   "texto": "ou compartilhar informações procure",
+   "s": 79.1,
+   "e": 81.08,
+   "destaques": []
+  },
+  {
+   "texto": "se ela é correta",
+   "s": 81.08,
+   "e": 82.2,
+   "destaques": [
+    "correta"
+   ]
+  },
+  {
+   "texto": "e séria",
+   "s": 82.2,
+   "e": 82.88,
+   "destaques": [
+    "séria"
+   ]
+  },
+  {
+   "texto": "mande esse vídeo pra",
+   "s": 83.1,
+   "e": 83.98,
+   "destaques": []
+  },
+  {
+   "texto": "quem tá preocupado e",
+   "s": 83.98,
+   "e": 85.14,
+   "destaques": [
+    "preocupado"
+   ]
+  },
+  {
+   "texto": "deixa sua dúvida aqui",
+   "s": 85.14,
+   "e": 86.08,
+   "destaques": []
+  },
+  {
+   "texto": "embaixo",
+   "s": 86.08,
+   "e": 86.36,
+   "destaques": []
+  }
+ ],
+ "palavras": [
+  {
+   "w": "Em",
+   "s": 14.86,
+   "e": 15.1,
+   "destaque": false
+  },
+  {
+   "w": "época",
+   "s": 15.1,
+   "e": 15.32,
+   "destaque": false
+  },
+  {
+   "w": "de",
+   "s": 15.32,
+   "e": 15.48,
+   "destaque": false
+  },
+  {
+   "w": "eleição,",
+   "s": 15.48,
+   "e": 15.88,
+   "destaque": true
+  },
+  {
+   "w": "aparece",
+   "s": 16.18,
+   "e": 16.58,
+   "destaque": false
+  },
+  {
+   "w": "tudo,",
+   "s": 16.58,
+   "e": 17.04,
+   "destaque": false
+  },
+  {
+   "w": "vídeo,",
+   "s": 17.32,
+   "e": 17.8,
+   "destaque": false
+  },
+  {
+   "w": "áudio,",
+   "s": 18.2,
+   "e": 18.56,
+   "destaque": false
+  },
+  {
+   "w": "mensagem",
+   "s": 18.76,
+   "e": 19.18,
+   "destaque": false
+  },
+  {
+   "w": "dizendo",
+   "s": 19.18,
+   "e": 19.52,
+   "destaque": false
+  },
+  {
+   "w": "que",
+   "s": 19.52,
+   "e": 19.9,
+   "destaque": false
+  },
+  {
+   "w": "se",
+   "s": 19.9,
+   "e": 20.18,
+   "destaque": false
+  },
+  {
+   "w": "o",
+   "s": 20.18,
+   "e": 20.32,
+   "destaque": false
+  },
+  {
+   "w": "outro",
+   "s": 20.32,
+   "e": 20.5,
+   "destaque": false
+  },
+  {
+   "w": "ganhar,",
+   "s": 20.5,
+   "e": 20.86,
+   "destaque": false
+  },
+  {
+   "w": "sua",
+   "s": 21.18,
+   "e": 21.32,
+   "destaque": false
+  },
+  {
+   "w": "aposentadoria",
+   "s": 21.32,
+   "e": 22.04,
+   "destaque": false
+  },
+  {
+   "w": "acaba,",
+   "s": 22.04,
+   "e": 22.36,
+   "destaque": false
+  },
+  {
+   "w": "e",
+   "s": 22.8,
+   "e": 22.9,
+   "destaque": false
+  },
+  {
+   "w": "isso",
+   "s": 22.9,
+   "e": 23.14,
+   "destaque": false
+  },
+  {
+   "w": "vem",
+   "s": 23.14,
+   "e": 23.26,
+   "destaque": false
+  },
+  {
+   "w": "dos",
+   "s": 23.26,
+   "e": 23.48,
+   "destaque": false
+  },
+  {
+   "w": "dois",
+   "s": 23.48,
+   "e": 23.62,
+   "destaque": true
+  },
+  {
+   "w": "lados.",
+   "s": 23.62,
+   "e": 23.96,
+   "destaque": true
+  },
+  {
+   "w": "Muita",
+   "s": 24.42,
+   "e": 24.68,
+   "destaque": false
+  },
+  {
+   "w": "coisa",
+   "s": 24.68,
+   "e": 24.88,
+   "destaque": false
+  },
+  {
+   "w": "é",
+   "s": 24.88,
+   "e": 25.06,
+   "destaque": false
+  },
+  {
+   "w": "exagero",
+   "s": 25.06,
+   "e": 25.56,
+   "destaque": true
+  },
+  {
+   "w": "feito",
+   "s": 25.56,
+   "e": 25.9,
+   "destaque": false
+  },
+  {
+   "w": "só",
+   "s": 25.9,
+   "e": 26.22,
+   "destaque": false
+  },
+  {
+   "w": "pra",
+   "s": 26.22,
+   "e": 26.38,
+   "destaque": false
+  },
+  {
+   "w": "ganhar",
+   "s": 26.38,
+   "e": 26.66,
+   "destaque": false
+  },
+  {
+   "w": "seu",
+   "s": 26.66,
+   "e": 26.92,
+   "destaque": false
+  },
+  {
+   "w": "voto,",
+   "s": 26.92,
+   "e": 27.28,
+   "destaque": true
+  },
+  {
+   "w": "então",
+   "s": 27.46,
+   "e": 27.92,
+   "destaque": false
+  },
+  {
+   "w": "tenha",
+   "s": 27.92,
+   "e": 28.4,
+   "destaque": false
+  },
+  {
+   "w": "muita",
+   "s": 28.4,
+   "e": 28.6,
+   "destaque": false
+  },
+  {
+   "w": "calma,",
+   "s": 28.6,
+   "e": 29.06,
+   "destaque": true
+  },
+  {
+   "w": "vamos",
+   "s": 29.22,
+   "e": 29.54,
+   "destaque": false
+  },
+  {
+   "w": "ao",
+   "s": 29.54,
+   "e": 29.74,
+   "destaque": false
+  },
+  {
+   "w": "que",
+   "s": 29.74,
+   "e": 29.92,
+   "destaque": false
+  },
+  {
+   "w": "realmente",
+   "s": 29.92,
+   "e": 30.42,
+   "destaque": false
+  },
+  {
+   "w": "é",
+   "s": 30.42,
+   "e": 30.9,
+   "destaque": false
+  },
+  {
+   "w": "real.",
+   "s": 30.9,
+   "e": 31.12,
+   "destaque": true
+  },
+  {
+   "w": "Promessa",
+   "s": 31.74,
+   "e": 32.14,
+   "destaque": true
+  },
+  {
+   "w": "de",
+   "s": 32.14,
+   "e": 32.3,
+   "destaque": false
+  },
+  {
+   "w": "campanha",
+   "s": 32.3,
+   "e": 32.82,
+   "destaque": false
+  },
+  {
+   "w": "não",
+   "s": 32.82,
+   "e": 33.2,
+   "destaque": false
+  },
+  {
+   "w": "é",
+   "s": 33.2,
+   "e": 33.34,
+   "destaque": false
+  },
+  {
+   "w": "garantia,",
+   "s": 33.34,
+   "e": 33.86,
+   "destaque": true
+  },
+  {
+   "w": "quem",
+   "s": 34.2,
+   "e": 34.36,
+   "destaque": false
+  },
+  {
+   "w": "garante",
+   "s": 34.36,
+   "e": 34.86,
+   "destaque": false
+  },
+  {
+   "w": "é",
+   "s": 34.86,
+   "e": 35.3,
+   "destaque": false
+  },
+  {
+   "w": "a",
+   "s": 35.3,
+   "e": 35.4,
+   "destaque": false
+  },
+  {
+   "w": "Constituição",
+   "s": 35.4,
+   "e": 35.96,
+   "destaque": true
+  },
+  {
+   "w": "Federal.",
+   "s": 35.96,
+   "e": 36.34,
+   "destaque": true
+  },
+  {
+   "w": "Se",
+   "s": 36.76,
+   "e": 36.94,
+   "destaque": false
+  },
+  {
+   "w": "você",
+   "s": 36.94,
+   "e": 37.16,
+   "destaque": false
+  },
+  {
+   "w": "já",
+   "s": 37.16,
+   "e": 37.4,
+   "destaque": false
+  },
+  {
+   "w": "é",
+   "s": 37.4,
+   "e": 37.5,
+   "destaque": false
+  },
+  {
+   "w": "aposentado",
+   "s": 37.5,
+   "e": 38.14,
+   "destaque": false
+  },
+  {
+   "w": "ou",
+   "s": 38.14,
+   "e": 38.32,
+   "destaque": false
+  },
+  {
+   "w": "pensionista",
+   "s": 38.32,
+   "e": 38.78,
+   "destaque": false
+  },
+  {
+   "w": "do",
+   "s": 38.78,
+   "e": 38.96,
+   "destaque": false
+  },
+  {
+   "w": "INSS,",
+   "s": 38.96,
+   "e": 39.36,
+   "destaque": false
+  },
+  {
+   "w": "seu",
+   "s": 39.82,
+   "e": 39.98,
+   "destaque": false
+  },
+  {
+   "w": "benefício",
+   "s": 39.98,
+   "e": 40.46,
+   "destaque": false
+  },
+  {
+   "w": "ou",
+   "s": 40.46,
+   "e": 40.6,
+   "destaque": false
+  },
+  {
+   "w": "aposentadoria",
+   "s": 40.6,
+   "e": 41.32,
+   "destaque": false
+  },
+  {
+   "w": "não",
+   "s": 41.32,
+   "e": 41.72,
+   "destaque": false
+  },
+  {
+   "w": "pode",
+   "s": 41.72,
+   "e": 42.02,
+   "destaque": false
+  },
+  {
+   "w": "ser",
+   "s": 42.02,
+   "e": 42.18,
+   "destaque": false
+  },
+  {
+   "w": "reduzido,",
+   "s": 42.18,
+   "e": 42.8,
+   "destaque": true
+  },
+  {
+   "w": "já",
+   "s": 43.02,
+   "e": 43.36,
+   "destaque": false
+  },
+  {
+   "w": "se",
+   "s": 43.36,
+   "e": 43.7,
+   "destaque": false
+  },
+  {
+   "w": "você",
+   "s": 43.7,
+   "e": 43.92,
+   "destaque": false
+  },
+  {
+   "w": "completou",
+   "s": 43.92,
+   "e": 44.76,
+   "destaque": false
+  },
+  {
+   "w": "os",
+   "s": 44.76,
+   "e": 44.92,
+   "destaque": false
+  },
+  {
+   "w": "requisitos",
+   "s": 44.92,
+   "e": 45.46,
+   "destaque": false
+  },
+  {
+   "w": "e",
+   "s": 45.46,
+   "e": 45.96,
+   "destaque": false
+  },
+  {
+   "w": "mesmo",
+   "s": 45.96,
+   "e": 46.2,
+   "destaque": false
+  },
+  {
+   "w": "assim",
+   "s": 46.2,
+   "e": 46.5,
+   "destaque": false
+  },
+  {
+   "w": "ainda",
+   "s": 46.5,
+   "e": 46.74,
+   "destaque": false
+  },
+  {
+   "w": "não",
+   "s": 46.74,
+   "e": 46.9,
+   "destaque": false
+  },
+  {
+   "w": "pediu",
+   "s": 46.9,
+   "e": 47.2,
+   "destaque": false
+  },
+  {
+   "w": "pro",
+   "s": 47.2,
+   "e": 47.4,
+   "destaque": false
+  },
+  {
+   "w": "INSS,",
+   "s": 47.4,
+   "e": 47.82,
+   "destaque": false
+  },
+  {
+   "w": "o",
+   "s": 48.22,
+   "e": 48.36,
+   "destaque": false
+  },
+  {
+   "w": "seu",
+   "s": 48.36,
+   "e": 48.5,
+   "destaque": false
+  },
+  {
+   "w": "direito",
+   "s": 48.5,
+   "e": 48.88,
+   "destaque": true
+  },
+  {
+   "w": "também",
+   "s": 48.88,
+   "e": 49.44,
+   "destaque": false
+  },
+  {
+   "w": "não",
+   "s": 49.44,
+   "e": 49.7,
+   "destaque": false
+  },
+  {
+   "w": "pode",
+   "s": 49.7,
+   "e": 50.0,
+   "destaque": false
+  },
+  {
+   "w": "ser",
+   "s": 50.0,
+   "e": 50.16,
+   "destaque": false
+  },
+  {
+   "w": "retirado.",
+   "s": 50.16,
+   "e": 50.7,
+   "destaque": true
+  },
+  {
+   "w": "Mas",
+   "s": 51.2,
+   "e": 51.52,
+   "destaque": false
+  },
+  {
+   "w": "o",
+   "s": 51.52,
+   "e": 51.76,
+   "destaque": false
+  },
+  {
+   "w": "que",
+   "s": 51.76,
+   "e": 51.82,
+   "destaque": false
+  },
+  {
+   "w": "pode",
+   "s": 51.82,
+   "e": 52.0,
+   "destaque": false
+  },
+  {
+   "w": "ser",
+   "s": 52.0,
+   "e": 52.16,
+   "destaque": false
+  },
+  {
+   "w": "mudado",
+   "s": 52.16,
+   "e": 52.54,
+   "destaque": false
+  },
+  {
+   "w": "é",
+   "s": 52.54,
+   "e": 52.96,
+   "destaque": false
+  },
+  {
+   "w": "o",
+   "s": 52.96,
+   "e": 53.06,
+   "destaque": false
+  },
+  {
+   "w": "aumento",
+   "s": 53.06,
+   "e": 53.38,
+   "destaque": false
+  },
+  {
+   "w": "acima",
+   "s": 53.38,
+   "e": 53.9,
+   "destaque": false
+  },
+  {
+   "w": "da",
+   "s": 53.9,
+   "e": 54.04,
+   "destaque": false
+  },
+  {
+   "w": "inflação",
+   "s": 54.04,
+   "e": 54.56,
+   "destaque": true
+  },
+  {
+   "w": "de",
+   "s": 54.56,
+   "e": 54.72,
+   "destaque": false
+  },
+  {
+   "w": "quem",
+   "s": 54.72,
+   "e": 54.88,
+   "destaque": false
+  },
+  {
+   "w": "ganha",
+   "s": 54.88,
+   "e": 55.24,
+   "destaque": false
+  },
+  {
+   "w": "um",
+   "s": 55.24,
+   "e": 55.38,
+   "destaque": false
+  },
+  {
+   "w": "salário",
+   "s": 55.38,
+   "e": 55.7,
+   "destaque": true
+  },
+  {
+   "w": "mínimo,",
+   "s": 55.7,
+   "e": 56.02,
+   "destaque": true
+  },
+  {
+   "w": "e",
+   "s": 56.38,
+   "e": 56.44,
+   "destaque": false
+  },
+  {
+   "w": "as",
+   "s": 56.44,
+   "e": 56.62,
+   "destaque": false
+  },
+  {
+   "w": "regras",
+   "s": 56.62,
+   "e": 56.94,
+   "destaque": true
+  },
+  {
+   "w": "pra",
+   "s": 56.94,
+   "e": 57.14,
+   "destaque": false
+  },
+  {
+   "w": "quem",
+   "s": 57.14,
+   "e": 57.32,
+   "destaque": false
+  },
+  {
+   "w": "ainda",
+   "s": 57.32,
+   "e": 57.64,
+   "destaque": false
+  },
+  {
+   "w": "não",
+   "s": 57.64,
+   "e": 57.82,
+   "destaque": false
+  },
+  {
+   "w": "se",
+   "s": 57.82,
+   "e": 57.96,
+   "destaque": false
+  },
+  {
+   "w": "aposentou,",
+   "s": 57.96,
+   "e": 58.48,
+   "destaque": false
+  },
+  {
+   "w": "mas",
+   "s": 58.74,
+   "e": 59.0,
+   "destaque": false
+  },
+  {
+   "w": "pra",
+   "s": 59.0,
+   "e": 59.16,
+   "destaque": false
+  },
+  {
+   "w": "isso",
+   "s": 59.16,
+   "e": 59.32,
+   "destaque": false
+  },
+  {
+   "w": "mudar,",
+   "s": 59.32,
+   "e": 59.62,
+   "destaque": false
+  },
+  {
+   "w": "isso",
+   "s": 59.9,
+   "e": 59.98,
+   "destaque": false
+  },
+  {
+   "w": "precisa",
+   "s": 59.98,
+   "e": 60.44,
+   "destaque": false
+  },
+  {
+   "w": "passar",
+   "s": 60.44,
+   "e": 60.96,
+   "destaque": false
+  },
+  {
+   "w": "pelo",
+   "s": 60.96,
+   "e": 61.28,
+   "destaque": false
+  },
+  {
+   "w": "Congresso",
+   "s": 61.28,
+   "e": 61.66,
+   "destaque": true
+  },
+  {
+   "w": "Nacional,",
+   "s": 61.66,
+   "e": 62.16,
+   "destaque": true
+  },
+  {
+   "w": "não",
+   "s": 62.56,
+   "e": 62.76,
+   "destaque": false
+  },
+  {
+   "w": "depende",
+   "s": 62.76,
+   "e": 63.12,
+   "destaque": false
+  },
+  {
+   "w": "somente",
+   "s": 63.12,
+   "e": 63.94,
+   "destaque": false
+  },
+  {
+   "w": "de",
+   "s": 63.94,
+   "e": 64.16,
+   "destaque": false
+  },
+  {
+   "w": "promessa,",
+   "s": 64.16,
+   "e": 64.66,
+   "destaque": true
+  },
+  {
+   "w": "o",
+   "s": 65.02,
+   "e": 65.14,
+   "destaque": false
+  },
+  {
+   "w": "maior",
+   "s": 65.14,
+   "e": 65.34,
+   "destaque": false
+  },
+  {
+   "w": "erro",
+   "s": 65.34,
+   "e": 65.68,
+   "destaque": true
+  },
+  {
+   "w": "agora",
+   "s": 65.68,
+   "e": 66.16,
+   "destaque": false
+  },
+  {
+   "w": "seria",
+   "s": 66.16,
+   "e": 66.74,
+   "destaque": false
+  },
+  {
+   "w": "justamente",
+   "s": 66.74,
+   "e": 67.22,
+   "destaque": false
+  },
+  {
+   "w": "sair",
+   "s": 67.22,
+   "e": 67.58,
+   "destaque": false
+  },
+  {
+   "w": "correndo",
+   "s": 67.58,
+   "e": 68.1,
+   "destaque": false
+  },
+  {
+   "w": "pro",
+   "s": 68.1,
+   "e": 68.32,
+   "destaque": false
+  },
+  {
+   "w": "INSS",
+   "s": 68.32,
+   "e": 68.84,
+   "destaque": false
+  },
+  {
+   "w": "com",
+   "s": 68.84,
+   "e": 69.24,
+   "destaque": false
+  },
+  {
+   "w": "medo",
+   "s": 69.24,
+   "e": 69.56,
+   "destaque": true
+  },
+  {
+   "w": "e",
+   "s": 69.56,
+   "e": 70.02,
+   "destaque": false
+  },
+  {
+   "w": "sair",
+   "s": 70.02,
+   "e": 70.64,
+   "destaque": false
+  },
+  {
+   "w": "fazendo",
+   "s": 70.64,
+   "e": 71.02,
+   "destaque": false
+  },
+  {
+   "w": "requerimento",
+   "s": 71.02,
+   "e": 71.58,
+   "destaque": false
+  },
+  {
+   "w": "a",
+   "s": 71.58,
+   "e": 71.73,
+   "destaque": false
+  },
+  {
+   "w": "torto",
+   "s": 71.73,
+   "e": 71.88,
+   "destaque": false
+  },
+  {
+   "w": "e",
+   "s": 71.88,
+   "e": 72.04,
+   "destaque": false
+  },
+  {
+   "w": "a",
+   "s": 72.04,
+   "e": 72.19,
+   "destaque": false
+  },
+  {
+   "w": "direito.",
+   "s": 72.19,
+   "e": 72.34,
+   "destaque": true
+  },
+  {
+   "w": "Pedido",
+   "s": 72.74,
+   "e": 73.06,
+   "destaque": false
+  },
+  {
+   "w": "feito",
+   "s": 73.06,
+   "e": 73.32,
+   "destaque": false
+  },
+  {
+   "w": "às",
+   "s": 73.32,
+   "e": 73.54,
+   "destaque": false
+  },
+  {
+   "w": "pressas,",
+   "s": 73.54,
+   "e": 74.1,
+   "destaque": false
+  },
+  {
+   "w": "pode",
+   "s": 74.18,
+   "e": 74.4,
+   "destaque": false
+  },
+  {
+   "w": "sair",
+   "s": 74.4,
+   "e": 74.68,
+   "destaque": false
+  },
+  {
+   "w": "menor",
+   "s": 74.68,
+   "e": 75.08,
+   "destaque": true
+  },
+  {
+   "w": "e",
+   "s": 75.08,
+   "e": 75.48,
+   "destaque": false
+  },
+  {
+   "w": "pode",
+   "s": 75.48,
+   "e": 75.72,
+   "destaque": false
+  },
+  {
+   "w": "ser",
+   "s": 75.72,
+   "e": 75.86,
+   "destaque": false
+  },
+  {
+   "w": "que",
+   "s": 75.86,
+   "e": 75.98,
+   "destaque": false
+  },
+  {
+   "w": "não",
+   "s": 75.98,
+   "e": 76.1,
+   "destaque": false
+  },
+  {
+   "w": "tenha",
+   "s": 76.1,
+   "e": 76.3,
+   "destaque": false
+  },
+  {
+   "w": "volta,",
+   "s": 76.3,
+   "e": 76.7,
+   "destaque": true
+  },
+  {
+   "w": "então",
+   "s": 77.32,
+   "e": 77.72,
+   "destaque": false
+  },
+  {
+   "w": "antes",
+   "s": 77.72,
+   "e": 78.3,
+   "destaque": false
+  },
+  {
+   "w": "de",
+   "s": 78.3,
+   "e": 78.46,
+   "destaque": false
+  },
+  {
+   "w": "acreditar",
+   "s": 78.46,
+   "e": 79.1,
+   "destaque": false
+  },
+  {
+   "w": "ou",
+   "s": 79.1,
+   "e": 79.28,
+   "destaque": false
+  },
+  {
+   "w": "compartilhar",
+   "s": 79.28,
+   "e": 79.76,
+   "destaque": false
+  },
+  {
+   "w": "informações",
+   "s": 79.76,
+   "e": 80.34,
+   "destaque": false
+  },
+  {
+   "w": "procure",
+   "s": 80.34,
+   "e": 81.08,
+   "destaque": false
+  },
+  {
+   "w": "se",
+   "s": 81.08,
+   "e": 81.4,
+   "destaque": false
+  },
+  {
+   "w": "ela",
+   "s": 81.4,
+   "e": 81.5,
+   "destaque": false
+  },
+  {
+   "w": "é",
+   "s": 81.5,
+   "e": 81.6,
+   "destaque": false
+  },
+  {
+   "w": "correta",
+   "s": 81.6,
+   "e": 82.2,
+   "destaque": true
+  },
+  {
+   "w": "e",
+   "s": 82.2,
+   "e": 82.46,
+   "destaque": false
+  },
+  {
+   "w": "séria,",
+   "s": 82.46,
+   "e": 82.88,
+   "destaque": true
+  },
+  {
+   "w": "mande",
+   "s": 83.1,
+   "e": 83.4,
+   "destaque": false
+  },
+  {
+   "w": "esse",
+   "s": 83.4,
+   "e": 83.56,
+   "destaque": false
+  },
+  {
+   "w": "vídeo",
+   "s": 83.56,
+   "e": 83.8,
+   "destaque": false
+  },
+  {
+   "w": "pra",
+   "s": 83.8,
+   "e": 83.98,
+   "destaque": false
+  },
+  {
+   "w": "quem",
+   "s": 83.98,
+   "e": 84.14,
+   "destaque": false
+  },
+  {
+   "w": "tá",
+   "s": 84.14,
+   "e": 84.28,
+   "destaque": false
+  },
+  {
+   "w": "preocupado",
+   "s": 84.28,
+   "e": 84.9,
+   "destaque": true
+  },
+  {
+   "w": "e",
+   "s": 84.9,
+   "e": 85.14,
+   "destaque": false
+  },
+  {
+   "w": "deixa",
+   "s": 85.14,
+   "e": 85.42,
+   "destaque": false
+  },
+  {
+   "w": "sua",
+   "s": 85.42,
+   "e": 85.54,
+   "destaque": false
+  },
+  {
+   "w": "dúvida",
+   "s": 85.54,
+   "e": 85.9,
+   "destaque": false
+  },
+  {
+   "w": "aqui",
+   "s": 85.9,
+   "e": 86.08,
+   "destaque": false
+  },
+  {
+   "w": "embaixo.",
+   "s": 86.08,
+   "e": 86.36,
+   "destaque": false
+  }
+ ]
+}

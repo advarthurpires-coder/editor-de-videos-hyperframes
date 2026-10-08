@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Promessa não é garantia — reel</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/legendas_data.js"></script>
+    <style>
+      /* ------------------------------------------------------------ fontes */
+      @font-face { font-family: "Montserrat"; font-weight: 300; src: url("assets/fonts/Montserrat-Light.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 400; src: url("assets/fonts/Montserrat-Regular.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/fonts/Montserrat-SemiBold.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/fonts/Montserrat-ExtraBold.ttf") format("truetype"); }
+      @font-face { font-family: "Playfair Display"; font-weight: 600; src: url("assets/fonts/PlayfairDisplay-SemiBold.ttf") format("truetype"); }
+      @font-face { font-family: "Playfair Display"; font-weight: 700; src: url("assets/fonts/PlayfairDisplay-Bold.ttf") format("truetype"); }
+      @font-face { font-family: "Playfair Display"; font-weight: 800; src: url("assets/fonts/PlayfairDisplay-ExtraBold.ttf") format("truetype"); }
+      @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 600; src: url("assets/fonts/PlayfairDisplay-SemiBoldItalic.ttf") format("truetype"); }
+      @font-face { font-family: "Great Vibes"; font-weight: 400; src: url("assets/fonts/GreatVibes-Regular.ttf") format("truetype"); }
+
+      :root {
+        --navy: #0e1a2e;
+        --gold: #c8a060;
+        --gold-hi: #f1d9a4;
+        --white: #ffffff;
+        --slate: #3a4452;
+        --amber: #e8a33c;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden;
+        font-family: "Montserrat", sans-serif; color: var(--white);
+        background: var(--navy);
+      }
+      .clip { position: absolute; inset: 0; }
+      .layer { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+
+      /* ------------------------------------------------------------ fundo */
+      #bg {
+        background:
+          radial-gradient(120% 70% at 50% 28%, #1c2e4c 0%, #0e1a2e 55%, #08101d 100%);
+      }
+      #bg .floor {
+        position: absolute; left: -10%; right: -10%; top: 58%; bottom: 0;
+        background: radial-gradient(60% 55% at 50% 0%, rgba(200,160,96,0.10) 0%, rgba(200,160,96,0) 70%);
+      }
+      #bg .grid {
+        position: absolute; left: -40%; width: 180%; top: 1180px; height: 900px;
+        background-image:
+          linear-gradient(rgba(200,160,96,0.10) 2px, transparent 2px),
+          linear-gradient(90deg, rgba(200,160,96,0.10) 2px, transparent 2px);
+        background-size: 120px 120px;
+        transform: perspective(900px) rotateX(68deg);
+        transform-origin: 50% 0%;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0));
+      }
+      #bg .vignette {
+        position: absolute; inset: 0;
+        background: radial-gradient(90% 60% at 50% 45%, rgba(0,0,0,0) 55%, rgba(3,7,14,0.55) 100%);
+      }
+      #dust { position: absolute; inset: -60px 0 0 0; }
+      #dust i {
+        position: absolute; width: 6px; height: 6px; border-radius: 50%;
+        background: var(--gold); opacity: 0.18; filter: blur(1px);
+      }
+
+      /* ------------------------------------------------------------ títulos de cena */
+      .stitle {
+        position: absolute; left: 110px; width: 840px; top: 214px;
+        text-align: center; font-weight: 800; font-size: 60px; line-height: 1.08;
+        letter-spacing: 0.01em; text-transform: uppercase;
+        text-shadow: 0 6px 24px rgba(0,0,0,0.5);
+      }
+      .stitle .g { color: var(--gold); }
+      .stitle .a { color: var(--amber); }
+      .stitle svg { display: inline-block; vertical-align: -6px; margin-right: 14px; }
+
+      /* ------------------------------------------------------------ cenas 1-2: cards */
+      #s12 { opacity: 1; }
+      #arrow { position: absolute; left: 514px; top: 348px; width: 52px; height: 52px; }
+      #stage {
+        position: absolute; left: 0; top: 380px; width: 1080px; height: 960px;
+        perspective: 1900px; perspective-origin: 50% 40%;
+      }
+      #rail { position: absolute; inset: 0; transform-style: preserve-3d; }
+      .card {
+        position: absolute; top: 30px; width: 600px; height: 860px;
+        border-radius: 26px; overflow: hidden;
+        border: 2px solid var(--gold);
+        background: linear-gradient(160deg, #1a2740 0%, #0b1424 100%);
+        box-shadow: 0 50px 90px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,160,96,0.25);
+      }
+      #cardA { left: -90px; }
+      #cardB { left: 570px; }
+      .card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .card .sheen {
+        position: absolute; inset: 0;
+        background: linear-gradient(125deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(200,160,96,0.10) 100%);
+      }
+      .card .dim { position: absolute; inset: 0; background: linear-gradient(160deg, #142036 0%, #091120 100%); }
+      .card .dim::after {
+        content: ""; position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px;
+        border-radius: 50%; border: 2px solid rgba(200,160,96,0.35);
+      }
+      .card .glow { position: absolute; inset: 0; border-radius: 26px; box-shadow: inset 0 0 0 2px rgba(241,217,164,0.9), inset 0 0 40px rgba(200,160,96,0.35); }
+      .cardshadow {
+        position: absolute; top: 905px; width: 520px; height: 60px; border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(0,0,0,0.55), rgba(0,0,0,0));
+      }
+      .tarja {
+        position: absolute; left: 160px; top: 1236px; width: 600px;
+        padding: 18px 30px 20px 30px; border-radius: 14px;
+        background: rgba(10, 19, 34, 0.92);
+        border: 1px solid rgba(200,160,96,0.45);
+        border-left: 7px solid var(--gold);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      }
+      .tarja .n { font-weight: 800; font-size: 38px; line-height: 1.15; }
+      .tarja .d { font-weight: 400; font-size: 28px; line-height: 1.3; color: #d8d2c6; margin-top: 4px; }
+
+      /* ------------------------------------------------------------ celular (cenas 3 e 9) */
+      .phonewrap { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 1700px; perspective-origin: 50% 40%; }
+      .phone {
+        position: absolute; left: 305px; top: 352px; width: 470px; height: 880px;
+        border-radius: 66px;
+        background: linear-gradient(150deg, #2a3446 0%, #141b28 45%, #0b111c 100%);
+        box-shadow:
+          10px 10px 0 -2px #1b2230, 18px 18px 0 -4px #121822,
+          0 60px 120px rgba(0,0,0,0.65), inset 0 0 0 3px #3a4452, inset 0 0 0 5px #0b111c;
+        transform-style: preserve-3d;
+      }
+      .phone .scr {
+        position: absolute; left: 18px; top: 18px; right: 18px; bottom: 18px; border-radius: 50px; overflow: hidden;
+        background: radial-gradient(120% 80% at 50% 0%, #1b2b47 0%, #0f1a2c 60%, #0b1322 100%);
+      }
+      .phone .island { position: absolute; left: 50%; top: 18px; width: 128px; height: 34px; margin-left: -64px; border-radius: 18px; background: #05080e; }
+      .phone .status { position: absolute; left: 40px; right: 40px; top: 22px; height: 26px; font-size: 20px; font-weight: 600; color: #c9ced8; }
+      .phone .status .r { position: absolute; right: 0; top: 4px; width: 60px; height: 18px; }
+      .phone .lines { position: absolute; left: 40px; right: 40px; top: 120px; }
+      .phone .lines b { display: block; height: 16px; border-radius: 8px; background: rgba(255,255,255,0.06); margin-bottom: 26px; }
+      .phone .refl { position: absolute; inset: 0; border-radius: 50px; background: linear-gradient(115deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 30%); }
+
+      .notif {
+        position: absolute; width: 520px; min-height: 120px; padding: 20px 24px 20px 104px;
+        border-radius: 26px;
+        background: linear-gradient(180deg, #4c5462 0%, #3a4452 100%);
+        border-left: 7px solid var(--amber);
+        box-shadow: 0 22px 44px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+        font-weight: 800; font-size: 30px; line-height: 1.18; color: #ffffff;
+        display: flex; align-items: center;
+      }
+      .notif .ic {
+        position: absolute; left: 22px; top: 50%; margin-top: -32px; width: 64px; height: 64px; border-radius: 18px;
+        background: rgba(232,163,60,0.16); border: 2px solid rgba(232,163,60,0.7);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .notif.L { left: 70px; }
+      .notif.R { left: 430px; }
+      #lupa { position: absolute; left: 0; top: 0; width: 300px; height: 300px; }
+      #stamp {
+        position: absolute; left: 190px; top: 700px; width: 700px; height: 210px;
+        border: 9px solid var(--gold); border-radius: 22px;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 128px; letter-spacing: 0.06em; color: var(--gold);
+        background: rgba(14,26,46,0.55);
+        box-shadow: inset 0 0 0 7px rgba(14,26,46,0.9), inset 0 0 0 11px rgba(200,160,96,0.85), 0 20px 60px rgba(0,0,0,0.5);
+        text-shadow: 0 0 18px rgba(200,160,96,0.45);
+      }
+      #calma {
+        position: absolute; left: 0; width: 1080px; top: 640px; height: 300px;
+        text-align: center; font-family: "Great Vibes", cursive; font-size: 250px; line-height: 300px;
+        color: #fbe7bd;
+        text-shadow: 0 0 6px #f1d9a4, 0 0 18px #c8a060, 0 0 42px rgba(200,160,96,0.85), 0 0 90px rgba(200,160,96,0.55);
+      }
+
+      /* ------------------------------------------------------------ cena 4 */
+      .veil {
+        position: absolute; inset: 0; background: #ffffff; opacity: 0;
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 59%, rgba(0,0,0,0.12) 64.5%, rgba(0,0,0,0.12) 76%, #000 81%);
+        mask-image: linear-gradient(to bottom, #000 0%, #000 59%, rgba(0,0,0,0.12) 64.5%, rgba(0,0,0,0.12) 76%, #000 81%);
+      }
+      #real {
+        position: absolute; left: 120px; width: 840px; top: 700px; text-align: center;
+        font-family: "Playfair Display", serif; font-weight: 700; font-size: 92px; line-height: 1.12; text-transform: uppercase; letter-spacing: 0.02em;
+        text-shadow: 0 8px 30px rgba(0,0,0,0.45);
+      }
+      #realLine { position: absolute; left: 340px; top: 940px; width: 400px; height: 7px; border-radius: 4px; background: linear-gradient(90deg, #a8803f, #f1d9a4, #c8a060); box-shadow: 0 0 18px rgba(200,160,96,0.6); }
+
+      /* ------------------------------------------------------------ cenas 5-6: mesa */
+      #deskwrap { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 1300px; perspective-origin: 50% 30%; }
+      #desk {
+        position: absolute; left: -80px; width: 1240px; top: 1010px; height: 620px;
+        transform-origin: 50% 0%;
+        background:
+          linear-gradient(100deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.06) 32%, rgba(255,255,255,0) 44%),
+          linear-gradient(180deg, #22324f 0%, #121d31 55%, #0a1220 100%);
+        border-top: 3px solid rgba(200,160,96,0.85);
+        box-shadow: 0 -2px 30px rgba(200,160,96,0.25);
+      }
+      #deskEdge {
+        position: absolute; left: -80px; width: 1240px; top: 1210px; height: 46px;
+        background: linear-gradient(180deg, #0c1526 0%, #060b14 100%);
+        border-top: 2px solid rgba(200,160,96,0.5);
+      }
+      #ptitle {
+        position: absolute; left: 110px; width: 860px; top: 214px; text-align: center;
+        font-family: "Playfair Display", serif; font-weight: 700; font-size: 104px; line-height: 1.08;
+        text-shadow: 0 8px 30px rgba(0,0,0,0.45);
+      }
+      #ptitle .row { display: block; }
+      #ptitle .g { color: var(--gold); display: inline-block; }
+      #neq { display: inline-block; width: 92px; height: 70px; vertical-align: 2px; margin-right: 18px; }
+
+      #bookwrap { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 1500px; perspective-origin: 50% 25%; }
+      #book { position: absolute; left: 360px; top: 630px; width: 360px; height: 500px; transform-style: preserve-3d; }
+      #book .f {
+        position: absolute; inset: 0; border-radius: 6px 14px 14px 6px;
+        background:
+          radial-gradient(120% 70% at 30% 20%, rgba(255,255,255,0.08), rgba(255,255,255,0) 60%),
+          linear-gradient(160deg, #1d2a42 0%, #121c2e 60%, #0c1422 100%);
+        border: 2px solid #0a1120;
+        transform: translateZ(36px);
+        box-shadow: inset 10px 0 18px rgba(0,0,0,0.45);
+        overflow: hidden;
+      }
+      #book .f .frame { position: absolute; left: 30px; top: 30px; right: 26px; bottom: 30px; border: 3px solid var(--gold); border-radius: 6px; box-shadow: inset 0 0 0 6px rgba(18,28,46,1), inset 0 0 0 8px rgba(200,160,96,0.7); }
+      #book .f .t1, #book .f .t2 {
+        position: absolute; left: 0; right: 0; text-align: center; color: #e3c27f;
+        font-family: "Playfair Display", serif; font-weight: 700; letter-spacing: 0.08em;
+        text-shadow: 0 1px 0 rgba(0,0,0,0.6), 0 0 12px rgba(200,160,96,0.35);
+      }
+      #book .f .t1 { top: 168px; font-size: 38px; }
+      #book .f .t2 { top: 222px; font-size: 46px; }
+      #book .f .orn { position: absolute; left: 130px; width: 100px; height: 20px; top: 310px; }
+      #book .f .orn2 { position: absolute; left: 150px; width: 60px; height: 2px; top: 140px; background: var(--gold); }
+      #book .shine { position: absolute; top: -10%; bottom: -10%; width: 140px; left: -200px; background: linear-gradient(90deg, rgba(255,240,200,0), rgba(255,240,200,0.55), rgba(255,240,200,0)); transform: skewX(-18deg); }
+      #book .side {
+        position: absolute; top: 4px; bottom: 4px; left: 324px; width: 72px;
+        background: repeating-linear-gradient(180deg, #efe6d2 0px, #efe6d2 3px, #d8ccb2 3px, #d8ccb2 4px);
+        transform: rotateY(90deg);
+      }
+      #book .top {
+        position: absolute; left: 6px; right: 6px; top: -36px; height: 72px;
+        background: repeating-linear-gradient(90deg, #e9dfc8 0px, #e9dfc8 3px, #cfc2a6 3px, #cfc2a6 4px);
+        transform: rotateX(90deg);
+      }
+      #book .spine { position: absolute; top: 0; bottom: 0; left: -36px; width: 72px; background: linear-gradient(90deg, #0a111e, #1a2640, #0a111e); transform: rotateY(-90deg); }
+      #bookGlow { position: absolute; left: 240px; top: 1060px; width: 600px; height: 140px; border-radius: 50%; background: radial-gradient(closest-side, rgba(241,217,164,0.85), rgba(200,160,96,0.35) 45%, rgba(200,160,96,0) 100%); }
+      #bookShadow { position: absolute; left: 330px; top: 1100px; width: 440px; height: 70px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,0.6), rgba(0,0,0,0)); }
+
+      #coins { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .coin { position: absolute; width: 240px; height: 96px; }
+      .coin .e { position: absolute; left: 0; top: 18px; width: 240px; height: 78px; border-radius: 50%; background: linear-gradient(90deg, #6e5126 0%, #b48d4c 30%, #d9b778 52%, #a17a3c 75%, #5e441d 100%); }
+      .coin .t { position: absolute; left: 0; top: 0; width: 240px; height: 78px; border-radius: 50%; background: radial-gradient(70% 70% at 40% 35%, #fbe8bd 0%, #d9b46e 45%, #b08745 80%, #8d6a31 100%); box-shadow: inset 0 0 0 5px rgba(140,104,48,0.75), inset 0 0 0 9px rgba(250,226,170,0.45); }
+      #coinShadow { position: absolute; left: 380px; top: 1118px; width: 320px; height: 60px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,0.6), rgba(0,0,0,0)); }
+      #tag {
+        position: absolute; left: 610px; top: 870px; padding: 12px 22px; border-radius: 10px;
+        background: #0e1a2e; border: 3px solid var(--gold);
+        font-weight: 800; font-size: 30px; letter-spacing: 0.04em; white-space: nowrap;
+        box-shadow: 0 12px 26px rgba(0,0,0,0.5);
+      }
+      #tag::before { content: ""; position: absolute; left: 14px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; border: 2px solid var(--gold); }
+      #tag span { padding-left: 14px; }
+      #shield { position: absolute; left: 230px; top: 540px; width: 620px; height: 700px; }
+      #shieldFront { position: absolute; left: 230px; top: 540px; width: 620px; height: 700px; }
+      #lock { position: absolute; left: 470px; top: 980px; width: 140px; height: 170px; }
+      #lockRing { position: absolute; left: 400px; top: 930px; width: 280px; height: 280px; border-radius: 50%; border: 4px solid rgba(241,217,164,0.9); opacity: 0; }
+      #foot {
+        position: absolute; left: 110px; width: 840px; top: 1468px; text-align: center;
+        font-weight: 600; font-size: 27px; color: #b9c0cb; letter-spacing: 0.02em;
+      }
+      #foot b { color: var(--gold); font-weight: 600; }
+      #clistwrap { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 1400px; perspective-origin: 70% 40%; }
+      #clist {
+        position: absolute; left: 560px; top: 610px; width: 380px; height: 480px; border-radius: 26px;
+        background: linear-gradient(160deg, rgba(34,50,79,0.96), rgba(12,21,37,0.98));
+        border: 2px solid var(--gold);
+        box-shadow: 14px 14px 0 -2px #0a1220, 0 40px 80px rgba(0,0,0,0.6);
+        padding: 60px 34px 0 34px;
+      }
+      #clist .clip-top { position: absolute; left: 130px; top: -22px; width: 120px; height: 44px; border-radius: 12px; background: linear-gradient(#d9b46e, #9c7738); border: 2px solid #f1d9a4; }
+      #clist .row { position: relative; height: 112px; }
+      #clist .box { position: absolute; left: 0; top: 14px; width: 66px; height: 66px; border-radius: 14px; border: 3px solid rgba(200,160,96,0.8); background: rgba(14,26,46,0.8); }
+      #clist .box svg { position: absolute; left: 4px; top: 2px; width: 56px; height: 56px; }
+      #clist .ln { position: absolute; left: 90px; height: 14px; border-radius: 7px; background: rgba(255,255,255,0.18); }
+
+      /* ------------------------------------------------------------ capítulos */
+      .chap { }
+      .chap .veil { opacity: 0; }
+      .chap .num {
+        position: absolute; left: 120px; top: 520px; width: 300px; height: 520px;
+        font-weight: 300; font-size: 470px; line-height: 520px; color: #3a4452; text-align: center;
+      }
+      .chap .lbl {
+        position: absolute; left: 420px; top: 690px; width: 520px;
+        font-weight: 800; font-size: 62px; line-height: 1.06; color: #3a4452; letter-spacing: 0.02em;
+      }
+
+      /* ------------------------------------------------------------ cena 7 */
+      #chart { position: absolute; left: 70px; top: 560px; width: 500px; height: 571px; }
+      #chartLbl { position: absolute; left: 60px; top: 1112px; width: 520px; text-align: center; font-weight: 600; font-size: 30px; color: #e7dfd0; }
+      #parl { position: absolute; left: 580px; top: 700px; width: 360px; height: 396px; }
+      #hglass { position: absolute; left: 800px; top: 500px; width: 120px; height: 194px; }
+      #link { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; opacity: 0; clip-path: inset(0% 55.5% 0% 0%); }
+
+      /* ------------------------------------------------------------ cena 8 */
+      #iso { position: absolute; left: 0; top: 440px; width: 1080px; height: 860px; overflow: visible; }
+      #bigX { position: absolute; left: 290px; top: 560px; width: 500px; height: 500px; }
+      #calcwrap { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 1500px; perspective-origin: 60% 40%; }
+      #calc {
+        position: absolute; left: 520px; top: 560px; width: 380px; height: 560px; border-radius: 40px;
+        background: linear-gradient(160deg, #3d4859 0%, #252e3d 50%, #171e2a 100%);
+        border: 2px solid rgba(200,160,96,0.85);
+        box-shadow: 14px 16px 0 -2px #10161f, 0 50px 90px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.15);
+      }
+      #calc .disp {
+        position: absolute; left: 28px; right: 28px; top: 30px; height: 140px; border-radius: 18px;
+        background: linear-gradient(180deg, #0b1424, #0e1a2e); border: 2px solid #0a0f18;
+        box-shadow: inset 0 4px 14px rgba(0,0,0,0.6);
+      }
+      #calc .disp .cur { position: absolute; left: 22px; top: 18px; font-size: 26px; font-weight: 600; color: #8f99a8; }
+      #calcVal { position: absolute; right: 20px; top: 52px; font-size: 52px; font-weight: 800; color: #ffffff; letter-spacing: 0.01em; white-space: nowrap; }
+      #calcArrow { position: absolute; left: 16px; top: 62px; width: 38px; height: 48px; }
+      #calc .keys { position: absolute; left: 28px; right: 28px; top: 198px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+      #calc .keys i {
+        display: flex; align-items: center; justify-content: center; height: 70px; border-radius: 16px; font-style: normal;
+        background: linear-gradient(180deg, #4b5668, #333d4d); box-shadow: 0 5px 0 #1a212d; font-size: 28px; font-weight: 600; color: #e4e7ec;
+      }
+      #calc .keys i.k { background: linear-gradient(180deg, #d9b46e, #a8803f); color: #0e1a2e; box-shadow: 0 5px 0 #6e5126; }
+      #noBack { position: absolute; left: 110px; top: 640px; width: 360px; height: 420px; }
+
+      /* ------------------------------------------------------------ cena 9 */
+      #shareBtn {
+        position: absolute; left: 345px; top: 800px; width: 390px; height: 108px; border-radius: 54px;
+        background: linear-gradient(180deg, #e2c181 0%, #c8a060 55%, #a8803f 100%);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.5), 0 0 40px rgba(200,160,96,0.45), inset 0 2px 0 rgba(255,255,255,0.4);
+        display: flex; align-items: center; justify-content: center; gap: 18px;
+        font-weight: 800; font-size: 36px; color: #0e1a2e; letter-spacing: 0.01em;
+      }
+      #shareBtn svg { width: 44px; height: 44px; }
+      #plane { position: absolute; left: 480px; top: 740px; width: 110px; height: 110px; }
+      #comment {
+        position: absolute; left: 600px; top: 1010px; width: 290px; height: 130px; border-radius: 34px 34px 34px 8px;
+        background: #ffffff; box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+        display: flex; align-items: center; justify-content: center; gap: 16px;
+      }
+      #comment b { display: block; width: 22px; height: 22px; border-radius: 50%; background: #3a4452; }
+      #comment .q { position: absolute; left: -26px; top: -26px; width: 64px; height: 64px; border-radius: 50%; background: var(--gold); color: #0e1a2e; font-weight: 800; font-size: 40px; display: flex; align-items: center; justify-content: center; }
+
+      /* ------------------------------------------------------------ cena 10 */
+      #endbg { position: absolute; inset: 0; background: #ffffff; }
+      #endLogo { position: absolute; left: 160px; top: 650px; width: 760px; height: 321px; }
+      #endTxt { position: absolute; left: 90px; width: 900px; top: 1080px; text-align: center; font-weight: 600; font-size: 31px; color: #3a4452; letter-spacing: 0.01em; }
+      #endLine { position: absolute; left: 390px; width: 300px; top: 1050px; height: 2px; background: var(--gold); }
+
+      /* ------------------------------------------------------------ legendas + marca */
+      #caps { position: absolute; left: 0; width: 1080px; top: 1250px; height: 190px; }
+      .cap {
+        position: absolute; left: 130px; width: 820px; top: 0; height: 190px;
+        display: flex; flex-wrap: wrap; justify-content: center; align-content: center; column-gap: 20px;
+        font-weight: 800; font-size: 70px; line-height: 1.1; text-transform: uppercase; letter-spacing: 0.005em;
+        visibility: hidden;
+      }
+      .cap .w {
+        display: inline-block; color: #ffffff;
+        text-shadow: 0 3px 4px rgba(0,0,0,0.55), 0 6px 22px rgba(0,0,0,0.55), 0 0 2px rgba(0,0,0,0.6);
+      }
+      .cap .w.d { color: var(--gold); }
+      #wm { position: absolute; left: 512px; top: 1615px; width: 56px; height: 73px; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="90.8" data-width="1080" data-height="1920">
+      <!-- ================================================= ÁUDIO ================================================= -->
+      <!-- fader master: leva o mix estéreo a −14 LUFS; a voz segue a 100% na própria faixa -->
+      <hf-audio-group id="master" data-label="Master" data-volume="0.767"></hf-audio-group>
+      <audio data-audio-group="master" id="voz" src="assets/media/03_trilha_voz_master.wav" data-start="0" data-duration="90.8" data-track-index="20" data-volume="1"></audio>
+      <audio data-audio-group="master" id="musica" src="assets/music/trilha_piano_cordas.wav" data-start="14.56" data-duration="76.24" data-track-index="21" data-volume="0.401" data-fx-carve="{&quot;enabled&quot;:true,&quot;sources&quot;:[&quot;voz&quot;],&quot;strength&quot;:0.35}" data-fx-chain="{&quot;version&quot;:1,&quot;nodes&quot;:[{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;n1&quot;,&quot;fromCarve&quot;:true,&quot;params&quot;:{&quot;frequency&quot;:160,&quot;gain&quot;:-5.7,&quot;q&quot;:1.52}},{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;n2&quot;,&quot;fromCarve&quot;:true,&quot;params&quot;:{&quot;frequency&quot;:1600,&quot;gain&quot;:-7.6,&quot;q&quot;:1.52}},{&quot;type&quot;:&quot;peaking&quot;,&quot;id&quot;:&quot;n3&quot;,&quot;fromCarve&quot;:true,&quot;params&quot;:{&quot;frequency&quot;:2500,&quot;gain&quot;:-6.3,&quot;q&quot;:1.52}},{&quot;type&quot;:&quot;gain&quot;,&quot;id&quot;:&quot;n4&quot;,&quot;fromCarve&quot;:true,&quot;params&quot;:{&quot;gain&quot;:0}}]}" data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;fx.n1.gain&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0},{&quot;t&quot;:0.233,&quot;v&quot;:0},{&quot;t&quot;:0.424,&quot;v&quot;:-3},{&quot;t&quot;:0.615,&quot;v&quot;:-2.5},{&quot;t&quot;:0.805,&quot;v&quot;:-3.7},{&quot;t&quot;:0.996,&quot;v&quot;:-1.7},{&quot;t&quot;:1.186,&quot;v&quot;:-0.8},{&quot;t&quot;:1.377,&quot;v&quot;:-0.4},{&quot;t&quot;:1.568,&quot;v&quot;:0},{&quot;t&quot;:1.758,&quot;v&quot;:-1.9},{&quot;t&quot;:1.949,&quot;v&quot;:-0.9},{&quot;t&quot;:2.14,&quot;v&quot;:-0.4},{&quot;t&quot;:2.902,&quot;v&quot;:0},{&quot;t&quot;:3.093,&quot;v&quot;:-4.5},{&quot;t&quot;:3.283,&quot;v&quot;:-3.5},{&quot;t&quot;:3.474,&quot;v&quot;:-1.6},{&quot;t&quot;:3.665,&quot;v&quot;:-0.8},{&quot;t&quot;:3.855,&quot;v&quot;:-0.4},{&quot;t&quot;:4.046,&quot;v&quot;:0},{&quot;t&quot;:4.236,&quot;v&quot;:-2.9},{&quot;t&quot;:4.427,&quot;v&quot;:-1.4},{&quot;t&quot;:4.808,&quot;v&quot;:-0.9},{&quot;t&quot;:4.999,&quot;v&quot;:-0.4},{&quot;t&quot;:5.38,&quot;v&quot;:0},{&quot;t&quot;:5.571,&quot;v&quot;:-1.1},{&quot;t&quot;:5.761,&quot;v&quot;:-4.1},{&quot;t&quot;:6.143,&quot;v&quot;:-3.7},{&quot;t&quot;:6.333,&quot;v&quot;:-2.8},{&quot;t&quot;:6.524,&quot;v&quot;:-1.3},{&quot;t&quot;:6.715,&quot;v&quot;:-3.7},{&quot;t&quot;:7.096,&quot;v&quot;:-3.3},{&quot;t&quot;:7.286,&quot;v&quot;:-1.8},{&quot;t&quot;:7.477,&quot;v&quot;:-0.8},{&quot;t&quot;:7.668,&quot;v&quot;:-0.6},{&quot;t&quot;:7.858,&quot;v&quot;:-0.3},{&quot;t&quot;:8.049,&quot;v&quot;:0},{&quot;t&quot;:8.24,&quot;v&quot;:-2.2},{&quot;t&quot;:8.43,&quot;v&quot;:-1},{&quot;t&quot;:8.621,&quot;v&quot;:-0.5},{&quot;t&quot;:9.002,&quot;v&quot;:-0.2},{&quot;t&quot;:9.193,&quot;v&quot;:0},{&quot;t&quot;:9.383,&quot;v&quot;:-0.5},{&quot;t&quot;:9.574,&quot;v&quot;:-0.2},{&quot;t&quot;:9.765,&quot;v&quot;:0},{&quot;t&quot;:9.955,&quot;v&quot;:-5.6},{&quot;t&quot;:10.146,&quot;v&quot;:-3.3},{&quot;t&quot;:10.336,&quot;v&quot;:-2.6},{&quot;t&quot;:10.527,&quot;v&quot;:-3.9},{&quot;t&quot;:10.718,&quot;v&quot;:-4.3},{&quot;t&quot;:10.908,&quot;v&quot;:-2.6},{&quot;t&quot;:11.099,&quot;v&quot;:-1.2},{&quot;t&quot;:11.29,&quot;v&quot;:-2.8},{&quot;t&quot;:11.48,&quot;v&quot;:-1.3},{&quot;t&quot;:11.671,&quot;v&quot;:-1.3},{&quot;t&quot;:11.861,&quot;v&quot;:-4.3},{&quot;t&quot;:12.052,&quot;v&quot;:-3.5},{&quot;t&quot;:12.243,&quot;v&quot;:-1.6},{&quot;t&quot;:12.433,&quot;v&quot;:-1.8},{&quot;t&quot;:12.624,&quot;v&quot;:-0.8},{&quot;t&quot;:12.815,&quot;v&quot;:-0.4},{&quot;t&quot;:13.005,&quot;v&quot;:-3.2},{&quot;t&quot;:13.196,&quot;v&quot;:-2.5},{&quot;t&quot;:13.386,&quot;v&quot;:-4.5},{&quot;t&quot;:13.577,&quot;v&quot;:-2.1},{&quot;t&quot;:13.768,&quot;v&quot;:-1.2},{&quot;t&quot;:13.958,&quot;v&quot;:-2.9},{&quot;t&quot;:14.149,&quot;v&quot;:-3.3},{&quot;t&quot;:14.34,&quot;v&quot;:-2.1},{&quot;t&quot;:14.53,&quot;v&quot;:-1},{&quot;t&quot;:14.721,&quot;v&quot;:-2.2},{&quot;t&quot;:14.911,&quot;v&quot;:-1},{&quot;t&quot;:15.102,&quot;v&quot;:-0.5},{&quot;t&quot;:15.293,&quot;v&quot;:-0.2},{&quot;t&quot;:15.483,&quot;v&quot;:-2.8},{&quot;t&quot;:15.674,&quot;v&quot;:-4.8},{&quot;t&quot;:15.865,&quot;v&quot;:-2.2},{&quot;t&quot;:16.055,&quot;v&quot;:-3.6},{&quot;t&quot;:16.246,&quot;v&quot;:-2.9},{&quot;t&quot;:16.436,&quot;v&quot;:-1.4},{&quot;t&quot;:16.627,&quot;v&quot;:-0.6},{&quot;t&quot;:16.818,&quot;v&quot;:-0.3},{&quot;t&quot;:17.008,&quot;v&quot;:0},{&quot;t&quot;:17.39,&quot;v&quot;:0},{&quot;t&quot;:17.58,&quot;v&quot;:-1.5},{&quot;t&quot;:17.771,&quot;v&quot;:-0.7},{&quot;t&quot;:17.961,&quot;v&quot;:-0.3},{&quot;t&quot;:18.152,&quot;v&quot;:-1.7},{&quot;t&quot;:18.343,&quot;v&quot;:-0.8},{&quot;t&quot;:18.533,&quot;v&quot;:-0.5},{&quot;t&quot;:18.724,&quot;v&quot;:-0.2},{&quot;t&quot;:18.915,&quot;v&quot;:-1.7},{&quot;t&quot;:19.105,&quot;v&quot;:-0.8},{&quot;t&quot;:19.296,&quot;v&quot;:-3.4},{&quot;t&quot;:19.486,&quot;v&quot;:-1.6},{&quot;t&quot;:19.677,&quot;v&quot;:-0.7},{&quot;t&quot;:19.868,&quot;v&quot;:-4.9},{&quot;t&quot;:20.058,&quot;v&quot;:-2.3},{&quot;t&quot;:20.249,&quot;v&quot;:-1.2},{&quot;t&quot;:20.44,&quot;v&quot;:-0.6},{&quot;t&quot;:20.63,&quot;v&quot;:-0.7},{&quot;t&quot;:20.821,&quot;v&quot;:-1.1},{&quot;t&quot;:21.011,&quot;v&quot;:-4.6},{&quot;t&quot;:21.202,&quot;v&quot;:-4.3},{&quot;t&quot;:21.393,&quot;v&quot;:-3},{&quot;t&quot;:21.583,&quot;v&quot;:-2.3},{&quot;t&quot;:21.774,&quot;v&quot;:-1.5},{&quot;t&quot;:21.965,&quot;v&quot;:-0.7},{&quot;t&quot;:22.155,&quot;v&quot;:-0.3},{&quot;t&quot;:22.346,&quot;v&quot;:-1.3},{&quot;t&quot;:22.536,&quot;v&quot;:-3.4},{&quot;t&quot;:22.727,&quot;v&quot;:-4.9},{&quot;t&quot;:22.918,&quot;v&quot;:-4.5},{&quot;t&quot;:23.108,&quot;v&quot;:-4.4},{&quot;t&quot;:23.299,&quot;v&quot;:-3.2},{&quot;t&quot;:23.49,&quot;v&quot;:-1.5},{&quot;t&quot;:23.68,&quot;v&quot;:-0.7},{&quot;t&quot;:24.252,&quot;v&quot;:-0.6},{&quot;t&quot;:24.443,&quot;v&quot;:-1.6},{&quot;t&quot;:24.633,&quot;v&quot;:-1.5},{&quot;t&quot;:24.824,&quot;v&quot;:-0.7},{&quot;t&quot;:25.015,&quot;v&quot;:-0.3},{&quot;t&quot;:25.205,&quot;v&quot;:0},{&quot;t&quot;:25.396,&quot;v&quot;:-2.7},{&quot;t&quot;:25.586,&quot;v&quot;:-1.2},{&quot;t&quot;:25.777,&quot;v&quot;:-3.6},{&quot;t&quot;:25.968,&quot;v&quot;:-3.3},{&quot;t&quot;:26.158,&quot;v&quot;:-1.6},{&quot;t&quot;:26.349,&quot;v&quot;:-0.7},{&quot;t&quot;:26.73,&quot;v&quot;:-0.4},{&quot;t&quot;:26.921,&quot;v&quot;:0},{&quot;t&quot;:27.111,&quot;v&quot;:-2.3},{&quot;t&quot;:27.302,&quot;v&quot;:-3.7},{&quot;t&quot;:27.493,&quot;v&quot;:-1.7},{&quot;t&quot;:27.683,&quot;v&quot;:-0.8},{&quot;t&quot;:27.874,&quot;v&quot;:-4},{&quot;t&quot;:28.065,&quot;v&quot;:-1.9},{&quot;t&quot;:28.255,&quot;v&quot;:-0.9},{&quot;t&quot;:28.446,&quot;v&quot;:-0.4},{&quot;t&quot;:29.018,&quot;v&quot;:0},{&quot;t&quot;:29.208,&quot;v&quot;:-2},{&quot;t&quot;:29.399,&quot;v&quot;:-2},{&quot;t&quot;:29.59,&quot;v&quot;:-0.9},{&quot;t&quot;:29.78,&quot;v&quot;:-0.4},{&quot;t&quot;:29.971,&quot;v&quot;:-1.4},{&quot;t&quot;:30.161,&quot;v&quot;:-3.1},{&quot;t&quot;:30.352,&quot;v&quot;:-1.4},{&quot;t&quot;:30.543,&quot;v&quot;:-3},{&quot;t&quot;:30.733,&quot;v&quot;:-1.4},{&quot;t&quot;:30.924,&quot;v&quot;:-1.3},{&quot;t&quot;:31.115,&quot;v&quot;:-0.6},{&quot;t&quot;:31.496,&quot;v&quot;:-0.3},{&quot;t&quot;:31.686,&quot;v&quot;:-4.8},{&quot;t&quot;:31.877,&quot;v&quot;:-3.4},{&quot;t&quot;:32.068,&quot;v&quot;:-1.6},{&quot;t&quot;:32.258,&quot;v&quot;:-0.8},{&quot;t&quot;:32.449,&quot;v&quot;:-4.5},{&quot;t&quot;:32.64,&quot;v&quot;:-2.1},{&quot;t&quot;:32.83,&quot;v&quot;:-1},{&quot;t&quot;:33.021,&quot;v&quot;:-4.7},{&quot;t&quot;:33.211,&quot;v&quot;:-4.2},{&quot;t&quot;:33.402,&quot;v&quot;:-2},{&quot;t&quot;:33.593,&quot;v&quot;:-0.9},{&quot;t&quot;:33.783,&quot;v&quot;:-0.4},{&quot;t&quot;:33.974,&quot;v&quot;:-3.7},{&quot;t&quot;:34.165,&quot;v&quot;:-2.2},{&quot;t&quot;:34.355,&quot;v&quot;:-1},{&quot;t&quot;:34.546,&quot;v&quot;:-0.5},{&quot;t&quot;:34.927,&quot;v&quot;:-0.3},{&quot;t&quot;:35.118,&quot;v&quot;:0},{&quot;t&quot;:35.308,&quot;v&quot;:-1.6},{&quot;t&quot;:35.499,&quot;v&quot;:-0.7},{&quot;t&quot;:35.69,&quot;v&quot;:-0.3},{&quot;t&quot;:35.88,&quot;v&quot;:0},{&quot;t&quot;:37.215,&quot;v&quot;:0},{&quot;t&quot;:37.405,&quot;v&quot;:-3.2},{&quot;t&quot;:37.596,&quot;v&quot;:-4.5},{&quot;t&quot;:37.786,&quot;v&quot;:-2.7},{&quot;t&quot;:37.977,&quot;v&quot;:-1.3},{&quot;t&quot;:38.168,&quot;v&quot;:-0.6},{&quot;t&quot;:38.358,&quot;v&quot;:-3.5},{&quot;t&quot;:38.549,&quot;v&quot;:-3},{&quot;t&quot;:38.93,&quot;v&quot;:-2.8},{&quot;t&quot;:39.121,&quot;v&quot;:-1.3},{&quot;t&quot;:39.311,&quot;v&quot;:-4.6},{&quot;t&quot;:39.502,&quot;v&quot;:-4.8},{&quot;t&quot;:39.693,&quot;v&quot;:-3.9},{&quot;t&quot;:39.883,&quot;v&quot;:-2},{&quot;t&quot;:40.074,&quot;v&quot;:-3.8},{&quot;t&quot;:40.265,&quot;v&quot;:-4.8},{&quot;t&quot;:40.455,&quot;v&quot;:-3.2},{&quot;t&quot;:40.646,&quot;v&quot;:-4.6},{&quot;t&quot;:40.836,&quot;v&quot;:-3.2},{&quot;t&quot;:41.027,&quot;v&quot;:-3.1},{&quot;t&quot;:41.218,&quot;v&quot;:-5.2},{&quot;t&quot;:41.408,&quot;v&quot;:-3.9},{&quot;t&quot;:41.599,&quot;v&quot;:-1.8},{&quot;t&quot;:41.79,&quot;v&quot;:-0.8},{&quot;t&quot;:41.98,&quot;v&quot;:-0.8},{&quot;t&quot;:42.171,&quot;v&quot;:-3.3},{&quot;t&quot;:42.361,&quot;v&quot;:-1.7},{&quot;t&quot;:42.552,&quot;v&quot;:-2.5},{&quot;t&quot;:42.743,&quot;v&quot;:-4},{&quot;t&quot;:43.124,&quot;v&quot;:-4.1},{&quot;t&quot;:43.315,&quot;v&quot;:-1.9},{&quot;t&quot;:43.505,&quot;v&quot;:-3.1},{&quot;t&quot;:43.696,&quot;v&quot;:-5.3},{&quot;t&quot;:43.886,&quot;v&quot;:-3.2},{&quot;t&quot;:44.077,&quot;v&quot;:-1.5},{&quot;t&quot;:44.268,&quot;v&quot;:-1.8},{&quot;t&quot;:44.458,&quot;v&quot;:-0.8},{&quot;t&quot;:44.649,&quot;v&quot;:-3.1},{&quot;t&quot;:44.84,&quot;v&quot;:-4.3},{&quot;t&quot;:45.03,&quot;v&quot;:-2},{&quot;t&quot;:45.221,&quot;v&quot;:-0.9},{&quot;t&quot;:45.411,&quot;v&quot;:-0.4},{&quot;t&quot;:45.602,&quot;v&quot;:-3.4},{&quot;t&quot;:45.793,&quot;v&quot;:-3.8},{&quot;t&quot;:45.983,&quot;v&quot;:-1.9},{&quot;t&quot;:46.174,&quot;v&quot;:-2.6},{&quot;t&quot;:46.365,&quot;v&quot;:-1.2},{&quot;t&quot;:46.555,&quot;v&quot;:-0.6},{&quot;t&quot;:46.746,&quot;v&quot;:-1},{&quot;t&quot;:46.936,&quot;v&quot;:-4.6},{&quot;t&quot;:47.127,&quot;v&quot;:-3.3},{&quot;t&quot;:47.318,&quot;v&quot;:-3.2},{&quot;t&quot;:47.508,&quot;v&quot;:-5},{&quot;t&quot;:47.699,&quot;v&quot;:-3.6},{&quot;t&quot;:47.89,&quot;v&quot;:-1.7},{&quot;t&quot;:48.08,&quot;v&quot;:-3.4},{&quot;t&quot;:48.271,&quot;v&quot;:-4.6},{&quot;t&quot;:48.461,&quot;v&quot;:-2.2},{&quot;t&quot;:48.652,&quot;v&quot;:-1},{&quot;t&quot;:48.843,&quot;v&quot;:-0.5},{&quot;t&quot;:49.033,&quot;v&quot;:-0.2},{&quot;t&quot;:49.224,&quot;v&quot;:0},{&quot;t&quot;:49.605,&quot;v&quot;:-0.4},{&quot;t&quot;:49.796,&quot;v&quot;:-2},{&quot;t&quot;:49.986,&quot;v&quot;:-1.4},{&quot;t&quot;:50.177,&quot;v&quot;:-1.8},{&quot;t&quot;:50.368,&quot;v&quot;:-0.8},{&quot;t&quot;:50.558,&quot;v&quot;:-0.4},{&quot;t&quot;:50.749,&quot;v&quot;:-1.8},{&quot;t&quot;:50.94,&quot;v&quot;:-3.8},{&quot;t&quot;:51.321,&quot;v&quot;:-4.2},{&quot;t&quot;:51.511,&quot;v&quot;:-3.2},{&quot;t&quot;:51.702,&quot;v&quot;:-3.4},{&quot;t&quot;:51.893,&quot;v&quot;:-1.6},{&quot;t&quot;:52.083,&quot;v&quot;:-3.8},{&quot;t&quot;:52.274,&quot;v&quot;:-3.4},{&quot;t&quot;:52.465,&quot;v&quot;:-2.9},{&quot;t&quot;:52.655,&quot;v&quot;:-4.9},{&quot;t&quot;:52.846,&quot;v&quot;:-2.3},{&quot;t&quot;:53.036,&quot;v&quot;:-3.8},{&quot;t&quot;:53.227,&quot;v&quot;:-3.7},{&quot;t&quot;:53.418,&quot;v&quot;:-4.3},{&quot;t&quot;:53.799,&quot;v&quot;:-3.9},{&quot;t&quot;:53.99,&quot;v&quot;:-3.6},{&quot;t&quot;:54.18,&quot;v&quot;:-1.7},{&quot;t&quot;:54.371,&quot;v&quot;:-2.6},{&quot;t&quot;:54.561,&quot;v&quot;:-2.1},{&quot;t&quot;:54.752,&quot;v&quot;:-5.3},{&quot;t&quot;:54.943,&quot;v&quot;:-3.7},{&quot;t&quot;:55.133,&quot;v&quot;:-1.7},{&quot;t&quot;:55.324,&quot;v&quot;:-3.4},{&quot;t&quot;:55.515,&quot;v&quot;:-4.1},{&quot;t&quot;:55.705,&quot;v&quot;:-2.4},{&quot;t&quot;:55.896,&quot;v&quot;:-1.1},{&quot;t&quot;:56.086,&quot;v&quot;:-0.5},{&quot;t&quot;:56.277,&quot;v&quot;:-2.3},{&quot;t&quot;:56.468,&quot;v&quot;:-1.1},{&quot;t&quot;:56.658,&quot;v&quot;:-0.5},{&quot;t&quot;:56.849,&quot;v&quot;:-1.6},{&quot;t&quot;:57.04,&quot;v&quot;:-1},{&quot;t&quot;:57.23,&quot;v&quot;:-2},{&quot;t&quot;:57.421,&quot;v&quot;:-2},{&quot;t&quot;:57.611,&quot;v&quot;:-0.9},{&quot;t&quot;:57.802,&quot;v&quot;:-0.6},{&quot;t&quot;:57.993,&quot;v&quot;:-0.3},{&quot;t&quot;:58.183,&quot;v&quot;:-0.8},{&quot;t&quot;:58.374,&quot;v&quot;:-3.7},{&quot;t&quot;:58.565,&quot;v&quot;:-3.3},{&quot;t&quot;:58.755,&quot;v&quot;:-2.8},{&quot;t&quot;:58.946,&quot;v&quot;:-1.3},{&quot;t&quot;:59.136,&quot;v&quot;:-0.7},{&quot;t&quot;:59.327,&quot;v&quot;:-0.3},{&quot;t&quot;:59.518,&quot;v&quot;:0},{&quot;t&quot;:60.28,&quot;v&quot;:-0.2},{&quot;t&quot;:60.471,&quot;v&quot;:-0.8},{&quot;t&quot;:60.661,&quot;v&quot;:-0.4},{&quot;t&quot;:60.852,&quot;v&quot;:-2.4},{&quot;t&quot;:61.043,&quot;v&quot;:-2.4},{&quot;t&quot;:61.233,&quot;v&quot;:-1.1},{&quot;t&quot;:61.424,&quot;v&quot;:-2.3},{&quot;t&quot;:61.615,&quot;v&quot;:-1.1},{&quot;t&quot;:61.805,&quot;v&quot;:-1},{&quot;t&quot;:61.996,&quot;v&quot;:-0.4},{&quot;t&quot;:62.186,&quot;v&quot;:-1.1},{&quot;t&quot;:62.377,&quot;v&quot;:-0.5},{&quot;t&quot;:62.568,&quot;v&quot;:-0.2},{&quot;t&quot;:62.758,&quot;v&quot;:0},{&quot;t&quot;:63.14,&quot;v&quot;:0},{&quot;t&quot;:63.33,&quot;v&quot;:-0.9},{&quot;t&quot;:63.521,&quot;v&quot;:-0.4},{&quot;t&quot;:63.711,&quot;v&quot;:-3},{&quot;t&quot;:63.902,&quot;v&quot;:-3.5},{&quot;t&quot;:64.093,&quot;v&quot;:-3.6},{&quot;t&quot;:64.283,&quot;v&quot;:-1.7},{&quot;t&quot;:64.474,&quot;v&quot;:-0.8},{&quot;t&quot;:64.665,&quot;v&quot;:-0.4},{&quot;t&quot;:64.855,&quot;v&quot;:0},{&quot;t&quot;:66.19,&quot;v&quot;:0},{&quot;t&quot;:66.38,&quot;v&quot;:-1.7},{&quot;t&quot;:66.571,&quot;v&quot;:-2.5},{&quot;t&quot;:66.761,&quot;v&quot;:-1.1},{&quot;t&quot;:66.952,&quot;v&quot;:-0.5},{&quot;t&quot;:67.143,&quot;v&quot;:-0.2},{&quot;t&quot;:67.333,&quot;v&quot;:0},{&quot;t&quot;:67.524,&quot;v&quot;:-3.7},{&quot;t&quot;:67.715,&quot;v&quot;:-1.7},{&quot;t&quot;:67.905,&quot;v&quot;:-0.8},{&quot;t&quot;:68.096,&quot;v&quot;:-0.4},{&quot;t&quot;:68.286,&quot;v&quot;:0},{&quot;t&quot;:68.477,&quot;v&quot;:0},{&quot;t&quot;:68.668,&quot;v&quot;:-0.5},{&quot;t&quot;:68.858,&quot;v&quot;:-0.2},{&quot;t&quot;:69.049,&quot;v&quot;:0},{&quot;t&quot;:69.621,&quot;v&quot;:-0.3},{&quot;t&quot;:69.811,&quot;v&quot;:-0.8},{&quot;t&quot;:70.002,&quot;v&quot;:-0.4},{&quot;t&quot;:70.193,&quot;v&quot;:0},{&quot;t&quot;:70.383,&quot;v&quot;:0},{&quot;t&quot;:70.574,&quot;v&quot;:-2.2},{&quot;t&quot;:70.765,&quot;v&quot;:-1},{&quot;t&quot;:70.955,&quot;v&quot;:-2.1},{&quot;t&quot;:71.146,&quot;v&quot;:-1},{&quot;t&quot;:71.336,&quot;v&quot;:-0.5},{&quot;t&quot;:71.527,&quot;v&quot;:-0.2},{&quot;t&quot;:71.718,&quot;v&quot;:-2.2},{&quot;t&quot;:71.908,&quot;v&quot;:-1},{&quot;t&quot;:72.099,&quot;v&quot;:-0.5},{&quot;t&quot;:72.29,&quot;v&quot;:-0.2},{&quot;t&quot;:72.48,&quot;v&quot;:0},{&quot;t&quot;:75.911,&quot;v&quot;:0},{&quot;t&quot;:76.102,&quot;v&quot;:0},{&quot;t&quot;:76.243,&quot;v&quot;:0}]},{&quot;target&quot;:&quot;fx.n2.gain&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0},{&quot;t&quot;:0.424,&quot;v&quot;:0},{&quot;t&quot;:0.615,&quot;v&quot;:-5.3},{&quot;t&quot;:0.805,&quot;v&quot;:-4.2},{&quot;t&quot;:0.996,&quot;v&quot;:-4.4},{&quot;t&quot;:1.186,&quot;v&quot;:-2},{&quot;t&quot;:1.377,&quot;v&quot;:-1.7},{&quot;t&quot;:1.568,&quot;v&quot;:-0.8},{&quot;t&quot;:1.758,&quot;v&quot;:-0.4},{&quot;t&quot;:1.949,&quot;v&quot;:-5.5},{&quot;t&quot;:2.14,&quot;v&quot;:-2.6},{&quot;t&quot;:2.33,&quot;v&quot;:-2},{&quot;t&quot;:2.521,&quot;v&quot;:-2.8},{&quot;t&quot;:2.711,&quot;v&quot;:-1.3},{&quot;t&quot;:2.902,&quot;v&quot;:-0.6},{&quot;t&quot;:3.093,&quot;v&quot;:-1.3},{&quot;t&quot;:3.283,&quot;v&quot;:-0.7},{&quot;t&quot;:3.474,&quot;v&quot;:-0.3},{&quot;t&quot;:3.665,&quot;v&quot;:-1.3},{&quot;t&quot;:3.855,&quot;v&quot;:-2.2},{&quot;t&quot;:4.046,&quot;v&quot;:-1},{&quot;t&quot;:4.236,&quot;v&quot;:-0.5},{&quot;t&quot;:4.427,&quot;v&quot;:-2.1},{&quot;t&quot;:4.618,&quot;v&quot;:-1.7},{&quot;t&quot;:4.808,&quot;v&quot;:-1.1},{&quot;t&quot;:4.999,&quot;v&quot;:-0.5},{&quot;t&quot;:5.19,&quot;v&quot;:-0.2},{&quot;t&quot;:5.38,&quot;v&quot;:0},{&quot;t&quot;:5.761,&quot;v&quot;:0},{&quot;t&quot;:5.952,&quot;v&quot;:-1.8},{&quot;t&quot;:6.143,&quot;v&quot;:-5.1},{&quot;t&quot;:6.333,&quot;v&quot;:-7.5},{&quot;t&quot;:6.524,&quot;v&quot;:-3.5},{&quot;t&quot;:6.715,&quot;v&quot;:-1.6},{&quot;t&quot;:6.905,&quot;v&quot;:-0.8},{&quot;t&quot;:7.096,&quot;v&quot;:-0.4},{&quot;t&quot;:7.286,&quot;v&quot;:0},{&quot;t&quot;:7.477,&quot;v&quot;:-4.9},{&quot;t&quot;:7.668,&quot;v&quot;:-5.6},{&quot;t&quot;:7.858,&quot;v&quot;:-2.6},{&quot;t&quot;:8.049,&quot;v&quot;:-1.2},{&quot;t&quot;:8.24,&quot;v&quot;:-0.6},{&quot;t&quot;:8.43,&quot;v&quot;:-0.6},{&quot;t&quot;:8.621,&quot;v&quot;:-4.5},{&quot;t&quot;:8.811,&quot;v&quot;:-3.7},{&quot;t&quot;:9.002,&quot;v&quot;:-3},{&quot;t&quot;:9.193,&quot;v&quot;:-3.2},{&quot;t&quot;:9.383,&quot;v&quot;:-1.5},{&quot;t&quot;:9.574,&quot;v&quot;:-0.7},{&quot;t&quot;:9.765,&quot;v&quot;:-0.3},{&quot;t&quot;:9.955,&quot;v&quot;:-2.3},{&quot;t&quot;:10.146,&quot;v&quot;:-1.1},{&quot;t&quot;:10.336,&quot;v&quot;:-0.5},{&quot;t&quot;:10.527,&quot;v&quot;:-0.2},{&quot;t&quot;:10.718,&quot;v&quot;:-2.8},{&quot;t&quot;:10.908,&quot;v&quot;:-2.2},{&quot;t&quot;:11.099,&quot;v&quot;:-1},{&quot;t&quot;:11.861,&quot;v&quot;:-1.3},{&quot;t&quot;:12.052,&quot;v&quot;:-5},{&quot;t&quot;:12.243,&quot;v&quot;:-2.4},{&quot;t&quot;:12.433,&quot;v&quot;:-1.1},{&quot;t&quot;:12.624,&quot;v&quot;:-0.5},{&quot;t&quot;:12.815,&quot;v&quot;:-0.2},{&quot;t&quot;:13.005,&quot;v&quot;:0},{&quot;t&quot;:13.196,&quot;v&quot;:-6.1},{&quot;t&quot;:13.386,&quot;v&quot;:-3.7},{&quot;t&quot;:13.577,&quot;v&quot;:-1.7},{&quot;t&quot;:14.149,&quot;v&quot;:-2},{&quot;t&quot;:14.34,&quot;v&quot;:-2.9},{&quot;t&quot;:14.53,&quot;v&quot;:-1.4},{&quot;t&quot;:14.721,&quot;v&quot;:-0.6},{&quot;t&quot;:14.911,&quot;v&quot;:-1.5},{&quot;t&quot;:15.102,&quot;v&quot;:-2.8},{&quot;t&quot;:15.293,&quot;v&quot;:-1.3},{&quot;t&quot;:15.483,&quot;v&quot;:-4.5},{&quot;t&quot;:15.674,&quot;v&quot;:-2.7},{&quot;t&quot;:15.865,&quot;v&quot;:-1.3},{&quot;t&quot;:16.055,&quot;v&quot;:-0.6},{&quot;t&quot;:16.246,&quot;v&quot;:-3.4},{&quot;t&quot;:16.436,&quot;v&quot;:-6.1},{&quot;t&quot;:16.627,&quot;v&quot;:-2.8},{&quot;t&quot;:16.818,&quot;v&quot;:-1.3},{&quot;t&quot;:17.008,&quot;v&quot;:-2.7},{&quot;t&quot;:17.199,&quot;v&quot;:-1.3},{&quot;t&quot;:17.39,&quot;v&quot;:-0.9},{&quot;t&quot;:17.58,&quot;v&quot;:-0.8},{&quot;t&quot;:17.771,&quot;v&quot;:-2.1},{&quot;t&quot;:17.961,&quot;v&quot;:-1},{&quot;t&quot;:18.152,&quot;v&quot;:-1.1},{&quot;t&quot;:18.343,&quot;v&quot;:-0.5},{&quot;t&quot;:18.533,&quot;v&quot;:-3.9},{&quot;t&quot;:18.724,&quot;v&quot;:-5.2},{&quot;t&quot;:18.915,&quot;v&quot;:-5.6},{&quot;t&quot;:19.105,&quot;v&quot;:-2.6},{&quot;t&quot;:19.296,&quot;v&quot;:-1.2},{&quot;t&quot;:19.486,&quot;v&quot;:-0.6},{&quot;t&quot;:19.677,&quot;v&quot;:-1},{&quot;t&quot;:19.868,&quot;v&quot;:-3.9},{&quot;t&quot;:20.058,&quot;v&quot;:-6},{&quot;t&quot;:20.249,&quot;v&quot;:-2.8},{&quot;t&quot;:20.44,&quot;v&quot;:-1.3},{&quot;t&quot;:20.63,&quot;v&quot;:-4.5},{&quot;t&quot;:20.821,&quot;v&quot;:-3},{&quot;t&quot;:21.011,&quot;v&quot;:-1.4},{&quot;t&quot;:21.202,&quot;v&quot;:-0.8},{&quot;t&quot;:21.393,&quot;v&quot;:-0.7},{&quot;t&quot;:21.583,&quot;v&quot;:-5},{&quot;t&quot;:21.774,&quot;v&quot;:-5.6},{&quot;t&quot;:21.965,&quot;v&quot;:-2.6},{&quot;t&quot;:22.155,&quot;v&quot;:-1.2},{&quot;t&quot;:22.346,&quot;v&quot;:-0.6},{&quot;t&quot;:22.536,&quot;v&quot;:-0.3},{&quot;t&quot;:22.727,&quot;v&quot;:-1.1},{&quot;t&quot;:22.918,&quot;v&quot;:-3.5},{&quot;t&quot;:23.108,&quot;v&quot;:-2.4},{&quot;t&quot;:23.299,&quot;v&quot;:-1.8},{&quot;t&quot;:23.49,&quot;v&quot;:-6.8},{&quot;t&quot;:23.68,&quot;v&quot;:-3.2},{&quot;t&quot;:23.871,&quot;v&quot;:-1.5},{&quot;t&quot;:24.061,&quot;v&quot;:-2.3},{&quot;t&quot;:24.252,&quot;v&quot;:-1.1},{&quot;t&quot;:24.443,&quot;v&quot;:-0.5},{&quot;t&quot;:25.205,&quot;v&quot;:-0.2},{&quot;t&quot;:25.396,&quot;v&quot;:-3.5},{&quot;t&quot;:25.586,&quot;v&quot;:-1.9},{&quot;t&quot;:25.777,&quot;v&quot;:-0.9},{&quot;t&quot;:25.968,&quot;v&quot;:-1.8},{&quot;t&quot;:26.158,&quot;v&quot;:-0.8},{&quot;t&quot;:26.349,&quot;v&quot;:-1.4},{&quot;t&quot;:26.54,&quot;v&quot;:-0.6},{&quot;t&quot;:26.73,&quot;v&quot;:-0.3},{&quot;t&quot;:26.921,&quot;v&quot;:0},{&quot;t&quot;:27.111,&quot;v&quot;:-5.3},{&quot;t&quot;:27.302,&quot;v&quot;:-2.5},{&quot;t&quot;:27.493,&quot;v&quot;:-1.2},{&quot;t&quot;:27.683,&quot;v&quot;:-0.5},{&quot;t&quot;:27.874,&quot;v&quot;:-1.1},{&quot;t&quot;:28.065,&quot;v&quot;:-0.5},{&quot;t&quot;:28.255,&quot;v&quot;:-0.2},{&quot;t&quot;:28.446,&quot;v&quot;:0},{&quot;t&quot;:28.636,&quot;v&quot;:0},{&quot;t&quot;:28.827,&quot;v&quot;:-6.4},{&quot;t&quot;:29.018,&quot;v&quot;:-3},{&quot;t&quot;:29.208,&quot;v&quot;:-1.4},{&quot;t&quot;:29.399,&quot;v&quot;:-0.6},{&quot;t&quot;:29.59,&quot;v&quot;:-0.3},{&quot;t&quot;:29.78,&quot;v&quot;:0},{&quot;t&quot;:29.971,&quot;v&quot;:-3.3},{&quot;t&quot;:30.161,&quot;v&quot;:-1.5},{&quot;t&quot;:30.352,&quot;v&quot;:-0.7},{&quot;t&quot;:30.543,&quot;v&quot;:-0.3},{&quot;t&quot;:30.733,&quot;v&quot;:0},{&quot;t&quot;:30.924,&quot;v&quot;:0},{&quot;t&quot;:31.115,&quot;v&quot;:-0.9},{&quot;t&quot;:31.305,&quot;v&quot;:-0.4},{&quot;t&quot;:31.496,&quot;v&quot;:-1},{&quot;t&quot;:31.686,&quot;v&quot;:-2.8},{&quot;t&quot;:31.877,&quot;v&quot;:-1.3},{&quot;t&quot;:32.068,&quot;v&quot;:-0.6},{&quot;t&quot;:32.258,&quot;v&quot;:-3.1},{&quot;t&quot;:32.449,&quot;v&quot;:-1.4},{&quot;t&quot;:32.64,&quot;v&quot;:-0.7},{&quot;t&quot;:32.83,&quot;v&quot;:-1.2},{&quot;t&quot;:33.021,&quot;v&quot;:-1.2},{&quot;t&quot;:33.211,&quot;v&quot;:-0.5},{&quot;t&quot;:33.402,&quot;v&quot;:-0.3},{&quot;t&quot;:33.593,&quot;v&quot;:0},{&quot;t&quot;:33.783,&quot;v&quot;:0},{&quot;t&quot;:33.974,&quot;v&quot;:-0.5},{&quot;t&quot;:34.165,&quot;v&quot;:-0.5},{&quot;t&quot;:34.355,&quot;v&quot;:-1.7},{&quot;t&quot;:34.546,&quot;v&quot;:-0.8},{&quot;t&quot;:34.736,&quot;v&quot;:-0.4},{&quot;t&quot;:34.927,&quot;v&quot;:0},{&quot;t&quot;:35.118,&quot;v&quot;:-1.7},{&quot;t&quot;:35.308,&quot;v&quot;:-0.8},{&quot;t&quot;:35.499,&quot;v&quot;:-0.4},{&quot;t&quot;:35.69,&quot;v&quot;:0},{&quot;t&quot;:35.88,&quot;v&quot;:-4.3},{&quot;t&quot;:36.071,&quot;v&quot;:-2},{&quot;t&quot;:36.261,&quot;v&quot;:-0.9},{&quot;t&quot;:36.452,&quot;v&quot;:-3.7},{&quot;t&quot;:36.643,&quot;v&quot;:-1.7},{&quot;t&quot;:36.833,&quot;v&quot;:-6.6},{&quot;t&quot;:37.024,&quot;v&quot;:-3.1},{&quot;t&quot;:37.215,&quot;v&quot;:-1.4},{&quot;t&quot;:37.405,&quot;v&quot;:-2.6},{&quot;t&quot;:37.596,&quot;v&quot;:-2.1},{&quot;t&quot;:37.786,&quot;v&quot;:-4.6},{&quot;t&quot;:37.977,&quot;v&quot;:-2.6},{&quot;t&quot;:38.168,&quot;v&quot;:-1.2},{&quot;t&quot;:38.358,&quot;v&quot;:-4.8},{&quot;t&quot;:38.549,&quot;v&quot;:-2.7},{&quot;t&quot;:38.74,&quot;v&quot;:-2.1},{&quot;t&quot;:38.93,&quot;v&quot;:-1},{&quot;t&quot;:39.121,&quot;v&quot;:-0.4},{&quot;t&quot;:39.311,&quot;v&quot;:-1},{&quot;t&quot;:39.502,&quot;v&quot;:-0.5},{&quot;t&quot;:39.693,&quot;v&quot;:-3.9},{&quot;t&quot;:39.883,&quot;v&quot;:-2.3},{&quot;t&quot;:40.074,&quot;v&quot;:-1.1},{&quot;t&quot;:40.265,&quot;v&quot;:-0.5},{&quot;t&quot;:40.455,&quot;v&quot;:-3.9},{&quot;t&quot;:40.646,&quot;v&quot;:-2.2},{&quot;t&quot;:40.836,&quot;v&quot;:-1},{&quot;t&quot;:41.027,&quot;v&quot;:-2.3},{&quot;t&quot;:41.218,&quot;v&quot;:-1.1},{&quot;t&quot;:41.408,&quot;v&quot;:-0.5},{&quot;t&quot;:41.599,&quot;v&quot;:-0.2},{&quot;t&quot;:41.79,&quot;v&quot;:0},{&quot;t&quot;:41.98,&quot;v&quot;:-3.3},{&quot;t&quot;:42.171,&quot;v&quot;:-3},{&quot;t&quot;:42.361,&quot;v&quot;:-2.5},{&quot;t&quot;:42.552,&quot;v&quot;:-7.1},{&quot;t&quot;:42.743,&quot;v&quot;:-3.3},{&quot;t&quot;:42.933,&quot;v&quot;:-2},{&quot;t&quot;:43.124,&quot;v&quot;:-4.1},{&quot;t&quot;:43.315,&quot;v&quot;:-1.9},{&quot;t&quot;:43.505,&quot;v&quot;:-0.9},{&quot;t&quot;:43.696,&quot;v&quot;:-2.4},{&quot;t&quot;:43.886,&quot;v&quot;:-1.1},{&quot;t&quot;:44.077,&quot;v&quot;:-0.5},{&quot;t&quot;:44.268,&quot;v&quot;:-3.8},{&quot;t&quot;:44.458,&quot;v&quot;:-1.8},{&quot;t&quot;:44.649,&quot;v&quot;:-0.8},{&quot;t&quot;:44.84,&quot;v&quot;:-0.4},{&quot;t&quot;:45.03,&quot;v&quot;:-6},{&quot;t&quot;:45.221,&quot;v&quot;:-2.8},{&quot;t&quot;:45.411,&quot;v&quot;:-2.2},{&quot;t&quot;:45.602,&quot;v&quot;:-5.1},{&quot;t&quot;:45.793,&quot;v&quot;:-2.6},{&quot;t&quot;:45.983,&quot;v&quot;:-1.2},{&quot;t&quot;:46.174,&quot;v&quot;:-5.7},{&quot;t&quot;:46.365,&quot;v&quot;:-3.7},{&quot;t&quot;:46.555,&quot;v&quot;:-1.8},{&quot;t&quot;:46.746,&quot;v&quot;:-0.8},{&quot;t&quot;:46.936,&quot;v&quot;:-0.4},{&quot;t&quot;:47.127,&quot;v&quot;:-2.3},{&quot;t&quot;:47.318,&quot;v&quot;:-1.1},{&quot;t&quot;:47.508,&quot;v&quot;:-3.9},{&quot;t&quot;:47.699,&quot;v&quot;:-1.8},{&quot;t&quot;:47.89,&quot;v&quot;:-0.8},{&quot;t&quot;:48.08,&quot;v&quot;:-2},{&quot;t&quot;:48.271,&quot;v&quot;:-1.8},{&quot;t&quot;:48.461,&quot;v&quot;:-0.9},{&quot;t&quot;:48.652,&quot;v&quot;:-0.4},{&quot;t&quot;:48.843,&quot;v&quot;:-0.9},{&quot;t&quot;:49.033,&quot;v&quot;:-0.4},{&quot;t&quot;:50.558,&quot;v&quot;:0},{&quot;t&quot;:50.749,&quot;v&quot;:-5.3},{&quot;t&quot;:50.94,&quot;v&quot;:-3.8},{&quot;t&quot;:51.13,&quot;v&quot;:-1.8},{&quot;t&quot;:51.321,&quot;v&quot;:-0.8},{&quot;t&quot;:51.511,&quot;v&quot;:-0.5},{&quot;t&quot;:51.702,&quot;v&quot;:-2.1},{&quot;t&quot;:51.893,&quot;v&quot;:-1},{&quot;t&quot;:52.083,&quot;v&quot;:-1.9},{&quot;t&quot;:52.274,&quot;v&quot;:-2.8},{&quot;t&quot;:52.465,&quot;v&quot;:-5.7},{&quot;t&quot;:52.655,&quot;v&quot;:-2.7},{&quot;t&quot;:52.846,&quot;v&quot;:-1.3},{&quot;t&quot;:53.036,&quot;v&quot;:-0.9},{&quot;t&quot;:53.227,&quot;v&quot;:-0.4},{&quot;t&quot;:53.799,&quot;v&quot;:0},{&quot;t&quot;:53.99,&quot;v&quot;:-1.9},{&quot;t&quot;:54.18,&quot;v&quot;:-0.9},{&quot;t&quot;:54.371,&quot;v&quot;:-1.5},{&quot;t&quot;:54.561,&quot;v&quot;:-0.7},{&quot;t&quot;:54.752,&quot;v&quot;:-0.3},{&quot;t&quot;:54.943,&quot;v&quot;:-2.8},{&quot;t&quot;:55.133,&quot;v&quot;:-1.3},{&quot;t&quot;:55.324,&quot;v&quot;:-0.6},{&quot;t&quot;:55.515,&quot;v&quot;:-0.3},{&quot;t&quot;:55.705,&quot;v&quot;:0},{&quot;t&quot;:55.896,&quot;v&quot;:-0.5},{&quot;t&quot;:56.086,&quot;v&quot;:-0.3},{&quot;t&quot;:56.277,&quot;v&quot;:-5.4},{&quot;t&quot;:56.468,&quot;v&quot;:-2.7},{&quot;t&quot;:56.658,&quot;v&quot;:-1.3},{&quot;t&quot;:56.849,&quot;v&quot;:-0.6},{&quot;t&quot;:57.04,&quot;v&quot;:-3.1},{&quot;t&quot;:57.23,&quot;v&quot;:-2.6},{&quot;t&quot;:57.611,&quot;v&quot;:-2.3},{&quot;t&quot;:57.802,&quot;v&quot;:-1.1},{&quot;t&quot;:57.993,&quot;v&quot;:-0.5},{&quot;t&quot;:58.183,&quot;v&quot;:-2.5},{&quot;t&quot;:58.374,&quot;v&quot;:-1.2},{&quot;t&quot;:58.565,&quot;v&quot;:-2.9},{&quot;t&quot;:58.755,&quot;v&quot;:-1.4},{&quot;t&quot;:58.946,&quot;v&quot;:-1.2},{&quot;t&quot;:59.136,&quot;v&quot;:-5.9},{&quot;t&quot;:59.327,&quot;v&quot;:-2.8},{&quot;t&quot;:59.518,&quot;v&quot;:-1.3},{&quot;t&quot;:59.708,&quot;v&quot;:-0.6},{&quot;t&quot;:59.899,&quot;v&quot;:-0.3},{&quot;t&quot;:60.09,&quot;v&quot;:-1.2},{&quot;t&quot;:60.28,&quot;v&quot;:-3.4},{&quot;t&quot;:60.471,&quot;v&quot;:-2.4},{&quot;t&quot;:60.661,&quot;v&quot;:-1.1},{&quot;t&quot;:60.852,&quot;v&quot;:-0.5},{&quot;t&quot;:61.043,&quot;v&quot;:-0.2},{&quot;t&quot;:61.233,&quot;v&quot;:0},{&quot;t&quot;:61.424,&quot;v&quot;:0},{&quot;t&quot;:61.615,&quot;v&quot;:-3.6},{&quot;t&quot;:61.805,&quot;v&quot;:-5.1},{&quot;t&quot;:61.996,&quot;v&quot;:-2.4},{&quot;t&quot;:62.186,&quot;v&quot;:-2.7},{&quot;t&quot;:62.377,&quot;v&quot;:-1.3},{&quot;t&quot;:62.568,&quot;v&quot;:-0.6},{&quot;t&quot;:62.758,&quot;v&quot;:-0.3},{&quot;t&quot;:62.949,&quot;v&quot;:0},{&quot;t&quot;:63.14,&quot;v&quot;:-5.1},{&quot;t&quot;:63.33,&quot;v&quot;:-2.4},{&quot;t&quot;:63.521,&quot;v&quot;:-1.1},{&quot;t&quot;:63.711,&quot;v&quot;:-0.5},{&quot;t&quot;:63.902,&quot;v&quot;:-2.1},{&quot;t&quot;:64.093,&quot;v&quot;:-1.7},{&quot;t&quot;:64.283,&quot;v&quot;:-0.8},{&quot;t&quot;:64.474,&quot;v&quot;:-7.4},{&quot;t&quot;:64.665,&quot;v&quot;:-3.4},{&quot;t&quot;:64.855,&quot;v&quot;:-1.6},{&quot;t&quot;:65.046,&quot;v&quot;:-2.2},{&quot;t&quot;:65.236,&quot;v&quot;:-2.4},{&quot;t&quot;:65.427,&quot;v&quot;:-3.6},{&quot;t&quot;:65.618,&quot;v&quot;:-1.8},{&quot;t&quot;:65.808,&quot;v&quot;:-5.1},{&quot;t&quot;:65.999,&quot;v&quot;:-3},{&quot;t&quot;:66.19,&quot;v&quot;:-1.4},{&quot;t&quot;:66.38,&quot;v&quot;:-1.5},{&quot;t&quot;:66.571,&quot;v&quot;:-0.7},{&quot;t&quot;:66.761,&quot;v&quot;:-0.3},{&quot;t&quot;:66.952,&quot;v&quot;:-3.7},{&quot;t&quot;:67.143,&quot;v&quot;:-1.7},{&quot;t&quot;:67.333,&quot;v&quot;:-3.6},{&quot;t&quot;:67.524,&quot;v&quot;:-4.3},{&quot;t&quot;:67.715,&quot;v&quot;:-2},{&quot;t&quot;:67.905,&quot;v&quot;:-0.9},{&quot;t&quot;:68.096,&quot;v&quot;:-0.7},{&quot;t&quot;:68.286,&quot;v&quot;:-0.3},{&quot;t&quot;:68.477,&quot;v&quot;:0},{&quot;t&quot;:68.668,&quot;v&quot;:-1.8},{&quot;t&quot;:68.858,&quot;v&quot;:-1},{&quot;t&quot;:69.049,&quot;v&quot;:-0.4},{&quot;t&quot;:69.24,&quot;v&quot;:-3.9},{&quot;t&quot;:69.43,&quot;v&quot;:-4.1},{&quot;t&quot;:69.621,&quot;v&quot;:-1.9},{&quot;t&quot;:69.811,&quot;v&quot;:-2.6},{&quot;t&quot;:70.002,&quot;v&quot;:-1.2},{&quot;t&quot;:70.193,&quot;v&quot;:-5.5},{&quot;t&quot;:70.383,&quot;v&quot;:-2.5},{&quot;t&quot;:70.574,&quot;v&quot;:-1.2},{&quot;t&quot;:70.765,&quot;v&quot;:-1},{&quot;t&quot;:70.955,&quot;v&quot;:-2.8},{&quot;t&quot;:71.146,&quot;v&quot;:-1.3},{&quot;t&quot;:71.336,&quot;v&quot;:-4.4},{&quot;t&quot;:71.527,&quot;v&quot;:-2.1},{&quot;t&quot;:71.718,&quot;v&quot;:-4.6},{&quot;t&quot;:71.908,&quot;v&quot;:-4.1},{&quot;t&quot;:72.099,&quot;v&quot;:-1.9},{&quot;t&quot;:72.29,&quot;v&quot;:-0.9},{&quot;t&quot;:72.48,&quot;v&quot;:-0.4},{&quot;t&quot;:75.911,&quot;v&quot;:0},{&quot;t&quot;:76.102,&quot;v&quot;:0},{&quot;t&quot;:76.243,&quot;v&quot;:0}]},{&quot;target&quot;:&quot;fx.n3.gain&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0},{&quot;t&quot;:0.424,&quot;v&quot;:0},{&quot;t&quot;:0.615,&quot;v&quot;:-5.5},{&quot;t&quot;:0.805,&quot;v&quot;:-4.3},{&quot;t&quot;:0.996,&quot;v&quot;:-3.6},{&quot;t&quot;:1.186,&quot;v&quot;:-1.7},{&quot;t&quot;:1.377,&quot;v&quot;:-1.1},{&quot;t&quot;:1.568,&quot;v&quot;:-0.5},{&quot;t&quot;:1.758,&quot;v&quot;:-0.2},{&quot;t&quot;:1.949,&quot;v&quot;:-3.3},{&quot;t&quot;:2.14,&quot;v&quot;:-1.9},{&quot;t&quot;:2.33,&quot;v&quot;:-3.4},{&quot;t&quot;:2.521,&quot;v&quot;:-4},{&quot;t&quot;:2.711,&quot;v&quot;:-1.9},{&quot;t&quot;:2.902,&quot;v&quot;:-0.9},{&quot;t&quot;:3.093,&quot;v&quot;:-5.4},{&quot;t&quot;:3.283,&quot;v&quot;:-3.1},{&quot;t&quot;:3.474,&quot;v&quot;:-1.4},{&quot;t&quot;:3.665,&quot;v&quot;:-2.3},{&quot;t&quot;:3.855,&quot;v&quot;:-2.1},{&quot;t&quot;:4.046,&quot;v&quot;:-1},{&quot;t&quot;:4.236,&quot;v&quot;:-0.4},{&quot;t&quot;:4.427,&quot;v&quot;:-0.2},{&quot;t&quot;:4.618,&quot;v&quot;:-2.7},{&quot;t&quot;:4.808,&quot;v&quot;:-1.8},{&quot;t&quot;:4.999,&quot;v&quot;:-2.9},{&quot;t&quot;:5.19,&quot;v&quot;:-1.4},{&quot;t&quot;:5.38,&quot;v&quot;:-1.3},{&quot;t&quot;:5.571,&quot;v&quot;:-3.2},{&quot;t&quot;:5.761,&quot;v&quot;:-1.5},{&quot;t&quot;:5.952,&quot;v&quot;:-0.9},{&quot;t&quot;:6.143,&quot;v&quot;:-3.6},{&quot;t&quot;:6.333,&quot;v&quot;:-3.1},{&quot;t&quot;:6.524,&quot;v&quot;:-1.5},{&quot;t&quot;:6.715,&quot;v&quot;:-0.9},{&quot;t&quot;:6.905,&quot;v&quot;:-2.1},{&quot;t&quot;:7.096,&quot;v&quot;:-1},{&quot;t&quot;:7.286,&quot;v&quot;:-0.4},{&quot;t&quot;:7.477,&quot;v&quot;:-3.4},{&quot;t&quot;:7.668,&quot;v&quot;:-2.8},{&quot;t&quot;:7.858,&quot;v&quot;:-1.3},{&quot;t&quot;:8.049,&quot;v&quot;:-0.6},{&quot;t&quot;:8.24,&quot;v&quot;:-3.9},{&quot;t&quot;:8.43,&quot;v&quot;:-2.9},{&quot;t&quot;:8.621,&quot;v&quot;:-4.6},{&quot;t&quot;:8.811,&quot;v&quot;:-3},{&quot;t&quot;:9.002,&quot;v&quot;:-2.7},{&quot;t&quot;:9.193,&quot;v&quot;:-3.9},{&quot;t&quot;:9.383,&quot;v&quot;:-1.8},{&quot;t&quot;:9.574,&quot;v&quot;:-0.8},{&quot;t&quot;:9.765,&quot;v&quot;:-0.4},{&quot;t&quot;:9.955,&quot;v&quot;:-4.4},{&quot;t&quot;:10.146,&quot;v&quot;:-2},{&quot;t&quot;:10.336,&quot;v&quot;:-1.4},{&quot;t&quot;:10.527,&quot;v&quot;:-2},{&quot;t&quot;:10.718,&quot;v&quot;:-2.5},{&quot;t&quot;:10.908,&quot;v&quot;:-2.5},{&quot;t&quot;:11.099,&quot;v&quot;:-1.2},{&quot;t&quot;:11.29,&quot;v&quot;:-5.5},{&quot;t&quot;:11.48,&quot;v&quot;:-3.6},{&quot;t&quot;:11.671,&quot;v&quot;:-1.7},{&quot;t&quot;:11.861,&quot;v&quot;:-0.8},{&quot;t&quot;:12.052,&quot;v&quot;:-4.4},{&quot;t&quot;:12.243,&quot;v&quot;:-2.1},{&quot;t&quot;:12.433,&quot;v&quot;:-1},{&quot;t&quot;:12.624,&quot;v&quot;:-0.4},{&quot;t&quot;:12.815,&quot;v&quot;:-0.2},{&quot;t&quot;:13.005,&quot;v&quot;:-0.9},{&quot;t&quot;:13.196,&quot;v&quot;:-2.8},{&quot;t&quot;:13.386,&quot;v&quot;:-1.6},{&quot;t&quot;:13.577,&quot;v&quot;:-0.8},{&quot;t&quot;:13.768,&quot;v&quot;:-4.7},{&quot;t&quot;:13.958,&quot;v&quot;:-3.9},{&quot;t&quot;:14.149,&quot;v&quot;:-1.8},{&quot;t&quot;:14.34,&quot;v&quot;:-1.3},{&quot;t&quot;:14.53,&quot;v&quot;:-0.6},{&quot;t&quot;:14.721,&quot;v&quot;:-0.3},{&quot;t&quot;:14.911,&quot;v&quot;:-2},{&quot;t&quot;:15.102,&quot;v&quot;:-1.2},{&quot;t&quot;:15.293,&quot;v&quot;:-0.5},{&quot;t&quot;:15.483,&quot;v&quot;:-5.3},{&quot;t&quot;:15.674,&quot;v&quot;:-2.9},{&quot;t&quot;:15.865,&quot;v&quot;:-1.9},{&quot;t&quot;:16.055,&quot;v&quot;:-3.1},{&quot;t&quot;:16.246,&quot;v&quot;:-4.3},{&quot;t&quot;:16.436,&quot;v&quot;:-5.2},{&quot;t&quot;:16.627,&quot;v&quot;:-2.4},{&quot;t&quot;:16.818,&quot;v&quot;:-1.1},{&quot;t&quot;:17.008,&quot;v&quot;:-1.3},{&quot;t&quot;:17.199,&quot;v&quot;:-0.6},{&quot;t&quot;:17.39,&quot;v&quot;:-1.9},{&quot;t&quot;:17.58,&quot;v&quot;:-1.4},{&quot;t&quot;:17.771,&quot;v&quot;:-1.1},{&quot;t&quot;:17.961,&quot;v&quot;:-0.5},{&quot;t&quot;:18.152,&quot;v&quot;:-5.5},{&quot;t&quot;:18.343,&quot;v&quot;:-2.5},{&quot;t&quot;:18.533,&quot;v&quot;:-1.6},{&quot;t&quot;:18.724,&quot;v&quot;:-5.9},{&quot;t&quot;:18.915,&quot;v&quot;:-4.6},{&quot;t&quot;:19.105,&quot;v&quot;:-5.2},{&quot;t&quot;:19.296,&quot;v&quot;:-2.9},{&quot;t&quot;:19.486,&quot;v&quot;:-1.4},{&quot;t&quot;:19.677,&quot;v&quot;:-2.7},{&quot;t&quot;:19.868,&quot;v&quot;:-4},{&quot;t&quot;:20.249,&quot;v&quot;:-4.4},{&quot;t&quot;:20.44,&quot;v&quot;:-2},{&quot;t&quot;:20.63,&quot;v&quot;:-4.5},{&quot;t&quot;:20.821,&quot;v&quot;:-2.1},{&quot;t&quot;:21.202,&quot;v&quot;:-2.1},{&quot;t&quot;:21.393,&quot;v&quot;:-1},{&quot;t&quot;:21.583,&quot;v&quot;:-3.4},{&quot;t&quot;:21.774,&quot;v&quot;:-4.7},{&quot;t&quot;:21.965,&quot;v&quot;:-2.2},{&quot;t&quot;:22.155,&quot;v&quot;:-1},{&quot;t&quot;:22.346,&quot;v&quot;:-2.3},{&quot;t&quot;:22.536,&quot;v&quot;:-1.1},{&quot;t&quot;:22.727,&quot;v&quot;:-3.9},{&quot;t&quot;:22.918,&quot;v&quot;:-3.5},{&quot;t&quot;:23.108,&quot;v&quot;:-3.2},{&quot;t&quot;:23.299,&quot;v&quot;:-2.2},{&quot;t&quot;:23.49,&quot;v&quot;:-4.6},{&quot;t&quot;:23.68,&quot;v&quot;:-2.9},{&quot;t&quot;:23.871,&quot;v&quot;:-2.3},{&quot;t&quot;:24.061,&quot;v&quot;:-2.7},{&quot;t&quot;:24.252,&quot;v&quot;:-1.3},{&quot;t&quot;:24.443,&quot;v&quot;:-4.3},{&quot;t&quot;:24.633,&quot;v&quot;:-2.2},{&quot;t&quot;:24.824,&quot;v&quot;:-4.9},{&quot;t&quot;:25.015,&quot;v&quot;:-2.3},{&quot;t&quot;:25.205,&quot;v&quot;:-1.1},{&quot;t&quot;:25.396,&quot;v&quot;:-3.7},{&quot;t&quot;:25.586,&quot;v&quot;:-4.6},{&quot;t&quot;:25.777,&quot;v&quot;:-5.7},{&quot;t&quot;:25.968,&quot;v&quot;:-3.7},{&quot;t&quot;:26.158,&quot;v&quot;:-1.7},{&quot;t&quot;:26.349,&quot;v&quot;:-1.7},{&quot;t&quot;:26.54,&quot;v&quot;:-2.2},{&quot;t&quot;:26.73,&quot;v&quot;:-1.9},{&quot;t&quot;:26.921,&quot;v&quot;:-0.9},{&quot;t&quot;:27.111,&quot;v&quot;:-3},{&quot;t&quot;:27.302,&quot;v&quot;:-1.4},{&quot;t&quot;:27.493,&quot;v&quot;:-0.7},{&quot;t&quot;:27.683,&quot;v&quot;:-2.5},{&quot;t&quot;:27.874,&quot;v&quot;:-1.9},{&quot;t&quot;:28.065,&quot;v&quot;:-5.9},{&quot;t&quot;:28.255,&quot;v&quot;:-2.7},{&quot;t&quot;:28.446,&quot;v&quot;:-1.3},{&quot;t&quot;:28.636,&quot;v&quot;:-5.6},{&quot;t&quot;:28.827,&quot;v&quot;:-4.6},{&quot;t&quot;:29.018,&quot;v&quot;:-2.1},{&quot;t&quot;:29.208,&quot;v&quot;:-2.8},{&quot;t&quot;:29.399,&quot;v&quot;:-5.1},{&quot;t&quot;:29.59,&quot;v&quot;:-2.4},{&quot;t&quot;:29.78,&quot;v&quot;:-1.1},{&quot;t&quot;:29.971,&quot;v&quot;:-5.3},{&quot;t&quot;:30.161,&quot;v&quot;:-2.7},{&quot;t&quot;:30.352,&quot;v&quot;:-1.9},{&quot;t&quot;:30.543,&quot;v&quot;:-2.7},{&quot;t&quot;:30.733,&quot;v&quot;:-5.1},{&quot;t&quot;:30.924,&quot;v&quot;:-3.3},{&quot;t&quot;:31.115,&quot;v&quot;:-2.9},{&quot;t&quot;:31.305,&quot;v&quot;:-1.3},{&quot;t&quot;:31.496,&quot;v&quot;:-5.4},{&quot;t&quot;:31.686,&quot;v&quot;:-4.5},{&quot;t&quot;:31.877,&quot;v&quot;:-2.1},{&quot;t&quot;:32.068,&quot;v&quot;:-2.9},{&quot;t&quot;:32.258,&quot;v&quot;:-1.4},{&quot;t&quot;:32.449,&quot;v&quot;:-2.8},{&quot;t&quot;:32.64,&quot;v&quot;:-1.3},{&quot;t&quot;:32.83,&quot;v&quot;:-2.6},{&quot;t&quot;:33.021,&quot;v&quot;:-3.2},{&quot;t&quot;:33.211,&quot;v&quot;:-3.5},{&quot;t&quot;:33.402,&quot;v&quot;:-1.6},{&quot;t&quot;:33.593,&quot;v&quot;:-0.8},{&quot;t&quot;:33.783,&quot;v&quot;:-0.4},{&quot;t&quot;:33.974,&quot;v&quot;:-1.7},{&quot;t&quot;:34.165,&quot;v&quot;:-3.9},{&quot;t&quot;:34.355,&quot;v&quot;:-2.6},{&quot;t&quot;:34.546,&quot;v&quot;:-1.2},{&quot;t&quot;:34.736,&quot;v&quot;:-0.6},{&quot;t&quot;:34.927,&quot;v&quot;:-2.6},{&quot;t&quot;:35.118,&quot;v&quot;:-1.2},{&quot;t&quot;:35.308,&quot;v&quot;:-0.6},{&quot;t&quot;:35.499,&quot;v&quot;:-0.3},{&quot;t&quot;:35.69,&quot;v&quot;:-2},{&quot;t&quot;:35.88,&quot;v&quot;:-2.9},{&quot;t&quot;:36.071,&quot;v&quot;:-1.3},{&quot;t&quot;:36.261,&quot;v&quot;:-0.6},{&quot;t&quot;:36.452,&quot;v&quot;:-3.5},{&quot;t&quot;:36.643,&quot;v&quot;:-1.6},{&quot;t&quot;:36.833,&quot;v&quot;:-2.7},{&quot;t&quot;:37.024,&quot;v&quot;:-2.2},{&quot;t&quot;:37.215,&quot;v&quot;:-1},{&quot;t&quot;:37.405,&quot;v&quot;:-2.5},{&quot;t&quot;:37.596,&quot;v&quot;:-2.5},{&quot;t&quot;:37.786,&quot;v&quot;:-3.7},{&quot;t&quot;:37.977,&quot;v&quot;:-1.7},{&quot;t&quot;:38.168,&quot;v&quot;:-0.8},{&quot;t&quot;:38.358,&quot;v&quot;:-3},{&quot;t&quot;:38.549,&quot;v&quot;:-2.8},{&quot;t&quot;:38.74,&quot;v&quot;:-4.7},{&quot;t&quot;:38.93,&quot;v&quot;:-2.8},{&quot;t&quot;:39.121,&quot;v&quot;:-1.3},{&quot;t&quot;:39.311,&quot;v&quot;:-2.6},{&quot;t&quot;:39.693,&quot;v&quot;:-3},{&quot;t&quot;:39.883,&quot;v&quot;:-1.5},{&quot;t&quot;:40.074,&quot;v&quot;:-0.7},{&quot;t&quot;:40.265,&quot;v&quot;:-5},{&quot;t&quot;:40.455,&quot;v&quot;:-3.7},{&quot;t&quot;:40.646,&quot;v&quot;:-3.2},{&quot;t&quot;:40.836,&quot;v&quot;:-1.8},{&quot;t&quot;:41.218,&quot;v&quot;:-2.2},{&quot;t&quot;:41.408,&quot;v&quot;:-1},{&quot;t&quot;:41.599,&quot;v&quot;:-0.5},{&quot;t&quot;:41.79,&quot;v&quot;:-0.2},{&quot;t&quot;:41.98,&quot;v&quot;:-1.3},{&quot;t&quot;:42.171,&quot;v&quot;:-5.6},{&quot;t&quot;:42.361,&quot;v&quot;:-3.4},{&quot;t&quot;:42.552,&quot;v&quot;:-5.7},{&quot;t&quot;:42.743,&quot;v&quot;:-5.6},{&quot;t&quot;:42.933,&quot;v&quot;:-4.8},{&quot;t&quot;:43.124,&quot;v&quot;:-3.4},{&quot;t&quot;:43.315,&quot;v&quot;:-1.6},{&quot;t&quot;:43.505,&quot;v&quot;:-2.9},{&quot;t&quot;:43.696,&quot;v&quot;:-1.4},{&quot;t&quot;:43.886,&quot;v&quot;:-0.6},{&quot;t&quot;:44.077,&quot;v&quot;:-0.3},{&quot;t&quot;:44.268,&quot;v&quot;:-4.2},{&quot;t&quot;:44.458,&quot;v&quot;:-2},{&quot;t&quot;:44.649,&quot;v&quot;:-3.6},{&quot;t&quot;:44.84,&quot;v&quot;:-2.5},{&quot;t&quot;:45.03,&quot;v&quot;:-3.6},{&quot;t&quot;:45.221,&quot;v&quot;:-1.7},{&quot;t&quot;:45.411,&quot;v&quot;:-3.5},{&quot;t&quot;:45.602,&quot;v&quot;:-5.7},{&quot;t&quot;:45.793,&quot;v&quot;:-3.7},{&quot;t&quot;:45.983,&quot;v&quot;:-1.7},{&quot;t&quot;:46.174,&quot;v&quot;:-3.3},{&quot;t&quot;:46.365,&quot;v&quot;:-1.6},{&quot;t&quot;:46.555,&quot;v&quot;:-0.8},{&quot;t&quot;:46.746,&quot;v&quot;:-0.3},{&quot;t&quot;:46.936,&quot;v&quot;:-2.1},{&quot;t&quot;:47.127,&quot;v&quot;:-1.8},{&quot;t&quot;:47.318,&quot;v&quot;:-0.8},{&quot;t&quot;:47.508,&quot;v&quot;:-1.4},{&quot;t&quot;:47.699,&quot;v&quot;:-0.7},{&quot;t&quot;:47.89,&quot;v&quot;:-0.3},{&quot;t&quot;:48.08,&quot;v&quot;:-1.2},{&quot;t&quot;:48.461,&quot;v&quot;:-1.4},{&quot;t&quot;:48.652,&quot;v&quot;:-0.7},{&quot;t&quot;:48.843,&quot;v&quot;:-0.3},{&quot;t&quot;:49.033,&quot;v&quot;:-1.4},{&quot;t&quot;:49.224,&quot;v&quot;:-2.6},{&quot;t&quot;:49.415,&quot;v&quot;:-5.3},{&quot;t&quot;:49.605,&quot;v&quot;:-2.5},{&quot;t&quot;:49.796,&quot;v&quot;:-1.8},{&quot;t&quot;:49.986,&quot;v&quot;:-0.8},{&quot;t&quot;:50.177,&quot;v&quot;:-0.4},{&quot;t&quot;:50.368,&quot;v&quot;:0},{&quot;t&quot;:50.558,&quot;v&quot;:0},{&quot;t&quot;:50.749,&quot;v&quot;:-4.6},{&quot;t&quot;:50.94,&quot;v&quot;:-6},{&quot;t&quot;:51.13,&quot;v&quot;:-2.8},{&quot;t&quot;:51.321,&quot;v&quot;:-1.3},{&quot;t&quot;:51.511,&quot;v&quot;:-2.5},{&quot;t&quot;:51.702,&quot;v&quot;:-1.2},{&quot;t&quot;:51.893,&quot;v&quot;:-0.9},{&quot;t&quot;:52.083,&quot;v&quot;:-4.4},{&quot;t&quot;:52.274,&quot;v&quot;:-3.8},{&quot;t&quot;:52.465,&quot;v&quot;:-2.6},{&quot;t&quot;:52.655,&quot;v&quot;:-4.9},{&quot;t&quot;:52.846,&quot;v&quot;:-3},{&quot;t&quot;:53.036,&quot;v&quot;:-4.9},{&quot;t&quot;:53.227,&quot;v&quot;:-2.6},{&quot;t&quot;:53.418,&quot;v&quot;:-3.7},{&quot;t&quot;:53.608,&quot;v&quot;:-1.7},{&quot;t&quot;:53.799,&quot;v&quot;:-4.9},{&quot;t&quot;:53.99,&quot;v&quot;:-5},{&quot;t&quot;:54.18,&quot;v&quot;:-2.9},{&quot;t&quot;:54.371,&quot;v&quot;:-4.6},{&quot;t&quot;:54.561,&quot;v&quot;:-2.2},{&quot;t&quot;:54.943,&quot;v&quot;:-2},{&quot;t&quot;:55.133,&quot;v&quot;:-0.9},{&quot;t&quot;:55.324,&quot;v&quot;:-3.1},{&quot;t&quot;:55.515,&quot;v&quot;:-3.6},{&quot;t&quot;:55.705,&quot;v&quot;:-2},{&quot;t&quot;:55.896,&quot;v&quot;:-1.1},{&quot;t&quot;:56.086,&quot;v&quot;:-4.2},{&quot;t&quot;:56.277,&quot;v&quot;:-2.9},{&quot;t&quot;:56.468,&quot;v&quot;:-1.3},{&quot;t&quot;:56.658,&quot;v&quot;:-1.9},{&quot;t&quot;:57.23,&quot;v&quot;:-1.8},{&quot;t&quot;:57.421,&quot;v&quot;:-4.1},{&quot;t&quot;:57.611,&quot;v&quot;:-3.4},{&quot;t&quot;:57.802,&quot;v&quot;:-1.6},{&quot;t&quot;:57.993,&quot;v&quot;:-0.7},{&quot;t&quot;:58.183,&quot;v&quot;:-2.3},{&quot;t&quot;:58.374,&quot;v&quot;:-4.8},{&quot;t&quot;:58.565,&quot;v&quot;:-3},{&quot;t&quot;:58.755,&quot;v&quot;:-1.9},{&quot;t&quot;:58.946,&quot;v&quot;:-0.9},{&quot;t&quot;:59.136,&quot;v&quot;:-5.9},{&quot;t&quot;:59.327,&quot;v&quot;:-2.8},{&quot;t&quot;:59.518,&quot;v&quot;:-1.3},{&quot;t&quot;:59.708,&quot;v&quot;:-0.6},{&quot;t&quot;:59.899,&quot;v&quot;:-0.3},{&quot;t&quot;:60.09,&quot;v&quot;:-3.3},{&quot;t&quot;:60.28,&quot;v&quot;:-5.6},{&quot;t&quot;:60.471,&quot;v&quot;:-3.5},{&quot;t&quot;:60.661,&quot;v&quot;:-1.6},{&quot;t&quot;:60.852,&quot;v&quot;:-4.9},{&quot;t&quot;:61.043,&quot;v&quot;:-2.9},{&quot;t&quot;:61.233,&quot;v&quot;:-1.4},{&quot;t&quot;:61.424,&quot;v&quot;:-0.6},{&quot;t&quot;:61.615,&quot;v&quot;:-1.8},{&quot;t&quot;:61.805,&quot;v&quot;:-2.5},{&quot;t&quot;:61.996,&quot;v&quot;:-1.2},{&quot;t&quot;:62.186,&quot;v&quot;:-2.5},{&quot;t&quot;:62.377,&quot;v&quot;:-1.1},{&quot;t&quot;:62.568,&quot;v&quot;:-0.5},{&quot;t&quot;:62.758,&quot;v&quot;:-0.2},{&quot;t&quot;:62.949,&quot;v&quot;:-3.4},{&quot;t&quot;:63.14,&quot;v&quot;:-3.5},{&quot;t&quot;:63.33,&quot;v&quot;:-1.6},{&quot;t&quot;:63.521,&quot;v&quot;:-0.8},{&quot;t&quot;:63.711,&quot;v&quot;:-0.4},{&quot;t&quot;:63.902,&quot;v&quot;:-2.9},{&quot;t&quot;:64.093,&quot;v&quot;:-4.5},{&quot;t&quot;:64.283,&quot;v&quot;:-2.1},{&quot;t&quot;:64.474,&quot;v&quot;:-3.6},{&quot;t&quot;:64.665,&quot;v&quot;:-1.7},{&quot;t&quot;:64.855,&quot;v&quot;:-0.8},{&quot;t&quot;:65.046,&quot;v&quot;:-3.3},{&quot;t&quot;:65.236,&quot;v&quot;:-4.2},{&quot;t&quot;:65.427,&quot;v&quot;:-2},{&quot;t&quot;:65.618,&quot;v&quot;:-0.9},{&quot;t&quot;:65.808,&quot;v&quot;:-4.5},{&quot;t&quot;:65.999,&quot;v&quot;:-2.6},{&quot;t&quot;:66.19,&quot;v&quot;:-1.2},{&quot;t&quot;:66.38,&quot;v&quot;:-0.6},{&quot;t&quot;:66.761,&quot;v&quot;:-0.8},{&quot;t&quot;:66.952,&quot;v&quot;:-3.8},{&quot;t&quot;:67.143,&quot;v&quot;:-1.8},{&quot;t&quot;:67.333,&quot;v&quot;:-6.2},{&quot;t&quot;:67.524,&quot;v&quot;:-3.8},{&quot;t&quot;:67.715,&quot;v&quot;:-1.8},{&quot;t&quot;:67.905,&quot;v&quot;:-0.9},{&quot;t&quot;:68.096,&quot;v&quot;:-3.8},{&quot;t&quot;:68.286,&quot;v&quot;:-1.8},{&quot;t&quot;:68.477,&quot;v&quot;:-0.8},{&quot;t&quot;:68.668,&quot;v&quot;:-1.9},{&quot;t&quot;:68.858,&quot;v&quot;:-5.5},{&quot;t&quot;:69.049,&quot;v&quot;:-3.9},{&quot;t&quot;:69.24,&quot;v&quot;:-4.2},{&quot;t&quot;:69.43,&quot;v&quot;:-3},{&quot;t&quot;:69.621,&quot;v&quot;:-1.4},{&quot;t&quot;:70.002,&quot;v&quot;:-0.9},{&quot;t&quot;:70.193,&quot;v&quot;:-4.3},{&quot;t&quot;:70.383,&quot;v&quot;:-2},{&quot;t&quot;:70.574,&quot;v&quot;:-1},{&quot;t&quot;:70.765,&quot;v&quot;:-4.5},{&quot;t&quot;:70.955,&quot;v&quot;:-3.8},{&quot;t&quot;:71.146,&quot;v&quot;:-1.8},{&quot;t&quot;:71.336,&quot;v&quot;:-2.4},{&quot;t&quot;:71.527,&quot;v&quot;:-3.8},{&quot;t&quot;:71.718,&quot;v&quot;:-4.2},{&quot;t&quot;:71.908,&quot;v&quot;:-4.5},{&quot;t&quot;:72.099,&quot;v&quot;:-2.1},{&quot;t&quot;:72.29,&quot;v&quot;:-1},{&quot;t&quot;:72.48,&quot;v&quot;:-0.5},{&quot;t&quot;:72.671,&quot;v&quot;:-0.2},{&quot;t&quot;:72.861,&quot;v&quot;:0},{&quot;t&quot;:75.911,&quot;v&quot;:0},{&quot;t&quot;:76.102,&quot;v&quot;:0},{&quot;t&quot;:76.243,&quot;v&quot;:0}]},{&quot;target&quot;:&quot;fx.n4.gain&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0},{&quot;t&quot;:0.233,&quot;v&quot;:0},{&quot;t&quot;:0.424,&quot;v&quot;:-4.7},{&quot;t&quot;:0.615,&quot;v&quot;:-6.4},{&quot;t&quot;:0.805,&quot;v&quot;:-7.8},{&quot;t&quot;:1.377,&quot;v&quot;:-7.9},{&quot;t&quot;:1.568,&quot;v&quot;:-8.4},{&quot;t&quot;:2.521,&quot;v&quot;:-8.4},{&quot;t&quot;:2.711,&quot;v&quot;:-7.8},{&quot;t&quot;:2.902,&quot;v&quot;:-8.4},{&quot;t&quot;:3.093,&quot;v&quot;:-8},{&quot;t&quot;:3.283,&quot;v&quot;:-7.6},{&quot;t&quot;:3.474,&quot;v&quot;:-8.4},{&quot;t&quot;:4.427,&quot;v&quot;:-8.1},{&quot;t&quot;:4.618,&quot;v&quot;:-7.6},{&quot;t&quot;:4.808,&quot;v&quot;:-7.3},{&quot;t&quot;:4.999,&quot;v&quot;:-6.9},{&quot;t&quot;:5.571,&quot;v&quot;:-6.7},{&quot;t&quot;:5.761,&quot;v&quot;:-6.2},{&quot;t&quot;:5.952,&quot;v&quot;:-6},{&quot;t&quot;:6.143,&quot;v&quot;:-5.5},{&quot;t&quot;:6.333,&quot;v&quot;:-5.2},{&quot;t&quot;:6.524,&quot;v&quot;:-8.3},{&quot;t&quot;:6.715,&quot;v&quot;:-7.7},{&quot;t&quot;:6.905,&quot;v&quot;:-7.1},{&quot;t&quot;:7.096,&quot;v&quot;:-8.4},{&quot;t&quot;:7.858,&quot;v&quot;:-8.4},{&quot;t&quot;:8.049,&quot;v&quot;:-7.8},{&quot;t&quot;:8.43,&quot;v&quot;:-7.5},{&quot;t&quot;:8.621,&quot;v&quot;:-7.3},{&quot;t&quot;:8.811,&quot;v&quot;:-7},{&quot;t&quot;:9.002,&quot;v&quot;:-6.7},{&quot;t&quot;:9.193,&quot;v&quot;:-6.4},{&quot;t&quot;:9.383,&quot;v&quot;:-8.4},{&quot;t&quot;:9.574,&quot;v&quot;:-8.4},{&quot;t&quot;:9.765,&quot;v&quot;:-7.8},{&quot;t&quot;:9.955,&quot;v&quot;:-7.3},{&quot;t&quot;:10.146,&quot;v&quot;:-8.4},{&quot;t&quot;:10.908,&quot;v&quot;:-8.4},{&quot;t&quot;:11.099,&quot;v&quot;:-7.8},{&quot;t&quot;:11.29,&quot;v&quot;:-7.6},{&quot;t&quot;:11.48,&quot;v&quot;:-8.4},{&quot;t&quot;:12.243,&quot;v&quot;:-8},{&quot;t&quot;:12.433,&quot;v&quot;:-7.9},{&quot;t&quot;:12.624,&quot;v&quot;:-8.4},{&quot;t&quot;:12.815,&quot;v&quot;:-7.7},{&quot;t&quot;:13.005,&quot;v&quot;:-7.2},{&quot;t&quot;:13.196,&quot;v&quot;:-6.6},{&quot;t&quot;:13.386,&quot;v&quot;:-6.3},{&quot;t&quot;:13.577,&quot;v&quot;:-5.8},{&quot;t&quot;:13.768,&quot;v&quot;:-5.4},{&quot;t&quot;:13.958,&quot;v&quot;:-4.9},{&quot;t&quot;:14.149,&quot;v&quot;:-8.3},{&quot;t&quot;:14.34,&quot;v&quot;:-8.4},{&quot;t&quot;:14.53,&quot;v&quot;:-7.8},{&quot;t&quot;:15.102,&quot;v&quot;:-7.4},{&quot;t&quot;:15.293,&quot;v&quot;:-8.4},{&quot;t&quot;:15.483,&quot;v&quot;:-8.1},{&quot;t&quot;:15.674,&quot;v&quot;:-7.9},{&quot;t&quot;:16.055,&quot;v&quot;:-7.6},{&quot;t&quot;:16.246,&quot;v&quot;:-7.2},{&quot;t&quot;:16.436,&quot;v&quot;:-6.7},{&quot;t&quot;:16.627,&quot;v&quot;:-8.4},{&quot;t&quot;:16.818,&quot;v&quot;:-7.7},{&quot;t&quot;:17.008,&quot;v&quot;:-8.4},{&quot;t&quot;:17.961,&quot;v&quot;:-8.4},{&quot;t&quot;:18.152,&quot;v&quot;:-7.8},{&quot;t&quot;:18.343,&quot;v&quot;:-8.4},{&quot;t&quot;:18.533,&quot;v&quot;:-8},{&quot;t&quot;:18.724,&quot;v&quot;:-7.9},{&quot;t&quot;:18.915,&quot;v&quot;:-7.7},{&quot;t&quot;:19.105,&quot;v&quot;:-8.4},{&quot;t&quot;:19.296,&quot;v&quot;:-8.4},{&quot;t&quot;:19.486,&quot;v&quot;:-7.8},{&quot;t&quot;:19.677,&quot;v&quot;:-8.4},{&quot;t&quot;:20.249,&quot;v&quot;:-8.4},{&quot;t&quot;:20.44,&quot;v&quot;:-7.8},{&quot;t&quot;:20.63,&quot;v&quot;:-8.4},{&quot;t&quot;:21.965,&quot;v&quot;:-8.4},{&quot;t&quot;:22.155,&quot;v&quot;:-7.7},{&quot;t&quot;:22.536,&quot;v&quot;:-7.5},{&quot;t&quot;:22.727,&quot;v&quot;:-7},{&quot;t&quot;:22.918,&quot;v&quot;:-6.6},{&quot;t&quot;:23.108,&quot;v&quot;:-6.3},{&quot;t&quot;:23.299,&quot;v&quot;:-7.6},{&quot;t&quot;:23.871,&quot;v&quot;:-7.2},{&quot;t&quot;:24.061,&quot;v&quot;:-8.4},{&quot;t&quot;:24.633,&quot;v&quot;:-8.3},{&quot;t&quot;:24.824,&quot;v&quot;:-7.9},{&quot;t&quot;:25.015,&quot;v&quot;:-7.7},{&quot;t&quot;:25.205,&quot;v&quot;:-7.1},{&quot;t&quot;:25.586,&quot;v&quot;:-6.8},{&quot;t&quot;:25.777,&quot;v&quot;:-8.4},{&quot;t&quot;:26.921,&quot;v&quot;:-8.4},{&quot;t&quot;:27.111,&quot;v&quot;:-7.8},{&quot;t&quot;:27.302,&quot;v&quot;:-7.5},{&quot;t&quot;:27.493,&quot;v&quot;:-8.4},{&quot;t&quot;:28.065,&quot;v&quot;:-8.1},{&quot;t&quot;:28.255,&quot;v&quot;:-7.5},{&quot;t&quot;:28.446,&quot;v&quot;:-6.9},{&quot;t&quot;:29.208,&quot;v&quot;:-6.7},{&quot;t&quot;:29.399,&quot;v&quot;:-6.4},{&quot;t&quot;:29.59,&quot;v&quot;:-8.4},{&quot;t&quot;:31.305,&quot;v&quot;:-8.4},{&quot;t&quot;:31.496,&quot;v&quot;:-7.8},{&quot;t&quot;:31.686,&quot;v&quot;:-7.4},{&quot;t&quot;:31.877,&quot;v&quot;:-8.4},{&quot;t&quot;:32.258,&quot;v&quot;:-8},{&quot;t&quot;:32.449,&quot;v&quot;:-7.6},{&quot;t&quot;:33.021,&quot;v&quot;:-7.3},{&quot;t&quot;:33.211,&quot;v&quot;:-8.2},{&quot;t&quot;:33.402,&quot;v&quot;:-7.9},{&quot;t&quot;:33.593,&quot;v&quot;:-7.3},{&quot;t&quot;:33.974,&quot;v&quot;:-7.2},{&quot;t&quot;:34.165,&quot;v&quot;:-8.4},{&quot;t&quot;:34.355,&quot;v&quot;:-8.4},{&quot;t&quot;:34.546,&quot;v&quot;:-7.8},{&quot;t&quot;:35.308,&quot;v&quot;:-7.4},{&quot;t&quot;:35.499,&quot;v&quot;:-8.3},{&quot;t&quot;:35.88,&quot;v&quot;:-8},{&quot;t&quot;:36.071,&quot;v&quot;:-7.4},{&quot;t&quot;:36.261,&quot;v&quot;:-6.9},{&quot;t&quot;:36.452,&quot;v&quot;:-8.4},{&quot;t&quot;:36.643,&quot;v&quot;:-7.7},{&quot;t&quot;:36.833,&quot;v&quot;:-7.3},{&quot;t&quot;:37.024,&quot;v&quot;:-7.2},{&quot;t&quot;:37.215,&quot;v&quot;:-8.4},{&quot;t&quot;:37.977,&quot;v&quot;:-8.4},{&quot;t&quot;:38.168,&quot;v&quot;:-7.8},{&quot;t&quot;:38.358,&quot;v&quot;:-7.4},{&quot;t&quot;:38.549,&quot;v&quot;:-7},{&quot;t&quot;:38.74,&quot;v&quot;:-6.8},{&quot;t&quot;:38.93,&quot;v&quot;:-8.4},{&quot;t&quot;:39.121,&quot;v&quot;:-8},{&quot;t&quot;:39.311,&quot;v&quot;:-7.9},{&quot;t&quot;:39.502,&quot;v&quot;:-7.8},{&quot;t&quot;:39.693,&quot;v&quot;:-7.3},{&quot;t&quot;:39.883,&quot;v&quot;:-7.2},{&quot;t&quot;:40.074,&quot;v&quot;:-8.4},{&quot;t&quot;:40.265,&quot;v&quot;:-8},{&quot;t&quot;:40.455,&quot;v&quot;:-7.5},{&quot;t&quot;:40.646,&quot;v&quot;:-7.2},{&quot;t&quot;:40.836,&quot;v&quot;:-8.4},{&quot;t&quot;:41.408,&quot;v&quot;:-8.4},{&quot;t&quot;:41.599,&quot;v&quot;:-7.8},{&quot;t&quot;:41.79,&quot;v&quot;:-8.4},{&quot;t&quot;:42.361,&quot;v&quot;:-8},{&quot;t&quot;:42.552,&quot;v&quot;:-7.9},{&quot;t&quot;:42.743,&quot;v&quot;:-7.4},{&quot;t&quot;:42.933,&quot;v&quot;:-6.9},{&quot;t&quot;:43.124,&quot;v&quot;:-6.7},{&quot;t&quot;:43.315,&quot;v&quot;:-8.4},{&quot;t&quot;:43.886,&quot;v&quot;:-8.4},{&quot;t&quot;:44.077,&quot;v&quot;:-7.8},{&quot;t&quot;:44.268,&quot;v&quot;:-8.4},{&quot;t&quot;:44.649,&quot;v&quot;:-8.3},{&quot;t&quot;:44.84,&quot;v&quot;:-7.9},{&quot;t&quot;:45.03,&quot;v&quot;:-7.8},{&quot;t&quot;:45.221,&quot;v&quot;:-7.2},{&quot;t&quot;:45.411,&quot;v&quot;:-8.4},{&quot;t&quot;:47.699,&quot;v&quot;:-8.4},{&quot;t&quot;:47.89,&quot;v&quot;:-7.8},{&quot;t&quot;:48.271,&quot;v&quot;:-7.7},{&quot;t&quot;:48.461,&quot;v&quot;:-8.4},{&quot;t&quot;:50.177,&quot;v&quot;:-8.4},{&quot;t&quot;:50.368,&quot;v&quot;:-7.8},{&quot;t&quot;:50.558,&quot;v&quot;:-7.3},{&quot;t&quot;:50.94,&quot;v&quot;:-7.2},{&quot;t&quot;:51.13,&quot;v&quot;:-8.4},{&quot;t&quot;:52.465,&quot;v&quot;:-8},{&quot;t&quot;:52.655,&quot;v&quot;:-7.6},{&quot;t&quot;:53.036,&quot;v&quot;:-7.2},{&quot;t&quot;:53.227,&quot;v&quot;:-6.7},{&quot;t&quot;:53.418,&quot;v&quot;:-6.5},{&quot;t&quot;:53.608,&quot;v&quot;:-8.4},{&quot;t&quot;:53.799,&quot;v&quot;:-7.9},{&quot;t&quot;:53.99,&quot;v&quot;:-7.7},{&quot;t&quot;:54.18,&quot;v&quot;:-8.4},{&quot;t&quot;:54.943,&quot;v&quot;:-8.4},{&quot;t&quot;:55.133,&quot;v&quot;:-7.8},{&quot;t&quot;:55.324,&quot;v&quot;:-7.6},{&quot;t&quot;:55.515,&quot;v&quot;:-7.2},{&quot;t&quot;:55.705,&quot;v&quot;:-8.4},{&quot;t&quot;:55.896,&quot;v&quot;:-8.4},{&quot;t&quot;:56.086,&quot;v&quot;:-7.9},{&quot;t&quot;:56.277,&quot;v&quot;:-7.3},{&quot;t&quot;:56.468,&quot;v&quot;:-6.9},{&quot;t&quot;:56.658,&quot;v&quot;:-8.4},{&quot;t&quot;:57.802,&quot;v&quot;:-8.4},{&quot;t&quot;:57.993,&quot;v&quot;:-7.8},{&quot;t&quot;:58.374,&quot;v&quot;:-7.4},{&quot;t&quot;:58.565,&quot;v&quot;:-8.4},{&quot;t&quot;:60.471,&quot;v&quot;:-8.1},{&quot;t&quot;:60.661,&quot;v&quot;:-7.5},{&quot;t&quot;:60.852,&quot;v&quot;:-8.3},{&quot;t&quot;:62.186,&quot;v&quot;:-8.4},{&quot;t&quot;:62.377,&quot;v&quot;:-7.8},{&quot;t&quot;:62.568,&quot;v&quot;:-8.4},{&quot;t&quot;:62.758,&quot;v&quot;:-7.7},{&quot;t&quot;:62.949,&quot;v&quot;:-7.2},{&quot;t&quot;:63.14,&quot;v&quot;:-6.7},{&quot;t&quot;:63.33,&quot;v&quot;:-8.4},{&quot;t&quot;:63.711,&quot;v&quot;:-8.1},{&quot;t&quot;:63.902,&quot;v&quot;:-7.8},{&quot;t&quot;:64.093,&quot;v&quot;:-8.4},{&quot;t&quot;:65.427,&quot;v&quot;:-8},{&quot;t&quot;:65.618,&quot;v&quot;:-7.6},{&quot;t&quot;:65.808,&quot;v&quot;:-7.5},{&quot;t&quot;:65.999,&quot;v&quot;:-8.4},{&quot;t&quot;:66.19,&quot;v&quot;:-7.7},{&quot;t&quot;:66.38,&quot;v&quot;:-7.1},{&quot;t&quot;:66.952,&quot;v&quot;:-6.8},{&quot;t&quot;:67.143,&quot;v&quot;:-6.4},{&quot;t&quot;:67.333,&quot;v&quot;:-6},{&quot;t&quot;:67.524,&quot;v&quot;:-8.3},{&quot;t&quot;:67.715,&quot;v&quot;:-7.7},{&quot;t&quot;:67.905,&quot;v&quot;:-8.4},{&quot;t&quot;:68.286,&quot;v&quot;:-8.4},{&quot;t&quot;:68.477,&quot;v&quot;:-7.8},{&quot;t&quot;:68.668,&quot;v&quot;:-7.5},{&quot;t&quot;:68.858,&quot;v&quot;:-7.2},{&quot;t&quot;:69.049,&quot;v&quot;:-7.5},{&quot;t&quot;:69.24,&quot;v&quot;:-8.4},{&quot;t&quot;:70.193,&quot;v&quot;:-8.4},{&quot;t&quot;:70.383,&quot;v&quot;:-7.7},{&quot;t&quot;:70.574,&quot;v&quot;:-7.7},{&quot;t&quot;:70.765,&quot;v&quot;:-8.4},{&quot;t&quot;:71.908,&quot;v&quot;:-8.4},{&quot;t&quot;:72.099,&quot;v&quot;:-7.8},{&quot;t&quot;:72.29,&quot;v&quot;:-7.2},{&quot;t&quot;:72.48,&quot;v&quot;:-6.6},{&quot;t&quot;:72.671,&quot;v&quot;:-6.1},{&quot;t&quot;:72.861,&quot;v&quot;:-5.6},{&quot;t&quot;:73.052,&quot;v&quot;:-5.2},{&quot;t&quot;:73.243,&quot;v&quot;:-4.8},{&quot;t&quot;:73.433,&quot;v&quot;:-4.4},{&quot;t&quot;:73.624,&quot;v&quot;:-4.1},{&quot;t&quot;:73.815,&quot;v&quot;:-3.8},{&quot;t&quot;:74.005,&quot;v&quot;:-3.5},{&quot;t&quot;:74.196,&quot;v&quot;:-3.2},{&quot;t&quot;:74.386,&quot;v&quot;:-3},{&quot;t&quot;:74.768,&quot;v&quot;:-2.6},{&quot;t&quot;:74.958,&quot;v&quot;:-2.4},{&quot;t&quot;:75.34,&quot;v&quot;:-2},{&quot;t&quot;:75.53,&quot;v&quot;:-1.9},{&quot;t&quot;:76.102,&quot;v&quot;:-1.5},{&quot;t&quot;:76.293,&quot;v&quot;:-1.4},{&quot;t&quot;:77.246,&quot;v&quot;:-0.9},{&quot;t&quot;:77.436,&quot;v&quot;:-0.8},{&quot;t&quot;:79.533,&quot;v&quot;:-0.4},{&quot;t&quot;:79.724,&quot;v&quot;:-0.3},{&quot;t&quot;:80.868,&quot;v&quot;:-0.2},{&quot;t&quot;:81.058,&quot;v&quot;:0}]}]}"></audio>
+      <audio data-audio-group="master" id="sfx-wh1" src="assets/sfx/whoosh.mp3" data-start="14.5" data-duration="0.57" data-track-index="22" data-volume="0.14"></audio>
+      <audio data-audio-group="master" id="sfx-pop1" src="assets/sfx/pop.mp3" data-start="16.18" data-duration="0.72" data-track-index="23" data-volume="0.22"></audio>
+      <audio data-audio-group="master" id="sfx-pop2" src="assets/sfx/pop.mp3" data-start="17.32" data-duration="0.72" data-track-index="25" data-volume="0.22"></audio>
+      <audio data-audio-group="master" id="sfx-pop3" src="assets/sfx/pop.mp3" data-start="18.2" data-duration="0.72" data-track-index="23" data-volume="0.22"></audio>
+      <audio data-audio-group="master" id="sfx-pop4" src="assets/sfx/pop.mp3" data-start="18.76" data-duration="0.72" data-track-index="25" data-volume="0.22"></audio>
+      <audio data-audio-group="master" id="sfx-pop5" src="assets/sfx/pop.mp3" data-start="20.18" data-duration="0.72" data-track-index="23" data-volume="0.22"></audio>
+      <audio data-audio-group="master" id="sfx-pop6" src="assets/sfx/pop.mp3" data-start="21.18" data-duration="0.72" data-track-index="25" data-volume="0.22"></audio>
+      <audio data-audio-group="master" id="sfx-stamp" src="assets/sfx/impact-bass-1.mp3" data-start="25.06" data-duration="2.1" data-track-index="22" data-volume="0.07"></audio>
+      <audio data-audio-group="master" id="sfx-wh2" src="assets/sfx/whoosh.mp3" data-start="29.18" data-duration="0.57" data-track-index="22" data-volume="0.09"></audio>
+      <audio data-audio-group="master" id="sfx-shim" src="assets/sfx/sparkle.mp3" data-start="35.4" data-duration="1.8" data-track-index="24" data-volume="0.08"></audio>
+      <audio data-audio-group="master" id="sfx-wh3" src="assets/sfx/whoosh.mp3" data-start="36.72" data-duration="0.57" data-track-index="22" data-volume="0.14"></audio>
+      <audio data-audio-group="master" id="sfx-click" src="assets/sfx/click.mp3" data-start="41.32" data-duration="0.36" data-track-index="24" data-volume="0.2"></audio>
+      <audio data-audio-group="master" id="sfx-wh4" src="assets/sfx/whoosh.mp3" data-start="51.16" data-duration="0.57" data-track-index="22" data-volume="0.14"></audio>
+      <audio data-audio-group="master" id="sfx-tic1" src="assets/sfx/click-soft.mp3" data-start="59.0" data-duration="0.36" data-track-index="24" data-volume="0.1"></audio>
+      <audio data-audio-group="master" id="sfx-tic2" src="assets/sfx/click-soft.mp3" data-start="59.6" data-duration="0.36" data-track-index="24" data-volume="0.07"></audio>
+      <audio data-audio-group="master" id="sfx-tic3" src="assets/sfx/click-soft.mp3" data-start="60.2" data-duration="0.36" data-track-index="24" data-volume="0.1"></audio>
+      <audio data-audio-group="master" id="sfx-tic4" src="assets/sfx/click-soft.mp3" data-start="60.8" data-duration="0.36" data-track-index="24" data-volume="0.07"></audio>
+      <audio data-audio-group="master" id="sfx-wh5" src="assets/sfx/whoosh.mp3" data-start="64.98" data-duration="0.57" data-track-index="22" data-volume="0.14"></audio>
+      <audio data-audio-group="master" id="sfx-x" src="assets/sfx/impact-bass-2.mp3" data-start="72.74" data-duration="1.2" data-track-index="22" data-volume="0.055"></audio>
+      <audio data-audio-group="master" id="sfx-pop7" src="assets/sfx/pop.mp3" data-start="79.28" data-duration="0.72" data-track-index="23" data-volume="0.15"></audio>
+      <audio data-audio-group="master" id="sfx-pop8" src="assets/sfx/pop.mp3" data-start="83.1" data-duration="0.72" data-track-index="23" data-volume="0.15"></audio>
+      <audio data-audio-group="master" id="sfx-pop9" src="assets/sfx/pop.mp3" data-start="85.14" data-duration="0.72" data-track-index="23" data-volume="0.15"></audio>
+
+      <!-- ================================================= FUNDO ================================================= -->
+      <div id="bg" class="layer">
+        <div class="floor"></div>
+        <div class="grid" data-layout-allow-overflow></div>
+        <div id="dust"></div>
+        <div class="vignette"></div>
+      </div>
+
+      <!-- ================================================= CENAS 1-2: recortes ================================================= -->
+      <div id="s12" class="layer">
+        <div class="stitle" id="t12">O que eles <span class="g">prometeram</span></div>
+        <svg id="arrow" viewBox="0 0 60 60" fill="none" stroke="#c8a060" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 8 V48" /><path d="M14 32 L30 48 L46 32" /></svg>
+        <div id="stage">
+          <div id="rail">
+            <div class="cardshadow" id="shA" style="left: -50px"></div>
+            <div class="cardshadow" id="shB" style="left: 610px"></div>
+            <div class="card" id="cardA">
+              <video id="v-flavio" class="clip" src="assets/media/01_recorte_flavio.mp4" muted playsinline data-start="0" data-duration="7.5" data-track-index="1"></video>
+              <div class="sheen"></div>
+              <div class="dim" id="dimA"></div>
+              <div class="glow" id="glowA"></div>
+            </div>
+            <div class="card" id="cardB">
+              <video id="v-lula" class="clip" src="assets/media/02_recorte_lula.mp4" muted playsinline data-start="7.5" data-duration="7.06" data-track-index="2"></video>
+              <div class="sheen"></div>
+              <div class="dim" id="dimB"></div>
+              <div class="glow" id="glowB"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tarja" id="tarjaA"><div class="n">Flávio Bolsonaro (PL)</div><div class="d">entrevista ao Canal Livre/Band</div></div>
+        <div class="tarja" id="tarjaB"><div class="n">Lula (PT)</div><div class="d">propaganda eleitoral</div></div>
+      </div>
+
+      <!-- ================================================= CENA 3: alarmismo ================================================= -->
+      <section id="s3" class="clip" data-start="14.4" data-duration="15.1" data-track-index="3">
+        <div class="layer" id="s3in">
+          <div class="stitle" id="t3"><svg width="62" height="56" viewBox="0 0 62 56"><path d="M31 4 L58 52 H4 Z" fill="none" stroke="#e8a33c" stroke-width="5" stroke-linejoin="round" /><path d="M31 20 V36" stroke="#e8a33c" stroke-width="5" stroke-linecap="round" /><circle cx="31" cy="44" r="3.4" fill="#e8a33c" /></svg>Cuidado com o <span class="a">alarmismo</span></div>
+          <div class="phonewrap">
+            <div class="phone" id="phone3">
+              <div class="scr">
+                <div class="lines"><b style="width: 70%"></b><b style="width: 92%"></b><b style="width: 54%"></b><b style="width: 84%"></b><b style="width: 62%"></b><b style="width: 88%"></b><b style="width: 46%"></b></div>
+                <div class="status">9:41<svg class="r" viewBox="0 0 60 18"><rect x="0" y="8" width="5" height="10" rx="1" fill="#c9ced8" /><rect x="8" y="5" width="5" height="13" rx="1" fill="#c9ced8" /><rect x="16" y="2" width="5" height="16" rx="1" fill="#c9ced8" /><rect x="30" y="2" width="26" height="14" rx="4" fill="none" stroke="#c9ced8" stroke-width="2" /><rect x="33" y="5" width="16" height="8" rx="2" fill="#c9ced8" /></svg></div>
+                <div class="refl"></div>
+              </div>
+              <div class="island"></div>
+            </div>
+          </div>
+          <div id="notifs" class="layer">
+            <div class="notif L" id="n1" style="top: 420px"><div class="ic"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M10 30 V20 a10 10 0 0 1 20 0 V30 Z" fill="#e8a33c" /><rect x="6" y="30" width="28" height="5" rx="2" fill="#e8a33c" /><path d="M20 4 V8 M6 10 L9 13 M34 10 L31 13" stroke="#e8a33c" stroke-width="3" stroke-linecap="round" /></svg></div>URGENTE!!! Vão cortar sua aposentadoria</div>
+            <div class="notif R" id="n2" style="top: 560px"><div class="ic"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M10 30 V20 a10 10 0 0 1 20 0 V30 Z" fill="#e8a33c" /><rect x="6" y="30" width="28" height="5" rx="2" fill="#e8a33c" /><path d="M20 4 V8 M6 10 L9 13 M34 10 L31 13" stroke="#e8a33c" stroke-width="3" stroke-linecap="round" /></svg></div>URGENTE!!! Vão cortar sua aposentadoria</div>
+            <div class="notif L" id="n3" style="top: 700px"><div class="ic"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M10 30 V20 a10 10 0 0 1 20 0 V30 Z" fill="#e8a33c" /><rect x="6" y="30" width="28" height="5" rx="2" fill="#e8a33c" /><path d="M20 4 V8 M6 10 L9 13 M34 10 L31 13" stroke="#e8a33c" stroke-width="3" stroke-linecap="round" /></svg></div>O BPC vai acabar!</div>
+            <div class="notif R" id="n4" style="top: 840px"><div class="ic"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M10 30 V20 a10 10 0 0 1 20 0 V30 Z" fill="#e8a33c" /><rect x="6" y="30" width="28" height="5" rx="2" fill="#e8a33c" /><path d="M20 4 V8 M6 10 L9 13 M34 10 L31 13" stroke="#e8a33c" stroke-width="3" stroke-linecap="round" /></svg></div>O BPC vai acabar!</div>
+            <div class="notif L" id="n5" style="top: 980px"><div class="ic"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M10 30 V20 a10 10 0 0 1 20 0 V30 Z" fill="#e8a33c" /><rect x="6" y="30" width="28" height="5" rx="2" fill="#e8a33c" /><path d="M20 4 V8 M6 10 L9 13 M34 10 L31 13" stroke="#e8a33c" stroke-width="3" stroke-linecap="round" /></svg></div>Compartilhe antes que apaguem!</div>
+            <div class="notif R" id="n6" style="top: 1120px"><div class="ic"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M10 30 V20 a10 10 0 0 1 20 0 V30 Z" fill="#e8a33c" /><rect x="6" y="30" width="28" height="5" rx="2" fill="#e8a33c" /><path d="M20 4 V8 M6 10 L9 13 M34 10 L31 13" stroke="#e8a33c" stroke-width="3" stroke-linecap="round" /></svg></div>Compartilhe antes que apaguem!</div>
+          </div>
+          <svg id="lupa" viewBox="0 0 300 300">
+            <defs>
+              <radialGradient id="glass" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#ffffff" stop-opacity="0.35" /><stop offset="0.55" stop-color="#9fb3d1" stop-opacity="0.12" /><stop offset="1" stop-color="#0e1a2e" stop-opacity="0.25" /></radialGradient>
+              <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2b4" /><stop offset="0.5" stop-color="#c8a060" /><stop offset="1" stop-color="#7d5d2a" /></linearGradient>
+              <linearGradient id="handle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#202938" /><stop offset="0.5" stop-color="#3a4452" /><stop offset="1" stop-color="#151b26" /></linearGradient>
+            </defs>
+            <path d="M178 178 L272 272" stroke="url(#handle)" stroke-width="34" stroke-linecap="round" />
+            <path d="M178 178 L196 196" stroke="url(#rim)" stroke-width="38" stroke-linecap="round" />
+            <circle cx="118" cy="118" r="92" fill="url(#glass)" />
+            <circle cx="118" cy="118" r="92" fill="none" stroke="url(#rim)" stroke-width="16" />
+            <path d="M68 92 A60 60 0 0 1 112 58" fill="none" stroke="#ffffff" stroke-opacity="0.7" stroke-width="8" stroke-linecap="round" />
+          </svg>
+          <div id="stamp" data-layout-allow-overlap data-layout-allow-occlusion data-layout-allow-overflow>EXAGERO</div>
+          <div id="calma">calma</div>
+        </div>
+      </section>
+
+      <!-- ================================================= CENA 4 ================================================= -->
+      <section id="s4" class="clip" data-start="29.22" data-duration="2.6" data-track-index="4">
+        <div class="layer" id="s4in">
+          <div id="real">Vamos ao que é real</div>
+          <div id="realLine"></div>
+        </div>
+      </section>
+
+      <!-- ================================================= CENAS 5-6: mesa ================================================= -->
+      <section id="s56" class="clip" data-start="31.6" data-duration="20.0" data-track-index="5">
+        <div class="layer" id="s56in">
+          <div id="deskwrap"><div id="desk" data-layout-allow-overflow></div></div>
+          <div id="deskEdge" data-layout-allow-overflow></div>
+          <div id="ptitle"><span class="row" id="pt1">Promessa</span><span class="row"><svg id="neq" viewBox="0 0 92 70"><path d="M10 24 H82 M10 46 H82" stroke="#c8a060" stroke-width="9" stroke-linecap="round" /><path d="M60 4 L32 66" stroke="#c8a060" stroke-width="8" stroke-linecap="round" /></svg><span class="g" id="pt2">Garantia</span></span></div>
+          <div id="bookGlow"></div>
+          <div id="bookShadow"></div>
+          <div id="bookwrap">
+            <div id="book">
+              <div class="spine"></div>
+              <div class="top"></div>
+              <div class="side"></div>
+              <div class="f">
+                <div class="frame"></div>
+                <div class="orn2"></div>
+                <div class="t1">CONSTITUIÇÃO</div>
+                <div class="t2">FEDERAL</div>
+                <svg class="orn" viewBox="0 0 100 20"><path d="M0 10 H38 M62 10 H100" stroke="#c8a060" stroke-width="2" /><path d="M50 2 L58 10 L50 18 L42 10 Z" fill="#c8a060" /></svg>
+                <div class="shine" id="bookShine" data-layout-allow-overflow></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- capítulo 1: benefício protegido -->
+          <div class="stitle" id="check1"><svg width="58" height="50" viewBox="0 0 58 50"><path d="M6 26 L22 42 L52 8" fill="none" stroke="#c8a060" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /></svg>Não pode ser <span class="g">reduzido</span></div>
+          <div class="stitle" id="check2"><svg width="58" height="50" viewBox="0 0 58 50"><path d="M6 26 L22 42 L52 8" fill="none" stroke="#c8a060" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /></svg>Direito <span class="g">adquirido</span></div>
+          <div id="shgroup" class="layer">
+            <svg id="shield" viewBox="0 0 620 700">
+              <defs>
+                <linearGradient id="shg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2b4" /><stop offset="0.45" stop-color="#c8a060" /><stop offset="1" stop-color="#7d5d2a" /></linearGradient>
+                <linearGradient id="shfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8a060" stop-opacity="0.28" /><stop offset="1" stop-color="#c8a060" stop-opacity="0.06" /></linearGradient>
+              </defs>
+              <path d="M310 20 L580 110 Q590 470 310 680 Q30 470 40 110 Z" fill="url(#shfill)" stroke="url(#shg)" stroke-width="14" stroke-linejoin="round" />
+              <path d="M310 54 L548 134 Q554 450 310 640 Q66 450 72 134 Z" fill="none" stroke="#f1d9a4" stroke-opacity="0.55" stroke-width="3" />
+            </svg>
+            <div id="coinShadow"></div>
+            <div id="coins"></div>
+            <div id="tag"><span>SEU BENEFÍCIO</span></div>
+            <svg id="shieldFront" viewBox="0 0 620 700"><path d="M310 20 L580 110 Q590 470 310 680 Q30 470 40 110 Z" fill="#c8a060" fill-opacity="0.10" /><path d="M120 150 Q300 90 470 150" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="10" stroke-linecap="round" /></svg>
+            <div id="lockRing"></div>
+            <svg id="lock" viewBox="0 0 140 170">
+              <defs><linearGradient id="lkg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2b4" /><stop offset="0.5" stop-color="#c8a060" /><stop offset="1" stop-color="#8a6630" /></linearGradient></defs>
+              <g id="shackle"><path d="M36 82 V52 a34 34 0 0 1 68 0 V82" fill="none" stroke="url(#lkg)" stroke-width="16" stroke-linecap="round" /></g>
+              <rect x="14" y="76" width="112" height="88" rx="18" fill="url(#lkg)" stroke="#6e5126" stroke-width="3" />
+              <circle cx="70" cy="112" r="12" fill="#0e1a2e" /><rect x="65" y="116" width="10" height="26" rx="4" fill="#0e1a2e" />
+            </svg>
+          </div>
+          <div id="clistwrap">
+            <div id="clist">
+              <div class="clip-top"></div>
+              <div class="row"><div class="box"><svg viewBox="0 0 56 56"><path class="ck" d="M10 30 L24 44 L48 12" fill="none" stroke="#c8a060" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div class="ln" style="top: 22px; width: 190px"></div><div class="ln" style="top: 52px; width: 130px; opacity: 0.6"></div></div>
+              <div class="row"><div class="box"><svg viewBox="0 0 56 56"><path class="ck" d="M10 30 L24 44 L48 12" fill="none" stroke="#c8a060" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div class="ln" style="top: 22px; width: 210px"></div><div class="ln" style="top: 52px; width: 110px; opacity: 0.6"></div></div>
+              <div class="row"><div class="box"><svg viewBox="0 0 56 56"><path class="ck" d="M10 30 L24 44 L48 12" fill="none" stroke="#c8a060" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div class="ln" style="top: 22px; width: 170px"></div><div class="ln" style="top: 52px; width: 140px; opacity: 0.6"></div></div>
+              <div class="row"><div class="box"><svg viewBox="0 0 56 56"><path class="ck" d="M10 30 L24 44 L48 12" fill="none" stroke="#c8a060" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" /></svg></div><div class="ln" style="top: 22px; width: 200px"></div><div class="ln" style="top: 52px; width: 120px; opacity: 0.6"></div></div>
+            </div>
+          </div>
+          <div id="foot">art. 194, p.ú., IV, CF <b>·</b> Súmula 359/STF</div>
+        </div>
+      </section>
+
+      <!-- ================================================= CENA 7 ================================================= -->
+      <section id="s7" class="clip" data-start="51.2" data-duration="14.2" data-track-index="6">
+        <div class="layer" id="s7in">
+          <div class="stitle" id="t7a"><svg width="62" height="56" viewBox="0 0 62 56"><path d="M31 4 L58 52 H4 Z" fill="none" stroke="#e8a33c" stroke-width="5" stroke-linejoin="round" /><path d="M31 20 V36" stroke="#e8a33c" stroke-width="5" stroke-linecap="round" /><circle cx="31" cy="44" r="3.4" fill="#e8a33c" /></svg>Pode <span class="a">mudar</span></div>
+          <div class="stitle" id="t7b">Depende do <span class="g">Congresso</span>, não de promessa</div>
+          <svg id="chart" viewBox="0 0 560 640"></svg>
+          <div id="chartLbl">aumento acima da inflação</div>
+          <svg id="parl" viewBox="0 0 400 440">
+            <defs>
+              <linearGradient id="pfront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4452" /><stop offset="1" stop-color="#232b38" /></linearGradient>
+              <linearGradient id="pdome" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a3343" /><stop offset="0.45" stop-color="#4a5566" /><stop offset="1" stop-color="#1f2733" /></linearGradient>
+            </defs>
+            <rect x="196" y="20" width="8" height="40" fill="#c8a060" />
+            <circle cx="200" cy="18" r="7" fill="#c8a060" />
+            <path d="M120 140 A80 80 0 0 1 280 140 Z" fill="url(#pdome)" stroke="#c8a060" stroke-width="3" />
+            <rect x="170" y="56" width="60" height="22" rx="4" fill="#2a3343" stroke="#c8a060" stroke-width="2" />
+            <rect x="110" y="138" width="180" height="22" fill="#2a3343" stroke="#c8a060" stroke-width="2" />
+            <path d="M30 220 L200 160 L370 220 Z" fill="#2f3948" stroke="#c8a060" stroke-width="4" stroke-linejoin="round" />
+            <rect x="40" y="220" width="320" height="22" fill="#3a4452" stroke="#c8a060" stroke-width="2" />
+            <g fill="url(#pfront)" stroke="#c8a060" stroke-opacity="0.7" stroke-width="2">
+              <rect x="56" y="244" width="26" height="136" /><rect x="104" y="244" width="26" height="136" /><rect x="152" y="244" width="26" height="136" />
+              <rect x="222" y="244" width="26" height="136" /><rect x="270" y="244" width="26" height="136" /><rect x="318" y="244" width="26" height="136" />
+            </g>
+            <rect x="30" y="380" width="340" height="18" fill="#3a4452" stroke="#c8a060" stroke-width="2" />
+            <rect x="14" y="398" width="372" height="18" fill="#2f3948" stroke="#c8a060" stroke-width="2" />
+            <rect x="0" y="416" width="400" height="20" fill="#232b38" stroke="#c8a060" stroke-width="2" />
+          </svg>
+          <svg id="hglass" viewBox="0 0 130 210">
+            <defs>
+              <clipPath id="hgTop"><path d="M22 22 H108 Q108 70 68 102 H62 Q22 70 22 22 Z" /></clipPath>
+              <clipPath id="hgBot"><path d="M62 108 H68 Q108 140 108 188 H22 Q22 140 62 108 Z" /></clipPath>
+              <linearGradient id="hgf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a6630" /><stop offset="0.5" stop-color="#f1d9a4" /><stop offset="1" stop-color="#8a6630" /></linearGradient>
+            </defs>
+            <path d="M22 22 H108 Q108 70 68 105 Q108 140 108 188 H22 Q22 140 62 105 Q22 70 22 22 Z" fill="rgba(160,190,230,0.10)" stroke="#d8dee8" stroke-opacity="0.7" stroke-width="3" />
+            <rect id="sandTop" x="20" y="40" width="92" height="80" fill="#e3c27f" clip-path="url(#hgTop)" />
+            <rect id="sandBot" x="20" y="170" width="92" height="90" fill="#e3c27f" clip-path="url(#hgBot)" />
+            <rect id="sandStream" x="63.5" y="100" width="3" height="80" fill="#e3c27f" />
+            <rect x="8" y="6" width="114" height="16" rx="6" fill="url(#hgf)" />
+            <rect x="8" y="188" width="114" height="16" rx="6" fill="url(#hgf)" />
+            <rect x="12" y="20" width="7" height="170" fill="url(#hgf)" /><rect x="111" y="20" width="7" height="170" fill="url(#hgf)" />
+          </svg>
+          <svg id="link" viewBox="0 0 1080 1920"><path id="linkPath" d="M482 668 C 560 560, 690 590, 752 742" fill="none" stroke="#c8a060" stroke-width="6" stroke-linecap="round" stroke-dasharray="4 16" /><circle id="linkDot" cx="752" cy="742" r="10" fill="#c8a060" /></svg>
+        </div>
+      </section>
+
+      <!-- ================================================= CENA 8 ================================================= -->
+      <section id="s8" class="clip" data-start="65.02" data-duration="12.68" data-track-index="7">
+        <div class="layer" id="s8in">
+          <div class="stitle" id="t8"><svg width="50" height="50" viewBox="0 0 50 50"><path d="M8 8 L42 42 M42 8 L8 42" stroke="#e8a33c" stroke-width="8" stroke-linecap="round" /></svg>Não decida no <span class="a">susto</span></div>
+          <svg id="iso" viewBox="0 0 1080 860"></svg>
+          <svg id="bigX" viewBox="0 0 500 500"><path id="x1" d="M80 80 L420 420" stroke="#e8a33c" stroke-width="46" stroke-linecap="round" fill="none" /><path id="x2" d="M420 80 L80 420" stroke="#e8a33c" stroke-width="46" stroke-linecap="round" fill="none" /></svg>
+          <div id="calcwrap">
+            <div id="calc">
+              <div class="disp"><div class="cur">R$</div><svg id="calcArrow" viewBox="0 0 44 54"><path d="M22 4 V42 M8 30 L22 46 L36 30" fill="none" stroke="#e8a33c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg><div id="calcVal">2.480,00</div></div>
+              <div class="keys"><i>7</i><i>8</i><i>9</i><i>÷</i><i>4</i><i>5</i><i>6</i><i>x</i><i>1</i><i>2</i><i>3</i><i>-</i><i>0</i><i>,</i><i>%</i><i class="k">=</i></div>
+            </div>
+          </div>
+          <svg id="noBack" viewBox="0 0 360 420">
+            <defs><linearGradient id="lkg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e2b4" /><stop offset="0.5" stop-color="#c8a060" /><stop offset="1" stop-color="#8a6630" /></linearGradient></defs>
+            <path d="M120 200 V140 a60 60 0 0 1 120 0 V200" fill="none" stroke="url(#lkg2)" stroke-width="26" stroke-linecap="round" />
+            <rect x="80" y="190" width="200" height="170" rx="30" fill="url(#lkg2)" stroke="#6e5126" stroke-width="4" />
+            <path d="M215 290 a46 46 0 1 0 -14 34" fill="none" stroke="#0e1a2e" stroke-width="14" stroke-linecap="round" />
+            <path d="M226 262 L216 296 L184 284" fill="none" stroke="#0e1a2e" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+            <path id="strike" d="M40 390 L330 70" stroke="#e8a33c" stroke-width="22" stroke-linecap="round" />
+          </svg>
+        </div>
+      </section>
+
+      <!-- ================================================= CENA 9 ================================================= -->
+      <section id="s9" class="clip" data-start="77.1" data-duration="9.56" data-track-index="8">
+        <div class="layer" id="s9in">
+          <div class="stitle" id="t9a" style="font-size: 52px">Informação <span class="g">séria</span> antes de compartilhar</div>
+          <div class="stitle" id="t9b" style="font-size: 52px">Mande pra quem tá <span class="g">preocupado</span></div>
+          <div class="phonewrap">
+            <div class="phone" id="phone9" style="top: 410px; height: 820px">
+              <div class="scr">
+                <div class="status">9:41<svg class="r" viewBox="0 0 60 18"><rect x="0" y="8" width="5" height="10" rx="1" fill="#c9ced8" /><rect x="8" y="5" width="5" height="13" rx="1" fill="#c9ced8" /><rect x="16" y="2" width="5" height="16" rx="1" fill="#c9ced8" /><rect x="30" y="2" width="26" height="14" rx="4" fill="none" stroke="#c9ced8" stroke-width="2" /><rect x="33" y="5" width="16" height="8" rx="2" fill="#c9ced8" /></svg></div>
+                <div class="refl"></div>
+              </div>
+              <div class="island"></div>
+            </div>
+          </div>
+          <div id="shareBtn"><svg viewBox="0 0 44 44" fill="none" stroke="#0e1a2e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 28 V5 M13 13 L22 4 L31 13" /><path d="M10 20 H7 V39 H37 V20 H34" /></svg>Compartilhar</div>
+          <svg id="plane" viewBox="0 0 110 110"><path d="M8 52 L100 10 L74 100 L52 66 Z" fill="#f1d9a4" stroke="#c8a060" stroke-width="4" stroke-linejoin="round" /><path d="M52 66 L100 10" stroke="#a8803f" stroke-width="4" /></svg>
+          <div id="comment"><div class="q">?</div><b></b><b></b><b></b></div>
+        </div>
+      </section>
+
+      <!-- ================================================= CAPÍTULOS ================================================= -->
+      <section id="chap1" class="clip chap" data-start="36.76" data-duration="1.9" data-track-index="9">
+        <div class="veil" id="cv1"></div><div class="num" id="cn1">1</div><div class="lbl" id="cl1">O QUE É GARANTIDO</div>
+      </section>
+      <section id="chap2" class="clip chap" data-start="51.2" data-duration="1.9" data-track-index="9">
+        <div class="veil" id="cv2"></div><div class="num" id="cn2">2</div><div class="lbl" id="cl2">O QUE PODE MUDAR</div>
+      </section>
+      <section id="chap3" class="clip chap" data-start="65.02" data-duration="1.9" data-track-index="9">
+        <div class="veil" id="cv3"></div><div class="num" id="cn3">3</div><div class="lbl" id="cl3">O ERRO A EVITAR</div>
+      </section>
+      <section id="v4" class="clip" data-start="29.22" data-duration="1.0" data-track-index="10">
+        <div class="veil" id="veil4"></div>
+      </section>
+
+      <!-- ================================================= LEGENDAS + MARCA D'ÁGUA ================================================= -->
+      <div id="caps"></div>
+      <img id="wm" src="assets/media/icone_colunas_dourado.png" alt="" />
+
+      <!-- ================================================= CENA 10: assinatura ================================================= -->
+      <section id="s10" class="clip" data-start="86.36" data-duration="4.44" data-track-index="11">
+        <div id="endbg"></div>
+        <img id="endLogo" src="assets/media/07_logo_provisorio.png" alt="Arthur Pires Nascimento — Advocacia Especializada" />
+        <div id="endLine"></div>
+        <div id="endTxt">@adv.arthurpiresnascimento · OAB/MG 212.111</div>
+      </section>
+    </div>
+
+    <script>
+      // ------------------------------------------------------------------ geometria gerada (determinística)
+      (function buildDust() {
+        var dust = document.getElementById("dust");
+        var seed = 7;
+        function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+        for (var i = 0; i < 26; i++) {
+          var d = document.createElement("i");
+          d.style.left = Math.round(rnd() * 1040) + "px";
+          d.style.top = Math.round(rnd() * 1880) + "px";
+          var s = 3 + Math.round(rnd() * 5);
+          d.style.width = s + "px"; d.style.height = s + "px";
+          d.style.opacity = (0.08 + rnd() * 0.2).toFixed(2);
+          dust.appendChild(d);
+        }
+      })();
+
+      (function buildCoins() {
+        var wrap = document.getElementById("coins");
+        for (var i = 0; i < 7; i++) {
+          var c = document.createElement("div");
+          c.className = "coin"; c.id = "coin" + i;
+          c.style.left = (420 + (i % 2 ? 6 : -4)) + "px";
+          c.style.top = (1040 - i * 24) + "px";
+          c.innerHTML = '<div class="e"></div><div class="t"></div>';
+          wrap.appendChild(c);
+        }
+      })();
+
+      var SVGNS = "http://www.w3.org/2000/svg";
+      function el(tag, attrs, parent) {
+        var n = document.createElementNS(SVGNS, tag);
+        for (var k in attrs) n.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(n);
+        return n;
+      }
+
+      (function buildChart() {
+        var svg = document.getElementById("chart");
+        var defs = el("defs", {}, svg);
+        var g1 = el("linearGradient", { id: "barF", x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+        el("stop", { offset: 0, "stop-color": "#f1d9a4" }, g1); el("stop", { offset: 1, "stop-color": "#a8803f" }, g1);
+        // base
+        el("path", { d: "M20 560 L470 560 L540 520 L90 520 Z", fill: "#2a3446", stroke: "#c8a060", "stroke-width": 2 }, svg);
+        el("path", { d: "M20 560 L470 560 L470 590 L20 590 Z", fill: "#1a2232" }, svg);
+        el("path", { d: "M470 560 L540 520 L540 550 L470 590 Z", fill: "#121924" }, svg);
+        var heights = [120, 170, 230, 300, 380];
+        for (var i = 0; i < 5; i++) {
+          var x = 60 + i * 86, w = 56, h = heights[i], dx = 22, dy = 13, b = 548;
+          var g = el("g", { class: "bar", id: "bar" + i }, svg);
+          el("path", { d: "M" + x + " " + b + " V" + (b - h) + " H" + (x + w) + " V" + b + " Z", fill: "url(#barF)" }, g);
+          el("path", { d: "M" + (x + w) + " " + b + " V" + (b - h) + " L" + (x + w + dx) + " " + (b - h - dy) + " V" + (b - dy) + " Z", fill: "#7d5d2a" }, g);
+          el("path", { d: "M" + x + " " + (b - h) + " L" + (x + dx) + " " + (b - h - dy) + " H" + (x + w + dx) + " L" + (x + w) + " " + (b - h) + " Z", fill: "#fbe8bd" }, g);
+        }
+        el("path", { id: "trend", d: "M70 420 L156 380 L242 320 L328 250 L430 150", fill: "none", stroke: "#ffffff", "stroke-width": 9, "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
+        el("path", { id: "trendHead", d: "M402 138 L446 136 L436 178 Z", fill: "#ffffff", stroke: "#ffffff", "stroke-width": 4, "stroke-linejoin": "round" }, svg);
+        // trava (barra sobre a ponta da seta)
+        el("rect", { id: "stopBar", x: 452, y: 112, width: 12, height: 74, rx: 6, fill: "#e8a33c" }, svg);
+      })();
+
+      (function buildIso() {
+        var svg = document.getElementById("iso");
+        var C = 0.866, S = 0.5, OX = 540, OY = 360;
+        function P(x, y, z) { return [OX + (x - y) * C, OY + (x + y) * S - (z || 0)]; }
+        function poly(pts, attrs, parent) {
+          attrs.points = pts.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ");
+          return el("polygon", attrs, parent);
+        }
+        var R = 240;
+        var g = el("g", { id: "isoAll" }, svg);
+        // piso
+        poly([P(-R, -R), P(R, -R), P(R, R), P(-R, R)], { fill: "#16233a", stroke: "#c8a060", "stroke-width": 3 }, g);
+        poly([P(-R, R), P(R, R), P(R, R, -24), P(-R, R, -24)], { fill: "#0b1322" }, g);
+        poly([P(R, -R), P(R, R), P(R, R, -24), P(R, -R, -24)], { fill: "#0e182a" }, g);
+        for (var k = -160; k <= 160; k += 80) {
+          var a = P(k, -R), b = P(k, R), c = P(-R, k), d = P(R, k);
+          el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: "#3a4452", "stroke-width": 1.5, "stroke-opacity": 0.7 }, g);
+          el("line", { x1: c[0], y1: c[1], x2: d[0], y2: d[1], stroke: "#3a4452", "stroke-width": 1.5, "stroke-opacity": 0.7 }, g);
+        }
+        // caminho até a porta
+        poly([P(-220, 20), P(120, 20), P(120, 80), P(-220, 80)], { fill: "#22324f", "fill-opacity": 0.85 }, g);
+        // agência genérica (sem logotipo oficial)
+        var x0 = 0, x1 = 210, y0 = -210, y1 = 0, h = 230;
+        var bld = el("g", { id: "agency" }, g);
+        poly([P(x0, y1), P(x1, y1), P(x1, y1, h), P(x0, y1, h)], { fill: "#3a4452", stroke: "#c8a060", "stroke-width": 2 }, bld); // face frontal-esquerda (y = y1)
+        poly([P(x1, y0), P(x1, y1), P(x1, y1, h), P(x1, y0, h)], { fill: "#2a3343", stroke: "#c8a060", "stroke-width": 2 }, bld); // face frontal-direita (x = x1)
+        poly([P(x0, y0, h), P(x1, y0, h), P(x1, y1, h), P(x0, y1, h)], { fill: "#4b5668", stroke: "#c8a060", "stroke-width": 2 }, bld); // topo
+        // porta
+        poly([P(70, y1), P(140, y1), P(140, y1, 110), P(70, y1, 110)], { fill: "#0e1a2e", stroke: "#c8a060", "stroke-width": 2 }, bld);
+        // janelas na face direita
+        for (var j = 0; j < 3; j++) {
+          var wy = y0 + 25 + j * 62;
+          poly([P(x1, wy, 60), P(x1, wy + 40, 60), P(x1, wy + 40, 150), P(x1, wy, 150)], { fill: "#1b2b47", stroke: "#c8a060", "stroke-opacity": 0.6, "stroke-width": 1.5 }, bld);
+        }
+        // placa ATENDIMENTO
+        var p1 = P(12, y1, 205), p3 = P(198, y1, 155);
+        poly([P(12, y1, 205), P(198, y1, 205), P(198, y1, 155), P(12, y1, 155)], { fill: "#0e1a2e", stroke: "#c8a060", "stroke-width": 3 }, bld);
+        var cx = (p1[0] + p3[0]) / 2, cy = (p1[1] + p3[1]) / 2;
+        var t = el("text", { x: 0, y: 0, fill: "#f1d9a4", "font-family": "Montserrat", "font-weight": 800, "font-size": 24, "text-anchor": "middle", "dominant-baseline": "middle", "letter-spacing": "1.5", transform: "translate(" + cx.toFixed(1) + "," + cy.toFixed(1) + ") matrix(0.866,0.5,0,1,0,0)" }, bld);
+        t.textContent = "ATENDIMENTO";
+        // bonequinho (pictograma estilizado, não realista)
+        var fig = el("g", { id: "fig" }, g);
+        el("ellipse", { cx: 0, cy: 6, rx: 24, ry: 9, fill: "#000", "fill-opacity": 0.35 }, fig);
+        var legL = el("g", { id: "legL" }, fig); el("path", { d: "M-4 -44 L-12 0", stroke: "#e9e4da", "stroke-width": 12, "stroke-linecap": "round" }, legL);
+        var legR = el("g", { id: "legR" }, fig); el("path", { d: "M4 -44 L12 0", stroke: "#cfc8bb", "stroke-width": 12, "stroke-linecap": "round" }, legR);
+        el("rect", { x: -17, y: -100, width: 34, height: 60, rx: 17, fill: "#f4efe6" }, fig);
+        var armL = el("g", { id: "armL" }, fig); el("path", { d: "M-9 -88 L-28 -58", stroke: "#e9e4da", "stroke-width": 10, "stroke-linecap": "round" }, armL);
+        var armR = el("g", { id: "armR" }, fig); el("path", { d: "M9 -88 L28 -58", stroke: "#e9e4da", "stroke-width": 10, "stroke-linecap": "round" }, armR);
+        el("circle", { cx: 0, cy: -121, r: 19, fill: "#f4efe6" }, fig);
+        // papéis (requerimentos)
+        for (var q = 0; q < 3; q++) {
+          var pg = el("g", { id: "paper" + q }, g);
+          el("rect", { x: -22, y: -30, width: 44, height: 56, rx: 4, fill: "#ffffff", stroke: "#c8a060", "stroke-width": 2 }, pg);
+          el("path", { d: "M-12 -14 H12 M-12 -2 H12 M-12 10 H4", stroke: "#3a4452", "stroke-width": 3 }, pg);
+        }
+        window.__iso = { P: P };
+      })();
+
+      // ------------------------------------------------------------------ legendas
+      (function buildCaptions() {
+        var caps = document.getElementById("caps");
+        window.LEGENDAS.forEach(function (f, i) {
+          var d = document.createElement("div");
+          d.className = "cap"; d.id = "cap" + i;
+          f.w.forEach(function (w, j) {
+            var s = document.createElement("span");
+            s.className = "w" + (w.d ? " d" : ""); s.id = "cap" + i + "w" + j;
+            s.textContent = w.w;
+            d.appendChild(s);
+          });
+          caps.appendChild(d);
+        });
+      })();
+
+      // ------------------------------------------------------------------ timeline
+      var tl = gsap.timeline({ paused: true });
+      var $ = function (s) { return document.querySelector(s); };
+      function fin(sel, t, d, from) { tl.fromTo(sel, Object.assign({ opacity: 0 }, from || { y: 24 }), { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, duration: d || 0.45, ease: "power3.out" }, t); }
+      function fout(sel, t, d, to) { tl.to(sel, Object.assign({ opacity: 0, duration: d || 0.3, ease: "power2.in" }, to || {}), t); }
+
+      // fundo: deriva lenta das partículas (um único elemento)
+      tl.fromTo("#dust", { y: 0 }, { y: -60, duration: 90.8, ease: "none" }, 0);
+
+      // ===== CENAS 1-2 =====
+      gsap.set("#rail", { x: 330 });
+      gsap.set("#cardA", { rotationY: 6, z: 0, scale: 1, transformOrigin: "50% 50%" });
+      gsap.set("#cardB", { rotationY: -24, z: -140, scale: 0.86, transformOrigin: "50% 50%" });
+      gsap.set("#shA", { scale: 1 }); gsap.set("#shB", { scale: 0.8, opacity: 0.5 });
+      fin("#t12", 0, 0.2, { y: -8 });
+      fin("#arrow", 0.05, 0.3, { y: -12 });
+      tl.to("#arrow", { y: 10, duration: 0.7, ease: "sine.inOut", yoyo: true, repeat: 17 }, 0.7);
+      tl.fromTo("#dimA", { opacity: 0.45 }, { opacity: 0, duration: 0.25, ease: "power2.out" }, 0.0);
+      tl.fromTo("#glowA", { opacity: 0.4 }, { opacity: 1, duration: 0.3 }, 0.0);
+      tl.set("#dimB", { opacity: 1 }, 0);
+      tl.set("#glowB", { opacity: 0 }, 0);
+      fin("#tarjaA", 0.35, 0.4, { x: -30 });
+      fout("#tarjaA", 7.1, 0.25);
+      // câmera desliza para o card da direita
+      tl.to("#rail", { x: -330, duration: 0.75, ease: "power2.inOut" }, 7.2);
+      tl.to("#cardA", { rotationY: 24, z: -140, scale: 0.86, duration: 0.75, ease: "power2.inOut" }, 7.2);
+      tl.to("#cardB", { rotationY: -6, z: 0, scale: 1, duration: 0.75, ease: "power2.inOut" }, 7.2);
+      tl.to("#shA", { scale: 0.8, opacity: 0.5, duration: 0.75 }, 7.2);
+      tl.to("#shB", { scale: 1, opacity: 1, duration: 0.75 }, 7.2);
+      tl.to("#dimA", { opacity: 1, duration: 0.2, ease: "power1.in" }, 7.3);
+      tl.to("#glowA", { opacity: 0, duration: 0.3 }, 7.3);
+      tl.to("#dimB", { opacity: 0, duration: 0.4, ease: "power2.out" }, 7.5);
+      tl.to("#glowB", { opacity: 1, duration: 0.4 }, 7.55);
+      fin("#tarjaB", 7.75, 0.4, { x: -30 });
+      fout("#tarjaB", 14.25, 0.25);
+      fout("#t12", 14.25, 0.3);
+      fout("#arrow", 14.25, 0.3);
+      tl.to("#stage", { opacity: 0, scale: 0.92, y: 40, duration: 0.45, ease: "power2.in" }, 14.4);
+      tl.set("#s12", { visibility: "hidden" }, 14.9);
+
+      // ===== CENA 3 =====
+      gsap.set("#phone3", { rotationY: -14, rotationX: 6, transformOrigin: "50% 50%" });
+      tl.fromTo("#phone3", { opacity: 0, y: 160, rotationY: -34 }, { opacity: 1, y: 0, rotationY: -14, duration: 0.8, ease: "power3.out" }, 14.56);
+      fin("#t3", 14.8, 0.45, { y: -18 });
+      [["#n1", 16.18, -1], ["#n2", 17.32, 1], ["#n3", 18.2, -1], ["#n4", 18.76, 1], ["#n5", 20.18, -1], ["#n6", 21.18, 1]].forEach(function (n) {
+        tl.fromTo(n[0], { opacity: 0, x: 150 * n[2], scale: 0.9 }, { opacity: 1, x: 0, scale: 1, duration: 0.36, ease: "back.out(1.5)" }, n[1]);
+      });
+      // "dois lados": pulso discreto do conjunto
+      tl.to("#notifs", { filter: "brightness(1.25)", duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, 23.48);
+      // lupa passa e os balões ficam cinza
+      tl.fromTo("#lupa", { x: -260, y: 300, opacity: 0, rotation: -10 }, { x: 560, y: 960, opacity: 1, rotation: 6, duration: 1.0, ease: "power1.inOut" }, 24.25);
+      tl.to("#lupa", { x: 880, y: 1260, opacity: 0, duration: 0.45, ease: "power1.in" }, 25.25);
+      tl.fromTo("#notifs", { filter: "grayscale(0) brightness(1)" }, { filter: "grayscale(1) brightness(0.8)", duration: 0.5, ease: "none", immediateRender: false }, 24.55);
+      // carimbo EXAGERO exatamente em 25,06
+      tl.fromTo("#stamp", { opacity: 0, scale: 2.1, rotation: -14 }, { opacity: 1, scale: 1, rotation: -12, duration: 0.16, ease: "power4.in" }, 25.06);
+      tl.to("#stamp", { scale: 1.03, duration: 0.12, yoyo: true, repeat: 1, ease: "sine.out" }, 25.22);
+      // balões murcham
+      tl.to("#notifs", { scale: 0.6, opacity: 0, y: 80, duration: 0.9, ease: "power2.in", transformOrigin: "50% 50%" }, 25.75);
+      fout("#stamp", 26.25, 0.45, { scale: 0.85 });
+      fout("#t3", 25.85, 0.35);
+      // desacelera rumo à calma
+      tl.to("#phone3", { rotationY: -5, rotationX: 2, scale: 0.97, duration: 2.4, ease: "sine.inOut" }, 26.7);
+      tl.fromTo("#calma", { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" }, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.46, ease: "power1.inOut" }, 28.6);
+      tl.to("#calma", { textShadow: "0 0 8px #f1d9a4, 0 0 26px #c8a060, 0 0 60px rgba(200,160,96,0.95), 0 0 120px rgba(200,160,96,0.6)", duration: 0.5, ease: "sine.inOut" }, 29.06);
+
+      // ===== CENA 4 (véu branco) =====
+      tl.fromTo("#veil4", { opacity: 0 }, { opacity: 0.88, duration: 0.24, ease: "sine.in" }, 29.22);
+      tl.to("#veil4", { opacity: 0, duration: 0.55, ease: "sine.out" }, 29.46);
+      fin("#real", 29.6, 0.5, { y: 30 });
+      tl.fromTo("#realLine", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 30.42);
+      fout("#s4in", 31.45, 0.28, { y: -20 });
+
+      // ===== CENA 5 (mesa + Constituição) =====
+      gsap.set("#desk", { rotationX: 62 });
+      tl.fromTo("#s56in", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 31.6);
+      tl.fromTo("#deskwrap", { y: 180 }, { y: 0, duration: 0.7, ease: "power3.out" }, 31.62);
+      tl.fromTo("#deskEdge", { y: 180 }, { y: 0, duration: 0.7, ease: "power3.out" }, 31.62);
+      fin("#pt1", 31.74, 0.45, { y: 30 });
+      fin("#neq", 32.82, 0.35, { scale: 0.6 });
+      fin("#pt2", 33.34, 0.45, { y: 30 });
+      gsap.set("#book", { rotationY: 20, rotationX: 4, transformOrigin: "50% 100%" });
+      tl.fromTo("#book", { y: -1500, opacity: 1 }, { y: 0, duration: 1.4, ease: "power2.in" }, 34.0);
+      tl.fromTo("#bookShadow", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.in" }, 34.0);
+      tl.to("#book", { y: -14, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1 }, 35.4);
+      tl.fromTo("#bookGlow", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1.1, duration: 0.35, ease: "power2.out" }, 35.4);
+      tl.to("#bookGlow", { opacity: 0.25, scale: 1, duration: 0.9, ease: "sine.out" }, 35.75);
+      tl.fromTo("#bookShine", { x: 0 }, { x: 640, duration: 0.8, ease: "power1.inOut" }, 35.45);
+
+      // ===== CAPÍTULO 1 =====
+      function chapter(n, t) {
+        tl.fromTo("#cv" + n, { opacity: 0 }, { opacity: 0.6, duration: 0.15, ease: "sine.out" }, t);
+        tl.fromTo("#cn" + n, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08);
+        tl.fromTo("#cl" + n, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.2);
+        tl.to(["#cn" + n, "#cl" + n], { opacity: 0, duration: 0.3, ease: "power2.in" }, t + 1.35);
+        tl.to("#cv" + n, { opacity: 0, duration: 0.3, ease: "sine.in" }, t + 1.5);
+      }
+      chapter(1, 36.76);
+      // atrás do véu: sai o título e o livro
+      fout("#ptitle", 36.85, 0.3);
+      tl.to(["#book", "#bookShadow", "#bookGlow"], { opacity: 0, duration: 0.4 }, 36.95);
+      // moedas
+      for (var ci = 0; ci < 7; ci++) {
+        tl.fromTo("#coin" + ci, { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.24, ease: "power2.in" }, 38.3 + ci * 0.12);
+      }
+      fin("#coinShadow", 38.3, 0.5, { scale: 0.6 });
+      fin("#tag", 39.98, 0.35, { y: 20 });
+      fin("#shield", 40.46, 0.6, { scale: 0.55 });
+      fin("#shieldFront", 40.6, 0.5, { scale: 0.7 });
+      fin("#lock", 40.85, 0.3, { y: 30 });
+      tl.fromTo("#shackle", { y: -26 }, { y: 0, duration: 0.14, ease: "power3.in" }, 41.18);
+      tl.fromTo("#lockRing", { opacity: 0.9, scale: 0.5 }, { opacity: 0, scale: 1.5, duration: 0.7, ease: "power2.out", immediateRender: false }, 41.32);
+      fin("#check1", 41.32, 0.4, { y: -16 });
+      fin("#foot", 41.7, 0.5, { y: 10 });
+      // checklist
+      tl.to("#shgroup", { x: -205, scale: 0.74, duration: 0.6, ease: "power2.inOut", transformOrigin: "50% 60%" }, 44.3);
+      gsap.set("#clist", { rotationY: -16, rotationX: 4, transformOrigin: "50% 50%" });
+      tl.fromTo("#clist", { opacity: 0, x: 260 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 44.4);
+      var cks = document.querySelectorAll("#clist .ck");
+      cks.forEach(function (p) { p.style.strokeDasharray = "70"; p.style.strokeDashoffset = "70"; });
+      tl.to(cks[0], { strokeDashoffset: 0, duration: 0.22, ease: "power2.out" }, 44.92);
+      tl.to(cks[1], { strokeDashoffset: 0, duration: 0.22, ease: "power2.out" }, 45.46);
+      tl.to(cks[2], { strokeDashoffset: 0, duration: 0.22, ease: "power2.out" }, 45.96);
+      tl.to(cks[3], { strokeDashoffset: 0, duration: 0.22, ease: "power2.out" }, 46.5);
+      fout("#check1", 48.2, 0.25);
+      fin("#check2", 48.5, 0.4, { y: -16 });
+      tl.fromTo("#lockRing", { opacity: 0.8, scale: 0.5 }, { opacity: 0, scale: 1.5, duration: 0.7, ease: "power2.out", immediateRender: false }, 50.16);
+      // capítulo 2 cobre a saída
+      fout(["#shgroup", "#clistwrap", "#check2", "#foot", "#deskwrap", "#deskEdge"], 51.3, 0.3);
+
+      // ===== CAPÍTULO 2 / CENA 7 =====
+      chapter(2, 51.2);
+      fin("#t7a", 53.0, 0.4, { y: -16 });
+      for (var bi = 0; bi < 5; bi++) {
+        tl.fromTo("#bar" + bi, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.35, ease: "power2.out" }, 52.75 + bi * 0.16);
+      }
+      fin("#chart", 52.55, 0.3, { y: 20 });
+      fin("#chartLbl", 53.06, 0.4, { y: 12 });
+      var trend = document.getElementById("trend");
+      var tlen = trend.getTotalLength();
+      trend.style.strokeDasharray = tlen;
+      tl.fromTo("#trend", { strokeDashoffset: tlen }, { strokeDashoffset: 0, duration: 1.3, ease: "power1.inOut" }, 53.06);
+      tl.fromTo("#trendHead", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 54.3);
+      // trava e pisca em âmbar
+      tl.fromTo("#stopBar", { opacity: 0, scaleY: 0, transformOrigin: "50% 50%" }, { opacity: 1, scaleY: 1, duration: 0.2, ease: "back.out(2)" }, 54.72);
+      tl.to("#trend", { stroke: "#e8a33c", duration: 0.2 }, 54.72);
+      tl.to("#trendHead", { stroke: "#e8a33c", fill: "#e8a33c", duration: 0.2 }, 54.72);
+      tl.to(["#trend", "#trendHead", "#stopBar"], { opacity: 0.35, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 55.0);
+      // parlamento + ampulheta
+      fin("#parl", 56.38, 0.6, { y: 40 });
+      fin("#hglass", 58.74, 0.45, { y: 20, scale: 0.8 });
+      tl.fromTo("#sandTop", { attr: { y: 40 } }, { attr: { y: 100 }, duration: 5.6, ease: "none" }, 58.9);
+      tl.fromTo("#sandBot", { attr: { y: 190 } }, { attr: { y: 140 }, duration: 5.6, ease: "none" }, 58.9);
+      // linha liga gráfico ao prédio
+      var lk = document.getElementById("linkPath");
+      tl.fromTo("#link", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 61.28);
+      tl.fromTo("#link", { clipPath: "inset(0% 55.5% 0% 0%)" }, { clipPath: "inset(0% 28.5% 0% 0%)", duration: 0.6, ease: "power2.out", immediateRender: false }, 61.28);
+      tl.fromTo("#linkDot", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.25, ease: "back.out(2)" }, 61.85);
+      fout("#t7a", 62.25, 0.25);
+      fin("#t7b", 62.56, 0.45, { y: -16 });
+      fout("#s7in", 65.12, 0.3);
+
+      // ===== CAPÍTULO 3 / CENA 8 =====
+      chapter(3, 65.02);
+      var P = window.__iso.P;
+      var start = P(-200, 50), door = P(95, 30);
+      gsap.set("#fig", { x: start[0], y: start[1] });
+      fin("#isoAll", 66.5, 0.5, { y: 30 });
+      tl.to("#fig", { x: door[0], y: door[1], duration: 2.0, ease: "none" }, 66.74);
+      tl.fromTo("#legL", { rotation: 22, svgOrigin: "0 -46" }, { rotation: -22, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 9 }, 66.74);
+      tl.fromTo("#legR", { rotation: -22, svgOrigin: "0 -46" }, { rotation: 22, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 9 }, 66.74);
+      tl.fromTo("#armL", { rotation: -20, svgOrigin: "0 -92" }, { rotation: 20, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 9 }, 66.74);
+      tl.fromTo("#armR", { rotation: 20, svgOrigin: "0 -92" }, { rotation: -20, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 9 }, 66.74);
+      fin("#t8", 69.24, 0.4, { y: -16 });
+      // requerimentos "a torto e a direito"
+      [70.02, 70.64, 71.3].forEach(function (t, q) {
+        var from = P(60, 40), to = P(105, 4);
+        tl.fromTo("#paper" + q, { x: from[0] - 20, y: from[1] - 150, opacity: 0, rotation: -20 + q * 18, scale: 0.7 }, { x: to[0] + (q - 1) * 14, y: to[1] - 70, opacity: 1, rotation: 10 - q * 12, scale: 1, duration: 0.45, ease: "power2.out" }, t);
+        tl.to("#paper" + q, { opacity: 0, scale: 0.6, duration: 0.25 }, t + 0.5);
+      });
+      // X âmbar
+      tl.fromTo("#x1", { strokeDasharray: 481, strokeDashoffset: 481 }, { strokeDashoffset: 0, duration: 0.18, ease: "power2.out" }, 72.74);
+      tl.fromTo("#x2", { strokeDasharray: 481, strokeDashoffset: 481 }, { strokeDashoffset: 0, duration: 0.18, ease: "power2.out" }, 72.9);
+      tl.to("#bigX", { opacity: 0, scale: 0.8, duration: 0.35, transformOrigin: "50% 50%" }, 73.9);
+      // calculadora com valor descendo
+      tl.to("#iso", { scale: 0.62, x: -230, y: -180, opacity: 0.45, duration: 0.55, ease: "power2.inOut", transformOrigin: "50% 50%" }, 73.95);
+      gsap.set("#calc", { rotationY: -18, rotationX: 6, transformOrigin: "50% 50%" });
+      tl.fromTo("#calc", { opacity: 0, x: 220 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 74.18);
+      fin("#calcArrow", 74.68, 0.2, { y: -10 });
+      var calcObj = { v: 2480 };
+      var calcEl = document.getElementById("calcVal");
+      function fmt(v) { var n = Math.round(v); var s = String(n); var i = s.length > 3 ? s.slice(0, s.length - 3) + "." + s.slice(-3) : s; return i + ",00"; }
+      tl.fromTo(calcObj, { v: 2480 }, { v: 1730, duration: 0.9, ease: "power2.out", onUpdate: function () { calcEl.textContent = fmt(calcObj.v); } }, 74.68);
+      tl.to("#calcVal", { color: "#e8a33c", duration: 0.3 }, 74.9);
+      // sem volta
+      tl.to("#iso", { opacity: 0, duration: 0.35 }, 75.75);
+      fin("#noBack", 76.1, 0.4, { scale: 0.7 });
+      tl.fromTo("#strike", { strokeDasharray: 431, strokeDashoffset: 431 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, 76.3);
+      fout("#s8in", 77.15, 0.4);
+
+      // ===== CENA 9 =====
+      gsap.set("#phone9", { rotationY: -8, rotationX: 3, transformOrigin: "50% 50%" });
+      tl.fromTo("#phone9", { opacity: 0, y: 140 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 77.32);
+      fin("#t9a", 77.6, 0.45, { y: -16 });
+      fin("#shareBtn", 79.28, 0.4, { scale: 0.7 });
+      tl.to("#shareBtn", { boxShadow: "0 18px 40px rgba(0,0,0,0.5), 0 0 70px rgba(200,160,96,0.75), inset 0 2px 0 rgba(255,255,255,0.4)", duration: 0.8, yoyo: true, repeat: 3, ease: "sine.inOut" }, 79.8);
+      fout("#t9a", 82.8, 0.25);
+      fin("#t9b", 83.1, 0.4, { y: -16 });
+      tl.to("#shareBtn", { scale: 0.93, duration: 0.1, yoyo: true, repeat: 1, ease: "power1.inOut" }, 83.1);
+      tl.fromTo("#plane", { opacity: 0, x: 0, y: 0, scale: 0.6, rotation: 0 }, { opacity: 1, x: 300, y: -330, scale: 1, rotation: -8, duration: 0.9, ease: "power2.inOut" }, 83.25);
+      tl.to("#plane", { opacity: 0, duration: 0.3 }, 84.16);
+      fin("#comment", 85.14, 0.4, { scale: 0.6, y: 20 });
+      // saída para a assinatura
+      fout("#s9in", 86.15, 0.25);
+
+      // ===== CENA 10 =====
+      tl.fromTo("#endbg", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "sine.inOut" }, 86.36);
+      tl.fromTo("#endLogo", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" }, 86.66);
+      tl.fromTo("#endLine", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, 87.25);
+      fin("#endTxt", 87.35, 0.6, { y: 12 });
+
+      // ===== MARCA D'ÁGUA =====
+      tl.fromTo("#wm", { opacity: 0 }, { opacity: 0.7, duration: 0.4 }, 14.6);
+      tl.to("#wm", { opacity: 0, duration: 0.25 }, 86.15);
+
+      // ===== LEGENDAS (tempos exatos do JSON) =====
+      window.LEGENDAS.forEach(function (f, i) {
+        var id = "#cap" + i;
+        tl.set(id, { visibility: "visible", opacity: 1 }, f.s);
+        f.w.forEach(function (w, j) {
+          tl.fromTo("#cap" + i + "w" + j, { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.12, ease: "power2.out" }, w.s);
+        });
+        tl.set(id, { opacity: 0, visibility: "hidden" }, f.e);
+      });
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
