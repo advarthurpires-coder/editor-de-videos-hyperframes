@@ -1,0 +1,1487 @@
+[
+ {
+  "palavra": "Atenção:",
+  "inicio": 0.379,
+  "fim": 0.925
+ },
+ {
+  "palavra": "estão",
+  "inicio": 0.955,
+  "fim": 1.359
+ },
+ {
+  "palavra": "usando",
+  "inicio": 1.384,
+  "fim": 1.659
+ },
+ {
+  "palavra": "a",
+  "inicio": 1.684,
+  "fim": 1.734
+ },
+ {
+  "palavra": "minha",
+  "inicio": 1.759,
+  "fim": 1.959
+ },
+ {
+  "palavra": "foto,",
+  "inicio": 2.034,
+  "fim": 2.534
+ },
+ {
+  "palavra": "o",
+  "inicio": 2.72,
+  "fim": 2.814
+ },
+ {
+  "palavra": "meu",
+  "inicio": 2.864,
+  "fim": 3.039
+ },
+ {
+  "palavra": "nome",
+  "inicio": 3.089,
+  "fim": 3.414
+ },
+ {
+  "palavra": "e",
+  "inicio": 3.464,
+  "fim": 3.514
+ },
+ {
+  "palavra": "o",
+  "inicio": 3.539,
+  "fim": 3.614
+ },
+ {
+  "palavra": "nome",
+  "inicio": 3.664,
+  "fim": 3.864
+ },
+ {
+  "palavra": "do",
+  "inicio": 3.889,
+  "fim": 3.939
+ },
+ {
+  "palavra": "meu",
+  "inicio": 3.989,
+  "fim": 4.089
+ },
+ {
+  "palavra": "escritório",
+  "inicio": 4.114,
+  "fim": 4.639
+ },
+ {
+  "palavra": "pra",
+  "inicio": 4.689,
+  "fim": 4.764
+ },
+ {
+  "palavra": "aplicar",
+  "inicio": 4.789,
+  "fim": 5.189
+ },
+ {
+  "palavra": "golpe.",
+  "inicio": 5.239,
+  "fim": 5.645
+ },
+ {
+  "palavra": "E",
+  "inicio": 5.924,
+  "fim": 5.974
+ },
+ {
+  "palavra": "o",
+  "inicio": 5.999,
+  "fim": 6.049
+ },
+ {
+  "palavra": "golpe",
+  "inicio": 6.099,
+  "fim": 6.374
+ },
+ {
+  "palavra": "ficou",
+  "inicio": 6.424,
+  "fim": 6.749
+ },
+ {
+  "palavra": "muito",
+  "inicio": 6.799,
+  "fim": 7.074
+ },
+ {
+  "palavra": "mais",
+  "inicio": 7.124,
+  "fim": 7.374
+ },
+ {
+  "palavra": "sofisticado.",
+  "inicio": 7.424,
+  "fim": 8.22
+ },
+ {
+  "palavra": "Presta",
+  "inicio": 8.499,
+  "fim": 8.824
+ },
+ {
+  "palavra": "atenção",
+  "inicio": 8.849,
+  "fim": 9.424
+ },
+ {
+  "palavra": "em",
+  "inicio": 9.449,
+  "fim": 9.624
+ },
+ {
+  "palavra": "cada",
+  "inicio": 9.674,
+  "fim": 9.924
+ },
+ {
+  "palavra": "passo.",
+  "inicio": 9.974,
+  "fim": 10.411
+ },
+ {
+  "palavra": "Tudo",
+  "inicio": 10.691,
+  "fim": 10.941
+ },
+ {
+  "palavra": "começa",
+  "inicio": 10.991,
+  "fim": 11.366
+ },
+ {
+  "palavra": "nos",
+  "inicio": 11.391,
+  "fim": 11.516
+ },
+ {
+  "palavra": "sites",
+  "inicio": 11.566,
+  "fim": 11.941
+ },
+ {
+  "palavra": "dos",
+  "inicio": 11.966,
+  "fim": 12.091
+ },
+ {
+  "palavra": "tribunais:",
+  "inicio": 12.116,
+  "fim": 12.941
+ },
+ {
+  "palavra": "eles",
+  "inicio": 13.04,
+  "fim": 13.326
+ },
+ {
+  "palavra": "copiam",
+  "inicio": 13.351,
+  "fim": 13.701
+ },
+ {
+  "palavra": "o",
+  "inicio": 13.726,
+  "fim": 13.776
+ },
+ {
+  "palavra": "seu",
+  "inicio": 13.826,
+  "fim": 14.001
+ },
+ {
+  "palavra": "nome,",
+  "inicio": 14.051,
+  "fim": 14.401
+ },
+ {
+  "palavra": "o",
+  "inicio": 14.49,
+  "fim": 14.606
+ },
+ {
+  "palavra": "número",
+  "inicio": 14.656,
+  "fim": 14.931
+ },
+ {
+  "palavra": "do",
+  "inicio": 14.956,
+  "fim": 15.031
+ },
+ {
+  "palavra": "seu",
+  "inicio": 15.081,
+  "fim": 15.231
+ },
+ {
+  "palavra": "processo",
+  "inicio": 15.281,
+  "fim": 15.806
+ },
+ {
+  "palavra": "e",
+  "inicio": 15.856,
+  "fim": 15.906
+ },
+ {
+  "palavra": "o",
+  "inicio": 15.931,
+  "fim": 15.981
+ },
+ {
+  "palavra": "valor",
+  "inicio": 16.006,
+  "fim": 16.281
+ },
+ {
+  "palavra": "da",
+  "inicio": 16.306,
+  "fim": 16.406
+ },
+ {
+  "palavra": "causa.",
+  "inicio": 16.456,
+  "fim": 16.888
+ },
+ {
+  "palavra": "Aí",
+  "inicio": 17.192,
+  "fim": 17.342
+ },
+ {
+  "palavra": "chega",
+  "inicio": 17.417,
+  "fim": 17.617
+ },
+ {
+  "palavra": "a",
+  "inicio": 17.642,
+  "fim": 17.692
+ },
+ {
+  "palavra": "mensagem,",
+  "inicio": 17.717,
+  "fim": 18.367
+ },
+ {
+  "palavra": "com",
+  "inicio": 18.53,
+  "fim": 18.662
+ },
+ {
+  "palavra": "a",
+  "inicio": 18.687,
+  "fim": 18.737
+ },
+ {
+  "palavra": "minha",
+  "inicio": 18.762,
+  "fim": 18.962
+ },
+ {
+  "palavra": "foto:",
+  "inicio": 19.037,
+  "fim": 19.335
+ },
+ {
+  "palavra": "\"Urgente!",
+  "inicio": 19.365,
+  "fim": 20.11
+ },
+ {
+  "palavra": "O",
+  "inicio": 20.389,
+  "fim": 20.464
+ },
+ {
+  "palavra": "doutor",
+  "inicio": 20.514,
+  "fim": 20.864
+ },
+ {
+  "palavra": "Arthur",
+  "inicio": 20.914,
+  "fim": 21.214
+ },
+ {
+  "palavra": "está",
+  "inicio": 21.239,
+  "fim": 21.439
+ },
+ {
+  "palavra": "no",
+  "inicio": 21.464,
+  "fim": 21.564
+ },
+ {
+  "palavra": "fórum,",
+  "inicio": 21.639,
+  "fim": 22.089
+ },
+ {
+  "palavra": "numa",
+  "inicio": 22.175,
+  "fim": 22.414
+ },
+ {
+  "palavra": "audiência,",
+  "inicio": 22.439,
+  "fim": 23.289
+ },
+ {
+  "palavra": "fechando",
+  "inicio": 23.435,
+  "fim": 23.829
+ },
+ {
+  "palavra": "um",
+  "inicio": 23.854,
+  "fim": 23.929
+ },
+ {
+  "palavra": "acordo",
+  "inicio": 23.954,
+  "fim": 24.279
+ },
+ {
+  "palavra": "pra",
+  "inicio": 24.329,
+  "fim": 24.404
+ },
+ {
+  "palavra": "liberar",
+  "inicio": 24.429,
+  "fim": 24.854
+ },
+ {
+  "palavra": "o",
+  "inicio": 24.879,
+  "fim": 24.954
+ },
+ {
+  "palavra": "seu",
+  "inicio": 25.029,
+  "fim": 25.204
+ },
+ {
+  "palavra": "dinheiro",
+  "inicio": 25.229,
+  "fim": 25.629
+ },
+ {
+  "palavra": "agora.",
+  "inicio": 25.654,
+  "fim": 26.068
+ },
+ {
+  "palavra": "Você",
+  "inicio": 26.372,
+  "fim": 26.672
+ },
+ {
+  "palavra": "precisa",
+  "inicio": 26.722,
+  "fim": 27.247
+ },
+ {
+  "palavra": "participar",
+  "inicio": 27.297,
+  "fim": 27.922
+ },
+ {
+  "palavra": "por",
+  "inicio": 27.972,
+  "fim": 28.122
+ },
+ {
+  "palavra": "vídeo.\"",
+  "inicio": 28.172,
+  "fim": 28.643
+ },
+ {
+  "palavra": "Logo",
+  "inicio": 28.948,
+  "fim": 29.198
+ },
+ {
+  "palavra": "em",
+  "inicio": 29.223,
+  "fim": 29.323
+ },
+ {
+  "palavra": "seguida,",
+  "inicio": 29.373,
+  "fim": 29.82
+ },
+ {
+  "palavra": "outro",
+  "inicio": 29.85,
+  "fim": 30.278
+ },
+ {
+  "palavra": "número,",
+  "inicio": 30.328,
+  "fim": 30.778
+ },
+ {
+  "palavra": "que",
+  "inicio": 30.915,
+  "fim": 30.998
+ },
+ {
+  "palavra": "aparece",
+  "inicio": 31.023,
+  "fim": 31.448
+ },
+ {
+  "palavra": "como",
+  "inicio": 31.473,
+  "fim": 31.648
+ },
+ {
+  "palavra": "\"Tribunal\",",
+  "inicio": 31.698,
+  "fim": 32.173
+ },
+ {
+  "palavra": "te",
+  "inicio": 32.32,
+  "fim": 32.478
+ },
+ {
+  "palavra": "liga.",
+  "inicio": 32.528,
+  "fim": 32.871
+ },
+ {
+  "palavra": "Às",
+  "inicio": 33.155,
+  "fim": 33.301
+ },
+ {
+  "palavra": "vezes",
+  "inicio": 33.351,
+  "fim": 33.626
+ },
+ {
+  "palavra": "é",
+  "inicio": 33.651,
+  "fim": 34.026
+ },
+ {
+  "palavra": "alguém",
+  "inicio": 34.076,
+  "fim": 34.401
+ },
+ {
+  "palavra": "se",
+  "inicio": 34.451,
+  "fim": 34.526
+ },
+ {
+  "palavra": "passando",
+  "inicio": 34.576,
+  "fim": 34.951
+ },
+ {
+  "palavra": "por",
+  "inicio": 35.001,
+  "fim": 35.126
+ },
+ {
+  "palavra": "servidor",
+  "inicio": 35.176,
+  "fim": 35.576
+ },
+ {
+  "palavra": "do",
+  "inicio": 35.601,
+  "fim": 35.676
+ },
+ {
+  "palavra": "fórum,",
+  "inicio": 35.751,
+  "fim": 36.201
+ },
+ {
+  "palavra": "por",
+  "inicio": 36.301,
+  "fim": 36.451
+ },
+ {
+  "palavra": "juiz",
+  "inicio": 36.501,
+  "fim": 36.951
+ },
+ {
+  "palavra": "ou",
+  "inicio": 37.026,
+  "fim": 37.101
+ },
+ {
+  "palavra": "até",
+  "inicio": 37.126,
+  "fim": 37.301
+ },
+ {
+  "palavra": "por",
+  "inicio": 37.351,
+  "fim": 37.476
+ },
+ {
+  "palavra": "promotor.",
+  "inicio": 37.526,
+  "fim": 38.092
+ },
+ {
+  "palavra": "Eles",
+  "inicio": 38.371,
+  "fim": 38.621
+ },
+ {
+  "palavra": "mandam",
+  "inicio": 38.671,
+  "fim": 38.921
+ },
+ {
+  "palavra": "documentos",
+  "inicio": 38.946,
+  "fim": 39.546
+ },
+ {
+  "palavra": "e",
+  "inicio": 39.596,
+  "fim": 39.646
+ },
+ {
+  "palavra": "alvarás",
+  "inicio": 39.671,
+  "fim": 40.121
+ },
+ {
+  "palavra": "falsos,",
+  "inicio": 40.196,
+  "fim": 40.696
+ },
+ {
+  "palavra": "com",
+  "inicio": 40.825,
+  "fim": 40.976
+ },
+ {
+  "palavra": "a",
+  "inicio": 41.001,
+  "fim": 41.051
+ },
+ {
+  "palavra": "logomarca",
+  "inicio": 41.076,
+  "fim": 41.601
+ },
+ {
+  "palavra": "do",
+  "inicio": 41.626,
+  "fim": 41.676
+ },
+ {
+  "palavra": "tribunal,",
+  "inicio": 41.726,
+  "fim": 42.351
+ },
+ {
+  "palavra": "pedem",
+  "inicio": 42.451,
+  "fim": 42.776
+ },
+ {
+  "palavra": "seus",
+  "inicio": 42.826,
+  "fim": 43.076
+ },
+ {
+  "palavra": "dados,",
+  "inicio": 43.126,
+  "fim": 43.701
+ },
+ {
+  "palavra": "mandam",
+  "inicio": 43.87,
+  "fim": 44.171
+ },
+ {
+  "palavra": "um",
+  "inicio": 44.196,
+  "fim": 44.271
+ },
+ {
+  "palavra": "link",
+  "inicio": 44.296,
+  "fim": 44.571
+ },
+ {
+  "palavra": "e",
+  "inicio": 44.596,
+  "fim": 44.646
+ },
+ {
+  "palavra": "fazem",
+  "inicio": 44.721,
+  "fim": 45.071
+ },
+ {
+  "palavra": "uma",
+  "inicio": 45.096,
+  "fim": 45.246
+ },
+ {
+  "palavra": "chamada",
+  "inicio": 45.296,
+  "fim": 45.646
+ },
+ {
+  "palavra": "de",
+  "inicio": 45.671,
+  "fim": 45.771
+ },
+ {
+  "palavra": "vídeo.",
+  "inicio": 45.821,
+  "fim": 46.265
+ },
+ {
+  "palavra": "É",
+  "inicio": 46.544,
+  "fim": 46.969
+ },
+ {
+  "palavra": "aí",
+  "inicio": 47.019,
+  "fim": 47.244
+ },
+ {
+  "palavra": "que",
+  "inicio": 47.294,
+  "fim": 47.369
+ },
+ {
+  "palavra": "eles",
+  "inicio": 47.394,
+  "fim": 47.644
+ },
+ {
+  "palavra": "entram",
+  "inicio": 47.694,
+  "fim": 48.069
+ },
+ {
+  "palavra": "na",
+  "inicio": 48.094,
+  "fim": 48.169
+ },
+ {
+  "palavra": "sua",
+  "inicio": 48.219,
+  "fim": 48.394
+ },
+ {
+  "palavra": "conta",
+  "inicio": 48.444,
+  "fim": 48.694
+ },
+ {
+  "palavra": "bancária.",
+  "inicio": 48.719,
+  "fim": 49.288
+ },
+ {
+  "palavra": "E",
+  "inicio": 49.567,
+  "fim": 49.642
+ },
+ {
+  "palavra": "vão",
+  "inicio": 49.692,
+  "fim": 49.842
+ },
+ {
+  "palavra": "te",
+  "inicio": 49.867,
+  "fim": 49.942
+ },
+ {
+  "palavra": "guiando,",
+  "inicio": 49.992,
+  "fim": 50.367
+ },
+ {
+  "palavra": "passo",
+  "inicio": 50.512,
+  "fim": 50.762
+ },
+ {
+  "palavra": "a",
+  "inicio": 50.787,
+  "fim": 50.837
+ },
+ {
+  "palavra": "passo,",
+  "inicio": 50.887,
+  "fim": 51.287
+ },
+ {
+  "palavra": "pra",
+  "inicio": 51.41,
+  "fim": 51.532
+ },
+ {
+  "palavra": "contratar",
+  "inicio": 51.557,
+  "fim": 52.032
+ },
+ {
+  "palavra": "empréstimos",
+  "inicio": 52.057,
+  "fim": 52.807
+ },
+ {
+  "palavra": "ou",
+  "inicio": 52.857,
+  "fim": 52.932
+ },
+ {
+  "palavra": "fazer",
+  "inicio": 52.982,
+  "fim": 53.307
+ },
+ {
+  "palavra": "transferências,",
+  "inicio": 53.357,
+  "fim": 54.432
+ },
+ {
+  "palavra": "achando",
+  "inicio": 54.605,
+  "fim": 55.002
+ },
+ {
+  "palavra": "que",
+  "inicio": 55.052,
+  "fim": 55.102
+ },
+ {
+  "palavra": "está",
+  "inicio": 55.127,
+  "fim": 55.277
+ },
+ {
+  "palavra": "liberando",
+  "inicio": 55.302,
+  "fim": 55.727
+ },
+ {
+  "palavra": "o",
+  "inicio": 55.752,
+  "fim": 55.802
+ },
+ {
+  "palavra": "seu",
+  "inicio": 55.852,
+  "fim": 56.002
+ },
+ {
+  "palavra": "dinheiro.",
+  "inicio": 56.027,
+  "fim": 56.582
+ },
+ {
+  "palavra": "Quando",
+  "inicio": 56.861,
+  "fim": 57.061
+ },
+ {
+  "palavra": "você",
+  "inicio": 57.111,
+  "fim": 57.411
+ },
+ {
+  "palavra": "percebe,",
+  "inicio": 57.461,
+  "fim": 58.011
+ },
+ {
+  "palavra": "o",
+  "inicio": 58.061,
+  "fim": 58.136
+ },
+ {
+  "palavra": "dinheiro",
+  "inicio": 58.161,
+  "fim": 58.611
+ },
+ {
+  "palavra": "sumiu.",
+  "inicio": 58.686,
+  "fim": 59.136
+ },
+ {
+  "palavra": "Então",
+  "inicio": 59.435,
+  "fim": 59.911
+ },
+ {
+  "palavra": "grava",
+  "inicio": 59.961,
+  "fim": 60.286
+ },
+ {
+  "palavra": "isso.",
+  "inicio": 60.336,
+  "fim": 60.761
+ },
+ {
+  "palavra": "Um:",
+  "inicio": 61.18,
+  "fim": 61.28
+ },
+ {
+  "palavra": "o",
+  "inicio": 61.347,
+  "fim": 61.447
+ },
+ {
+  "palavra": "fórum",
+  "inicio": 61.522,
+  "fim": 61.847
+ },
+ {
+  "palavra": "não",
+  "inicio": 61.897,
+  "fim": 62.047
+ },
+ {
+  "palavra": "liga",
+  "inicio": 62.097,
+  "fim": 62.322
+ },
+ {
+  "palavra": "pra",
+  "inicio": 62.372,
+  "fim": 62.497
+ },
+ {
+  "palavra": "você",
+  "inicio": 62.522,
+  "fim": 62.822
+ },
+ {
+  "palavra": "pedindo",
+  "inicio": 62.872,
+  "fim": 63.297
+ },
+ {
+  "palavra": "dados,",
+  "inicio": 63.347,
+  "fim": 63.922
+ },
+ {
+  "palavra": "mandando",
+  "inicio": 64.04,
+  "fim": 64.457
+ },
+ {
+  "palavra": "link",
+  "inicio": 64.507,
+  "fim": 64.907
+ },
+ {
+  "palavra": "ou",
+  "inicio": 64.982,
+  "fim": 65.057
+ },
+ {
+  "palavra": "pedindo",
+  "inicio": 65.107,
+  "fim": 65.532
+ },
+ {
+  "palavra": "pra",
+  "inicio": 65.582,
+  "fim": 65.707
+ },
+ {
+  "palavra": "mexer",
+  "inicio": 65.732,
+  "fim": 66.082
+ },
+ {
+  "palavra": "no",
+  "inicio": 66.107,
+  "fim": 66.157
+ },
+ {
+  "palavra": "aplicativo",
+  "inicio": 66.182,
+  "fim": 66.832
+ },
+ {
+  "palavra": "do",
+  "inicio": 66.857,
+  "fim": 66.907
+ },
+ {
+  "palavra": "banco.",
+  "inicio": 66.957,
+  "fim": 67.325
+ },
+ {
+  "palavra": "Quem",
+  "inicio": 67.604,
+  "fim": 67.829
+ },
+ {
+  "palavra": "conversa",
+  "inicio": 67.879,
+  "fim": 68.404
+ },
+ {
+  "palavra": "com",
+  "inicio": 68.454,
+  "fim": 68.579
+ },
+ {
+  "palavra": "o",
+  "inicio": 68.604,
+  "fim": 68.704
+ },
+ {
+  "palavra": "fórum",
+  "inicio": 68.779,
+  "fim": 69.079
+ },
+ {
+  "palavra": "por",
+  "inicio": 69.129,
+  "fim": 69.254
+ },
+ {
+  "palavra": "você",
+  "inicio": 69.304,
+  "fim": 69.604
+ },
+ {
+  "palavra": "é",
+  "inicio": 69.629,
+  "fim": 70.129
+ },
+ {
+  "palavra": "o",
+  "inicio": 70.179,
+  "fim": 70.279
+ },
+ {
+  "palavra": "seu",
+  "inicio": 70.329,
+  "fim": 70.454
+ },
+ {
+  "palavra": "advogado.",
+  "inicio": 70.479,
+  "fim": 71.095
+ },
+ {
+  "palavra": "Dois:",
+  "inicio": 71.399,
+  "fim": 71.724
+ },
+ {
+  "palavra": "audiência",
+  "inicio": 71.774,
+  "fim": 72.274
+ },
+ {
+  "palavra": "de",
+  "inicio": 72.299,
+  "fim": 72.374
+ },
+ {
+  "palavra": "verdade,",
+  "inicio": 72.399,
+  "fim": 72.999
+ },
+ {
+  "palavra": "mesmo",
+  "inicio": 73.074,
+  "fim": 73.349
+ },
+ {
+  "palavra": "online,",
+  "inicio": 73.399,
+  "fim": 73.899
+ },
+ {
+  "palavra": "não",
+  "inicio": 74.005,
+  "fim": 74.209
+ },
+ {
+  "palavra": "acontece",
+  "inicio": 74.234,
+  "fim": 74.759
+ },
+ {
+  "palavra": "por",
+  "inicio": 74.809,
+  "fim": 74.909
+ },
+ {
+  "palavra": "chamada",
+  "inicio": 74.959,
+  "fim": 75.284
+ },
+ {
+  "palavra": "de",
+  "inicio": 75.309,
+  "fim": 75.409
+ },
+ {
+  "palavra": "WhatsApp.",
+  "inicio": 75.459,
+  "fim": 76.077
+ },
+ {
+  "palavra": "Três:",
+  "inicio": 76.356,
+  "fim": 76.706
+ },
+ {
+  "palavra": "dinheiro",
+  "inicio": 76.83,
+  "fim": 77.286
+ },
+ {
+  "palavra": "de",
+  "inicio": 77.311,
+  "fim": 77.386
+ },
+ {
+  "palavra": "processo",
+  "inicio": 77.436,
+  "fim": 77.861
+ },
+ {
+  "palavra": "nunca",
+  "inicio": 77.911,
+  "fim": 78.111
+ },
+ {
+  "palavra": "é",
+  "inicio": 78.136,
+  "fim": 78.461
+ },
+ {
+  "palavra": "liberado",
+  "inicio": 78.486,
+  "fim": 78.961
+ },
+ {
+  "palavra": "com",
+  "inicio": 79.011,
+  "fim": 79.161
+ },
+ {
+  "palavra": "Pix,",
+  "inicio": 79.236,
+  "fim": 79.661
+ },
+ {
+  "palavra": "empréstimo",
+  "inicio": 79.82,
+  "fim": 80.606
+ },
+ {
+  "palavra": "ou",
+  "inicio": 80.681,
+  "fim": 80.756
+ },
+ {
+  "palavra": "transferência",
+  "inicio": 80.806,
+  "fim": 81.481
+ },
+ {
+  "palavra": "sua.",
+  "inicio": 81.556,
+  "fim": 81.868
+ },
+ {
+  "palavra": "E",
+  "inicio": 82.168,
+  "fim": 82.243
+ },
+ {
+  "palavra": "desconfie",
+  "inicio": 82.268,
+  "fim": 82.815
+ },
+ {
+  "palavra": "sempre",
+  "inicio": 82.845,
+  "fim": 83.293
+ },
+ {
+  "palavra": "da",
+  "inicio": 83.318,
+  "fim": 83.418
+ },
+ {
+  "palavra": "pressa.",
+  "inicio": 83.468,
+  "fim": 83.968
+ },
+ {
+  "palavra": "Na",
+  "inicio": 84.255,
+  "fim": 84.449
+ },
+ {
+  "palavra": "dúvida,",
+  "inicio": 84.499,
+  "fim": 84.974
+ },
+ {
+  "palavra": "desligue.",
+  "inicio": 85.12,
+  "fim": 85.764
+ },
+ {
+  "palavra": "Não",
+  "inicio": 86.055,
+  "fim": 86.297
+ },
+ {
+  "palavra": "clique",
+  "inicio": 86.372,
+  "fim": 86.722
+ },
+ {
+  "palavra": "em",
+  "inicio": 86.772,
+  "fim": 86.947
+ },
+ {
+  "palavra": "nada.",
+  "inicio": 86.997,
+  "fim": 87.447
+ },
+ {
+  "palavra": "Venha",
+  "inicio": 87.755,
+  "fim": 88.005
+ },
+ {
+  "palavra": "pessoalmente",
+  "inicio": 88.055,
+  "fim": 88.78
+ },
+ {
+  "palavra": "ao",
+  "inicio": 88.805,
+  "fim": 88.855
+ },
+ {
+  "palavra": "escritório",
+  "inicio": 88.88,
+  "fim": 89.68
+ },
+ {
+  "palavra": "ou",
+  "inicio": 89.715,
+  "fim": 89.855
+ },
+ {
+  "palavra": "ligue",
+  "inicio": 89.905,
+  "fim": 90.105
+ },
+ {
+  "palavra": "você",
+  "inicio": 90.155,
+  "fim": 90.455
+ },
+ {
+  "palavra": "mesmo",
+  "inicio": 90.505,
+  "fim": 90.88
+ },
+ {
+  "palavra": "para",
+  "inicio": 90.93,
+  "fim": 91.055
+ },
+ {
+  "palavra": "o",
+  "inicio": 91.08,
+  "fim": 91.13
+ },
+ {
+  "palavra": "nosso",
+  "inicio": 91.18,
+  "fim": 91.455
+ },
+ {
+  "palavra": "número",
+  "inicio": 91.505,
+  "fim": 91.73
+ },
+ {
+  "palavra": "oficial.",
+  "inicio": 91.755,
+  "fim": 92.288
+ },
+ {
+  "palavra": "E",
+  "inicio": 92.567,
+  "fim": 92.642
+ },
+ {
+  "palavra": "deixa",
+  "inicio": 92.692,
+  "fim": 93.017
+ },
+ {
+  "palavra": "esse",
+  "inicio": 93.042,
+  "fim": 93.292
+ },
+ {
+  "palavra": "número",
+  "inicio": 93.342,
+  "fim": 93.692
+ },
+ {
+  "palavra": "salvo",
+  "inicio": 93.767,
+  "fim": 94.167
+ },
+ {
+  "palavra": "na",
+  "inicio": 94.217,
+  "fim": 94.317
+ },
+ {
+  "palavra": "sua",
+  "inicio": 94.367,
+  "fim": 94.542
+ },
+ {
+  "palavra": "agenda",
+  "inicio": 94.567,
+  "fim": 94.892
+ },
+ {
+  "palavra": "agora.",
+  "inicio": 94.917,
+  "fim": 95.311
+ },
+ {
+  "palavra": "Se",
+  "inicio": 95.615,
+  "fim": 95.69
+ },
+ {
+  "palavra": "você",
+  "inicio": 95.715,
+  "fim": 95.965
+ },
+ {
+  "palavra": "já",
+  "inicio": 96.015,
+  "fim": 96.14
+ },
+ {
+  "palavra": "caiu,",
+  "inicio": 96.19,
+  "fim": 96.515
+ },
+ {
+  "palavra": "ligue",
+  "inicio": 96.59,
+  "fim": 96.79
+ },
+ {
+  "palavra": "para",
+  "inicio": 96.84,
+  "fim": 96.965
+ },
+ {
+  "palavra": "o",
+  "inicio": 96.99,
+  "fim": 97.04
+ },
+ {
+  "palavra": "banco",
+  "inicio": 97.09,
+  "fim": 97.315
+ },
+ {
+  "palavra": "na",
+  "inicio": 97.34,
+  "fim": 97.44
+ },
+ {
+  "palavra": "hora,",
+  "inicio": 97.49,
+  "fim": 97.865
+ },
+ {
+  "palavra": "conteste",
+  "inicio": 97.975,
+  "fim": 98.48
+ },
+ {
+  "palavra": "o",
+  "inicio": 98.505,
+  "fim": 98.555
+ },
+ {
+  "palavra": "Pix",
+  "inicio": 98.605,
+  "fim": 98.83
+ },
+ {
+  "palavra": "pelo",
+  "inicio": 98.88,
+  "fim": 99.03
+ },
+ {
+  "palavra": "aplicativo,",
+  "inicio": 99.055,
+  "fim": 99.93
+ },
+ {
+  "palavra": "registre",
+  "inicio": 100.085,
+  "fim": 100.545
+ },
+ {
+  "palavra": "um",
+  "inicio": 100.57,
+  "fim": 100.645
+ },
+ {
+  "palavra": "boletim",
+  "inicio": 100.67,
+  "fim": 101.145
+ },
+ {
+  "palavra": "de",
+  "inicio": 101.17,
+  "fim": 101.245
+ },
+ {
+  "palavra": "ocorrência",
+  "inicio": 101.27,
+  "fim": 101.87
+ },
+ {
+  "palavra": "e",
+  "inicio": 101.895,
+  "fim": 101.945
+ },
+ {
+  "palavra": "me",
+  "inicio": 101.97,
+  "fim": 102.02
+ },
+ {
+  "palavra": "avise.",
+  "inicio": 102.045,
+  "fim": 102.496
+ },
+ {
+  "palavra": "Salva",
+  "inicio": 102.78,
+  "fim": 103.076
+ },
+ {
+  "palavra": "esse",
+  "inicio": 103.101,
+  "fim": 103.301
+ },
+ {
+  "palavra": "vídeo",
+  "inicio": 103.351,
+  "fim": 103.801
+ },
+ {
+  "palavra": "e",
+  "inicio": 103.851,
+  "fim": 103.901
+ },
+ {
+  "palavra": "manda",
+  "inicio": 103.951,
+  "fim": 104.151
+ },
+ {
+  "palavra": "pros",
+  "inicio": 104.201,
+  "fim": 104.376
+ },
+ {
+  "palavra": "seus",
+  "inicio": 104.426,
+  "fim": 104.676
+ },
+ {
+  "palavra": "pais",
+  "inicio": 104.751,
+  "fim": 105.076
+ },
+ {
+  "palavra": "e",
+  "inicio": 105.126,
+  "fim": 105.176
+ },
+ {
+  "palavra": "avós.",
+  "inicio": 105.226,
+  "fim": 105.669
+ },
+ {
+  "palavra": "Desconfiar",
+  "inicio": 105.97,
+  "fim": 106.595
+ },
+ {
+  "palavra": "também",
+  "inicio": 106.645,
+  "fim": 107.045
+ },
+ {
+  "palavra": "é",
+  "inicio": 107.07,
+  "fim": 107.445
+ },
+ {
+  "palavra": "se",
+  "inicio": 107.495,
+  "fim": 107.57
+ },
+ {
+  "palavra": "proteger.",
+  "inicio": 107.62,
+  "fim": 108.266
+ }
+]

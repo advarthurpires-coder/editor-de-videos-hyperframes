@@ -6,3 +6,6 @@ reel-golpe/renders/
 reel-golpe/snapshots/
 reel-golpe/qa/
 reel-golpe/audio_trabalho/.kokoro-dur.onnx
+reel-golpe/audio_trabalho/.piper-dur.onnx
+reel-golpe/audio_trabalho/.narracao_cortada.wav
+reel-golpe/amostras_voz/*.wav

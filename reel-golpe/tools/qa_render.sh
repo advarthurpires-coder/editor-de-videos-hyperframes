@@ -18,7 +18,7 @@ ffmpeg -hide_banner -loglevel error -y -i "$IN" \
 
 echo "== tiras de sincronia (antes/depois do início de cada frase testada)"
 i=0
-for t in 10.691 19.365 33.155 42.451 52.857 64.04 85.12 96.59 105.97; do
+for t in 10.68 19.65 32.385 42.095 52.54 63.425 84.535 94.875 104.7; do
   for d in -0.10 0.05 0.20; do
     ts=$(python3 -c "print(round($t+$d,3))")
     ffmpeg -hide_banner -loglevel error -y -ss "$ts" -i "$IN" -frames:v 1 \

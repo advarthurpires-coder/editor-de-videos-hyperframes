@@ -1,10 +1,10 @@
 """Trilha instrumental original para o reel "Golpe do falso advogado".
 
 Síntese pura (sem samples de terceiros, sem vocal), determinística.
-- 0 a 58,7 s (cenas 1-5): Ré menor, pulsos graves de cordas e um "batimento"
+- 0 a 58,35 s (cenas 1-5): Ré menor, pulsos graves de cordas e um "batimento"
   grave a 84 bpm, discreto -> tensão sem susto.
-- 58,7 a 59,4 s: quase silêncio (o "vácuo" do R$ 0,00).
-- 59,4 s em diante ("Então grava isso"): Ré maior, piano em arpejos + colchão
+- 58,35 a 59,06 s: quase silêncio (o "vácuo" do R$ 0,00).
+- 59,06 s em diante ("Então grava isso"): Ré maior, piano em arpejos + colchão
   de cordas -> calmo e confiante, resolve no fim.
 Uso: python3 tools/gerar_trilha.py assets/music/trilha.wav
 """
@@ -14,9 +14,9 @@ import wave
 import numpy as np
 
 SR = 48000
-TOTAL = 111.8
-CALM_AT = 59.4
-VACUO = 58.7
+TOTAL = 110.26
+CALM_AT = 59.06
+VACUO = 58.35
 rng = np.random.default_rng(20261009)
 
 N = int(TOTAL * SR) + SR
