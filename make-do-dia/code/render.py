@@ -8,10 +8,10 @@ OW, OH, FPS = 1080, 1920, 30
 SW, SH = 464, 832
 BEAT = 0.5
 # zoom relativo ao quadro inteiro da fonte e posição-alvo do ponto de interesse no quadro de saída
-FR = {'w':   (1.10, 'nose',  0.36),
-      'm':   (1.38, 'nose',  0.40),
-      'eye': (1.85, 'eyes',  0.46),
-      'lip': (1.85, 'mouth', 0.50)}
+FR = {'w':   (1.04, 'nose',  0.36),
+      'm':   (1.20, 'nose',  0.40),
+      'eye': (1.45, 'eyes',  0.46),
+      'lip': (1.45, 'mouth', 0.50)}
 scale = float(sys.argv[2]) if len(sys.argv) > 2 else 1.0
 ow, oh = int(OW * scale) // 2 * 2, int(OH * scale) // 2 * 2
 
@@ -31,21 +31,9 @@ def clip_frames(src, t0, n):
     fr = np.frombuffer(raw, np.uint8).reshape(-1, SH, SW, 3)
     return fr
 
+from enhance import clean_source, grade2
 def grade(img):
-    x = img.astype(np.float32) / 255
-    # nitidez leve (compensa o upscale da fonte em baixa resolução)
-    x = x + 0.35 * (x - cv2.GaussianBlur(x, (0, 0), 2.0 * scale + 0.5))
-    lum = x[..., 0] * 0.114 + x[..., 1] * 0.587 + x[..., 2] * 0.299
-    # luminosidade natural: leve gama, toque de saturação, neutraliza um pouco o laranja da madeira
-    x = np.clip(x, 0, 1) ** 0.93
-    x = lum[..., None] + (x - lum[..., None]) * 1.04
-    x[..., 2] *= 0.985; x[..., 0] *= 1.015
-    # glow: realces difusos (efeito pele iluminada)
-    hl = np.clip((lum - 0.52) / 0.48, 0, 1)[..., None] * x
-    small = cv2.resize(hl, (x.shape[1] // 4, x.shape[0] // 4), interpolation=cv2.INTER_AREA)
-    blur = cv2.resize(cv2.GaussianBlur(small, (0, 0), 6), (x.shape[1], x.shape[0]))
-    x = 1 - (1 - np.clip(x, 0, 1)) * (1 - 0.30 * blur)
-    return (np.clip(x, 0, 1) * 255 + 0.5).astype(np.uint8)
+    return grade2(img, scale)
 
 out = sys.argv[1]
 enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'bgr24',
@@ -54,7 +42,7 @@ enc = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_f
 log = []
 for ci, (src, t0, beats, fr_kind, label) in enumerate(EDL):
     n = int(round(beats * BEAT * FPS))
-    frames = clip_frames(src, t0, n)
+    frames = [clean_source(f) for f in clip_frames(src, t0, n)]
     assert len(frames) == n, (ci, len(frames), n)
     z, kind, ty = FR[fr_kind]
     cw = SW / z; ch = cw * 16 / 9
