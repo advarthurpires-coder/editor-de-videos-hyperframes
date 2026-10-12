@@ -1,3 +1,4 @@
 renders/
 snapshots/
 assets/media/mix_pre.wav
+__pycache__/
