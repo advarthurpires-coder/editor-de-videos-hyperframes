@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Golpe do falso advogado — reel</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/sincronia.js"></script>
+    <style>
+      @font-face { font-family: "Montserrat"; font-weight: 400; src: url("assets/fonts/Montserrat-Regular.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/fonts/Montserrat-SemiBold.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/fonts/Montserrat-ExtraBold.ttf") format("truetype"); }
+      @font-face { font-family: "Pinyon Script"; font-weight: 400; src: url("assets/fonts/pinyon-script-latin-400-normal.woff2") format("woff2"); }
+
+      :root {
+        --navy: #0a1630;
+        --navy-2: #13244a;
+        --paper: #eeeae2;
+        --gold: #c9a24a;
+        --gold-deep: #7a5a1a;
+        --red: #d62839;
+        --ink: #121a2e;
+        --cream: #f1ece1;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--navy); font-family: "Montserrat", sans-serif; color: var(--cream); }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .layer { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      svg.full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+      .cam, .push { position: absolute; inset: 0; }
+
+      /* ---------- fundos */
+      .bg-navy { background: radial-gradient(ellipse 80% 55% at 50% 42%, #18305f 0%, #0a1630 58%, #040a18 100%); }
+      .vinheta { background: radial-gradient(ellipse 72% 58% at 50% 46%, rgba(2, 6, 16, 0) 50%, rgba(2, 6, 16, 0.78) 100%); }
+      .bg-paper { background: var(--paper); }
+      .papel { background: url("assets/media/papel.png") 0 0 / 1080px 1920px no-repeat; opacity: 0.55; }
+      .grade {
+        background-image:
+          linear-gradient(rgba(18, 26, 46, 0.1) 2px, transparent 2px),
+          linear-gradient(90deg, rgba(18, 26, 46, 0.1) 2px, transparent 2px),
+          linear-gradient(rgba(18, 26, 46, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(18, 26, 46, 0.05) 1px, transparent 1px);
+        background-size: 216px 216px, 216px 216px, 36px 36px, 36px 36px;
+        background-position: -2px -2px;
+      }
+      .vinheta-clara { background: radial-gradient(ellipse 75% 60% at 50% 48%, rgba(120, 100, 70, 0) 55%, rgba(120, 100, 70, 0.28) 100%); }
+      .brilho { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(201, 162, 74, 0.32) 0%, rgba(201, 162, 74, 0.1) 40%, rgba(201, 162, 74, 0) 70%); }
+      .fantasma { position: absolute; left: -200px; right: -200px; text-align: center; font-weight: 800; white-space: nowrap; letter-spacing: 0.02em; }
+
+      /* ---------- tipografia cinética */
+      .line { position: absolute; left: 60px; right: 60px; text-align: center; white-space: nowrap; }
+      .w { display: inline-block; opacity: 0; position: relative; margin: 0 0.11em; }
+      .sans { font-weight: 600; }
+      .imp { font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; line-height: 0.95; }
+      .scr { font-family: "Pinyon Script", cursive; font-weight: 400; line-height: 1.1; padding: 0 0.12em; }
+      .on-dark { color: var(--cream); }
+      .on-light { color: var(--ink); }
+      .c-gold { color: var(--gold); }
+      .c-gold-deep { color: var(--gold-deep); }
+      .c-red { color: var(--red); }
+      .c-ink { color: var(--ink); }
+
+      /* marcas feitas à mão (traço de tinta, desenhado no tempo) */
+      .mk { position: absolute; pointer-events: none; overflow: visible; }
+      .mk path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .ul { left: -2%; width: 104%; bottom: -18px; height: 30px; }
+      .ink path { stroke: var(--ink); }
+      .gold path { stroke: var(--gold); }
+      .goldd path { stroke: #a7801f; }
+      .redk path { stroke: var(--red); }
+
+      /* objetos em preto e branco com profundidade */
+      .obj { position: absolute; }
+      .obj3d { position: absolute; inset: 0; }
+      .sombra { position: absolute; border-radius: 50%; background: radial-gradient(ellipse, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 70%); }
+
+      /* ---------- cena 1 */
+      #s1-icone { left: 470px; top: 236px; width: 140px; height: 124px; }
+      #s1-card { left: 220px; top: 1040px; width: 640px; height: 400px; perspective: 1400px; }
+      .carimbo { position: absolute; border: 10px solid var(--red); border-radius: 18px; color: var(--red); font-weight: 800; text-transform: uppercase; text-align: center; letter-spacing: 0.06em; opacity: 0; }
+      #s1-carimbo { left: 300px; top: 1150px; width: 480px; height: 170px; font-size: 118px; line-height: 150px; background: rgba(238, 234, 226, 0.08); }
+
+      /* ---------- cena 2: celular */
+      #s2-fone { left: 300px; top: 600px; width: 480px; height: 940px; perspective: 1600px; }
+      .fone-corpo { position: absolute; inset: 0; border-radius: 70px; background: linear-gradient(135deg, #5a5a5a 0%, #1b1b1b 22%, #0d0d0d 60%, #3a3a3a 100%); box-shadow: 0 50px 90px rgba(18, 26, 46, 0.45), inset 0 0 0 3px #6d6d6d; }
+      .fone-tela { position: absolute; left: 20px; top: 20px; right: 20px; bottom: 20px; border-radius: 52px; overflow: hidden; background: #e9e9e9; }
+      .fone-ilha { position: absolute; left: 160px; top: 14px; width: 120px; height: 34px; border-radius: 17px; background: #050505; }
+      .chat-topo { position: absolute; left: 0; right: 0; top: 0; height: 160px; background: linear-gradient(180deg, #d4d4d4, #c4c4c4); border-bottom: 2px solid #a9a9a9; }
+      .avatar { position: absolute; left: 26px; top: 66px; width: 76px; height: 76px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #8d8d8d, #2a2a2a); overflow: hidden; }
+      .chat-nome { position: absolute; left: 116px; top: 72px; font-weight: 800; font-size: 27px; color: #111111; white-space: nowrap; }
+      .chat-num { position: absolute; left: 116px; top: 108px; font-weight: 600; font-size: 20px; color: #3f3f3f; white-space: nowrap; letter-spacing: 0.04em; }
+      .balao { position: absolute; left: 22px; width: 330px; padding: 18px 22px 14px; border-radius: 6px 26px 26px 26px; background: #fbfbfb; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16); font-size: 23px; line-height: 1.35; color: #141414; font-weight: 600; opacity: 0; }
+      .balao small { display: block; text-align: right; font-size: 16px; color: #555555; margin-top: 6px; font-weight: 600; }
+      .digitando { position: absolute; left: 22px; width: 110px; height: 52px; border-radius: 6px 26px 26px 26px; background: #fbfbfb; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16); opacity: 0; }
+      .digitando i { position: absolute; top: 21px; width: 12px; height: 12px; border-radius: 50%; background: #6b6b6b; }
+      .rotulo { position: absolute; text-align: center; white-space: nowrap; line-height: 0.9; }
+
+      /* ---------- cena 3: processo */
+      #s3-doc { left: 170px; top: 610px; width: 740px; height: 940px; perspective: 1500px; }
+      .folha { position: absolute; inset: 0; background: linear-gradient(160deg, #fafafa 0%, #dcdcdc 60%, #b9b9b9 100%); border-radius: 10px; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.55); overflow: hidden; }
+      .folha .barra { position: absolute; left: 70px; height: 16px; border-radius: 8px; background: #8c8c8c; }
+      .folha .tit { position: absolute; left: 70px; top: 76px; font-weight: 800; font-size: 40px; color: #1a1a1a; letter-spacing: 0.24em; }
+      .selo { position: absolute; border-radius: 50%; border: 6px double #5a5a5a; }
+      #s3-faixa { left: 70px; right: 70px; top: 800px; height: 190px; border-radius: 22px; background: rgba(6, 13, 30, 0.9); border: 2px solid rgba(201, 162, 74, 0.55); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); opacity: 0; }
+      #s3-faixa .rot { position: absolute; left: 0; right: 0; top: 30px; text-align: center; font-weight: 800; font-size: 28px; letter-spacing: 0.32em; color: var(--gold); }
+      #s3-numero { position: absolute; left: 0; right: 0; top: 78px; text-align: center; font-weight: 600; font-size: 54px; letter-spacing: 0.02em; color: var(--cream); white-space: nowrap; }
+      #s3-numero span { display: inline-block; opacity: 0; }
+      #s3-brilhos { left: 0; top: 0; }
+
+      /* ---------- cena 4: pagamento */
+      #s4-cartao { left: 120px; top: 720px; width: 840px; height: 640px; perspective: 1600px; }
+      .pg { position: absolute; inset: 0; border-radius: 34px; background: linear-gradient(170deg, #ffffff 0%, #e4e4e4 70%, #cfcfcf 100%); box-shadow: 0 46px 90px rgba(18, 26, 46, 0.35), inset 0 0 0 3px #bdbdbd; overflow: hidden; }
+      .pg-topo { position: absolute; left: 0; right: 0; top: 0; height: 120px; background: linear-gradient(180deg, #2b2b2b, #111111); }
+      .pg-topo b { position: absolute; left: 50px; top: 40px; font-size: 38px; font-weight: 800; color: #f2f2f2; letter-spacing: 0.08em; }
+      .pg-row { position: absolute; left: 50px; right: 50px; }
+      .pg-row .k { font-size: 26px; font-weight: 600; color: #4a4a4a; letter-spacing: 0.12em; text-transform: uppercase; }
+      .pg-row .v { font-weight: 800; color: #111111; white-space: nowrap; }
+      #s4-relogio { position: absolute; right: 40px; top: 30px; height: 60px; padding: 0 24px; border-radius: 30px; background: #f2f2f2; color: #111111; font-size: 32px; font-weight: 800; line-height: 60px; letter-spacing: 0.04em; }
+      .carimbo-ink { position: absolute; border: 9px solid var(--ink); border-radius: 16px; color: var(--ink); font-weight: 800; text-transform: uppercase; text-align: center; letter-spacing: 0.1em; opacity: 0; }
+      #s4-urgente { left: 560px; top: 1270px; width: 420px; height: 130px; font-size: 76px; line-height: 112px; background: rgba(238, 234, 226, 0.75); }
+
+      /* ---------- cena 5 */
+      #s5-golpe { left: 0; right: 0; top: 660px; height: 300px; }
+      #s5-lista { left: 150px; top: 820px; width: 780px; height: 520px; perspective: 1500px; }
+      .ficha { position: absolute; inset: 0; border-radius: 26px; background: linear-gradient(165deg, #f5f5f5 0%, #d2d2d2 75%, #b5b5b5 100%); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6); overflow: hidden; }
+      .ficha .item { position: absolute; left: 50px; right: 50px; height: 80px; }
+      .ficha .item .k { position: absolute; left: 0; top: 0; font-size: 26px; font-weight: 800; letter-spacing: 0.16em; color: #2a2a2a; text-transform: uppercase; }
+      .ficha .item .tarja { position: absolute; left: 0; top: 40px; height: 26px; border-radius: 6px; background: #3a3a3a; }
+      .ficha .item .marca { position: absolute; left: -12px; top: 30px; height: 46px; border-radius: 8px; background: rgba(201, 162, 74, 0.7); width: 0; mix-blend-mode: multiply; }
+      #s5-lupa { left: 560px; top: 760px; width: 320px; height: 420px; }
+      #s5-capuz { left: 620px; top: 980px; width: 520px; height: 760px; }
+
+      /* ---------- cena 6 */
+      .cartao-claro { position: absolute; left: 80px; right: 80px; border-radius: 30px; background: rgba(250, 248, 243, 0.92); border: 3px solid var(--ink); box-shadow: 14px 14px 0 rgba(18, 26, 46, 0.9); }
+      #s6-item1 { top: 650px; height: 270px; opacity: 0; }
+      #s6-fone { left: 40px; top: 30px; width: 210px; height: 210px; perspective: 900px; }
+      #s6-item1 .tx1 { position: absolute; left: 270px; top: 56px; font-size: 52px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+      #s6-item1 .tx2 { position: absolute; left: 270px; top: 124px; font-size: 68px; font-weight: 800; color: var(--ink); white-space: nowrap; text-transform: uppercase; letter-spacing: -0.01em; }
+      #s6-check { left: 870px; top: 1060px; width: 150px; height: 140px; }
+
+      /* ---------- cena 7 */
+      .cartao-escuro { position: absolute; left: 80px; right: 80px; height: 290px; border-radius: 30px; background: linear-gradient(160deg, rgba(25, 46, 92, 0.92), rgba(8, 17, 38, 0.95)); border: 2px solid rgba(201, 162, 74, 0.6); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55); opacity: 0; }
+      #s7-c1 { top: 560px; }
+      #s7-c2 { top: 900px; }
+      .cartao-escuro .ico { position: absolute; left: 34px; top: 45px; width: 200px; height: 200px; perspective: 900px; }
+      .cartao-escuro .num { position: absolute; left: 270px; top: 46px; font-size: 30px; font-weight: 800; letter-spacing: 0.3em; color: var(--gold); }
+      .cartao-escuro .tx { position: absolute; left: 270px; top: 92px; font-size: 64px; font-weight: 800; line-height: 1.04; color: var(--cream); white-space: nowrap; }
+      .cartao-escuro .tx .scr { font-size: 84px; color: var(--gold); font-weight: 400; }
+      .cartao-escuro .mk { left: 750px; top: 60px; width: 150px; height: 140px; }
+      #s7-nota { left: 80px; right: 80px; top: 1240px; padding: 26px 40px; border-radius: 26px; border: 3px solid var(--gold); text-align: center; font-size: 34px; line-height: 1.35; font-weight: 600; color: var(--cream); opacity: 0; background: rgba(6, 13, 30, 0.55); }
+      #s7-nota b { color: var(--gold); font-weight: 800; }
+
+      /* ---------- cena 8 */
+      #s8-tag { left: 0; right: 0; top: 268px; text-align: center; opacity: 0; }
+      #s8-tag span { display: inline-block; padding: 14px 30px; border: 3px solid var(--ink); border-radius: 12px; font-size: 32px; font-weight: 800; letter-spacing: 0.12em; color: var(--ink); background: rgba(250, 248, 243, 0.7); }
+      #s8-balanca { left: 190px; top: 880px; width: 700px; height: 640px; perspective: 1600px; }
+
+      /* ---------- cena 9: cartela */
+      #s9-logo { left: 390px; top: 330px; width: 300px; height: 391px; }
+      #s9-logo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      #s9-nome { left: 0; right: 0; top: 824px; text-align: center; font-size: 58px; font-weight: 800; letter-spacing: 0.05em; color: var(--cream); white-space: nowrap; }
+      #s9-regra { left: 300px; top: 935px; width: 480px; height: 4px; background: var(--gold); }
+      #s9-area { left: 0; right: 0; top: 968px; text-align: center; font-size: 38px; font-weight: 600; letter-spacing: 0.3em; color: var(--gold); white-space: nowrap; }
+      #s9-arroba { left: 0; right: 0; top: 1450px; text-align: center; }
+      #s9-arroba span { display: inline-block; padding: 18px 44px; border-radius: 50px; border: 3px solid var(--gold); font-size: 44px; font-weight: 600; color: var(--cream); letter-spacing: 0.02em; }
+
+      /* ---------- elementos recorrentes e acabamento */
+      #marca-canto { left: 962px; top: 62px; width: 56px; height: 73px; }
+      #marca-canto img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 0 10px rgba(201, 162, 74, 0.55)); }
+      #wm { left: 0; right: 0; top: 1712px; text-align: center; font-size: 30px; font-weight: 600; letter-spacing: 0.06em; color: var(--cream); opacity: 0.8; }
+      #rgb-borda { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 10px 0 26px rgba(255, 30, 60, 0.35), inset -10px 0 26px rgba(0, 220, 255, 0.35); opacity: 0.6; }
+      #flash { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, #ffffff 0%, #fff4dc 40%, #e9cf8c 100%); opacity: 0; pointer-events: none; }
+      #grao { position: absolute; inset: 0; background: url("assets/media/grao.png") 0 0 / 512px 512px repeat; opacity: 0.09; mix-blend-mode: overlay; pointer-events: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="33" data-width="1080" data-height="1920">
+      <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="33" data-track-index="20" data-volume="1"></audio>
+
+      <!-- definições SVG compartilhadas (metal e papel em preto e branco) -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+          <linearGradient id="gMetal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#fafafa" /><stop offset="0.35" stop-color="#9c9c9c" /><stop offset="0.55" stop-color="#e6e6e6" /><stop offset="0.8" stop-color="#5c5c5c" /><stop offset="1" stop-color="#2a2a2a" />
+          </linearGradient>
+          <linearGradient id="gMetalV" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f4f4f4" /><stop offset="0.5" stop-color="#8a8a8a" /><stop offset="1" stop-color="#2e2e2e" />
+          </linearGradient>
+          <linearGradient id="gCartao" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#f7f7f7" /><stop offset="0.6" stop-color="#cfcfcf" /><stop offset="1" stop-color="#8e8e8e" />
+          </linearGradient>
+          <radialGradient id="gFoto" cx="45%" cy="35%" r="70%">
+            <stop offset="0" stop-color="#9a9a9a" /><stop offset="1" stop-color="#262626" />
+          </radialGradient>
+          <linearGradient id="gBrilhoVidro" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#ffffff" stop-opacity="0" /><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.55" /><stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+          </linearGradient>
+          <radialGradient id="gLente" cx="40%" cy="35%" r="70%">
+            <stop offset="0" stop-color="#ffffff" stop-opacity="0.5" /><stop offset="0.7" stop-color="#cfd6e4" stop-opacity="0.12" /><stop offset="1" stop-color="#ffffff" stop-opacity="0.3" />
+          </radialGradient>
+          <linearGradient id="gCapuz" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#4a4a4a" /><stop offset="0.4" stop-color="#151515" /><stop offset="1" stop-color="#050505" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <div id="stage" class="layer">
+        <!-- ======================================================= CENA 1 · 0–4,36 s · alerta / título -->
+        <section id="s1" class="clip" data-start="0" data-duration="4.36" data-track-index="1">
+          <div class="cam" id="s1-cam"><div class="push" id="s1-push">
+            <div class="layer bg-navy"></div>
+            <div class="brilho" id="s1-farol" style="left:-60px; top:-180px; width:1200px; height:1200px;"></div>
+            <div data-layout-allow-overflow class="fantasma c-gold" id="s1-fant" style="top:1180px; font-size:400px; opacity:0.07;">ALERTA</div>
+
+            <div class="obj" id="s1-card"><div class="obj3d" id="s1-card3d">
+              <div class="sombra" style="left:60px; right:60px; top:380px; height:60px;"></div>
+              <svg viewBox="0 0 640 400" width="640" height="400" style="position:absolute; inset:0;">
+                <rect x="4" y="4" width="632" height="392" rx="30" fill="url(#gCartao)" stroke="#2b2b2b" stroke-width="4" />
+                <path d="M4 34 a30 30 0 0 1 30 -30 h572 a30 30 0 0 1 30 30 v54 h-632 z" fill="#1b1b1b" />
+                <text x="40" y="60" font-family="Montserrat" font-weight="800" font-size="30" letter-spacing="7" fill="#efefef">ADVOGADO</text>
+                <circle cx="590" cy="46" r="20" fill="none" stroke="#9a9a9a" stroke-width="4" />
+                <rect x="40" y="114" width="170" height="226" rx="12" fill="url(#gFoto)" />
+                <circle cx="125" cy="196" r="42" fill="#bdbdbd" />
+                <path d="M55 340 q70 -110 140 0 z" fill="#bdbdbd" />
+                <text x="240" y="134" font-family="Montserrat" font-weight="800" font-size="17" letter-spacing="3" fill="#1e1e1e">NOME</text>
+                <rect x="240" y="146" width="320" height="22" rx="6" fill="#3b3b3b" />
+                <text x="240" y="206" font-family="Montserrat" font-weight="800" font-size="17" letter-spacing="3" fill="#1e1e1e">INSCRIÇÃO</text>
+                <rect x="240" y="218" width="210" height="22" rx="6" fill="#3b3b3b" />
+                <path d="M250 312 c20 -40 40 20 60 -8 s30 -30 44 4 s34 10 52 -16" fill="none" stroke="#1e1e1e" stroke-width="4" stroke-linecap="round" />
+                <circle cx="560" cy="310" r="44" fill="url(#gMetal)" opacity="0.9" />
+                <circle cx="560" cy="310" r="30" fill="none" stroke="#f0f0f0" stroke-width="3" opacity="0.7" />
+                <polygon points="380,4 470,4 260,396 170,396" fill="#ffffff" opacity="0.18" />
+              </svg>
+            </div></div>
+            <div class="carimbo" id="s1-carimbo">FALSO</div>
+
+            <svg id="s1-icone" class="abs" viewBox="0 0 140 124">
+              <path d="M70 8 L134 116 L6 116 Z" fill="none" stroke="#c9a24a" stroke-width="9" stroke-linejoin="round" />
+              <rect x="64" y="42" width="12" height="44" rx="6" fill="#c9a24a" />
+              <circle cx="70" cy="100" r="7" fill="#c9a24a" />
+            </svg>
+            <div class="line" style="top:378px;"><span class="w imp c-gold g-gold fx-pop" data-t="1:0" style="font-size:176px;">ALERTA</span></div>
+            <svg class="mk gold" id="s1-regra" style="left:250px; top:575px; width:580px; height:30px;" viewBox="0 0 580 30"><path stroke-width="6"></path></svg>
+
+            <div class="line" style="top:660px;">
+              <span class="w sans on-dark fx-rise" data-t="1:1" style="font-size:62px;">criminosos</span>
+              <span class="w sans on-dark fx-rise" data-t="1:2" style="font-size:62px;">estão</span>
+              <span class="w sans on-dark fx-rise" data-t="1:3" style="font-size:62px;">usando</span>
+            </div>
+            <div class="line" style="top:752px;">
+              <span class="w sans on-dark fx-rise" data-t="1:4" style="font-size:50px;">o</span>
+              <span class="w sans on-dark fx-rise" data-t="1:5" style="font-size:50px;">nome</span>
+              <span class="w sans on-dark fx-rise" data-t="1:6" style="font-size:50px;">do</span>
+            </div>
+            <div class="line" style="top:800px;">
+              <span class="w scr c-gold g-gold fx-mask" data-t="1:7" style="font-size:150px;">seu</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="1:8" style="font-size:150px;">advogado</span>
+            </div>
+
+            <!-- título -->
+            <div class="line" style="top:300px;">
+              <span class="w imp on-dark g-none fx-pop s1-tit" style="font-size:96px; vertical-align:18px;">O</span>
+              <span class="w imp c-red g-red fx-slam s1-tit" style="font-size:200px;">GOLPE</span>
+            </div>
+            <div class="line" style="top:470px;"><span class="w scr c-gold g-gold fx-mask s1-tit" style="font-size:120px;">do</span></div>
+            <div class="line" style="top:600px;"><span class="w imp c-red g-red fx-slam s1-tit" style="font-size:200px;">FALSO</span></div>
+            <div class="line" style="top:800px;"><span class="w imp on-dark g-soft fx-pop s1-tit" style="font-size:118px; letter-spacing:0.04em;">ADVOGADO</span></div>
+            <div class="layer vinheta" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 2 · 4,36–7,55 s · mensagem no WhatsApp -->
+        <section id="s2" class="clip" data-start="4.36" data-duration="3.19" data-track-index="1">
+          <div class="cam" id="s2-cam"><div class="push" id="s2-push">
+            <div class="layer bg-paper"></div>
+            <div class="layer grade" id="s2-grade"></div>
+            <div class="layer papel"></div>
+            <div class="brilho" style="left:140px; top:500px; width:800px; height:800px; opacity:0.8;"></div>
+
+            <div class="line" style="top:240px;">
+              <span class="w sans on-light fx-rise" data-t="2:0" style="font-size:60px;">A</span>
+              <span class="w imp on-light g-none fx-pop" data-t="2:1" style="font-size:80px;">mensagem</span>
+              <span class="w sans on-light fx-rise" data-t="2:2" style="font-size:60px;">chega</span>
+            </div>
+            <div class="line" style="top:350px;">
+              <span class="w scr c-gold-deep g-soft-light fx-mask" data-t="2:3" style="font-size:120px;">pelo</span>
+              <span class="w imp on-light g-none fx-pop" data-t="2:4" style="font-size:100px;">WhatsApp<svg class="mk ul goldd" viewBox="0 0 600 30" preserveAspectRatio="none"><path stroke-width="7"></path></svg></span>
+            </div>
+
+            <div class="obj" id="s2-fone"><div class="obj3d" id="s2-fone3d">
+              <div class="fone-corpo"></div>
+              <div class="fone-tela">
+                <div class="chat-topo">
+                  <div class="avatar"><svg viewBox="0 0 76 76" width="76" height="76"><circle cx="38" cy="30" r="15" fill="#cfcfcf" /><path d="M8 76 q30 -50 60 0 z" fill="#cfcfcf" /></svg></div>
+                  <div class="chat-nome">Dr. Seu Advogado</div>
+                  <div class="chat-num">+55 (••) •••••-••••</div>
+                </div>
+                <div class="digitando" id="s2-dig" style="top:200px;"><i style="left:24px;"></i><i style="left:49px;"></i><i style="left:74px;"></i></div>
+                <div class="balao" id="s2-b1" style="top:200px;">Olá! Aqui é o seu advogado. Tenho uma ótima notícia sobre o seu processo.<small>09:41</small></div>
+                <div class="balao" id="s2-b2" style="top:410px;">Pode me chamar agora? É urgente.<small>09:41</small></div>
+                <svg viewBox="0 0 440 900" width="440" height="900" style="position:absolute; inset:0;"><polygon points="250,0 330,0 120,900 40,900" fill="url(#gBrilhoVidro)" opacity="0.5" /></svg>
+              </div>
+              <div class="fone-ilha"></div>
+            </div></div>
+
+            <div class="rotulo" id="s2-rot1" style="left:24px; top:1060px; width:310px;">
+              <span class="w scr c-gold-deep g-soft-light fx-mask" data-t="2:6" style="font-size:90px; display:block;">a</span>
+              <span class="w imp on-light g-none fx-pop" data-t="2:7" style="font-size:70px;">FOTO</span>
+            </div>
+            <div class="rotulo" id="s2-rot2" style="left:742px; top:1130px; width:290px;">
+              <span class="w scr c-gold-deep g-soft-light fx-mask" data-t="2:9" style="font-size:90px; display:block;">o</span>
+              <span class="w imp on-light g-none fx-pop" data-t="2:10" style="font-size:70px;">NOME</span>
+            </div>
+            <svg class="full mk ink" id="s2-setas"><path id="s2-a1" stroke-width="7"></path><path id="s2-a1h" stroke-width="7"></path><path id="s2-a2" stroke-width="7"></path><path id="s2-a2h" stroke-width="7"></path></svg>
+            <div class="layer vinheta-clara" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 3 · 7,55–10,62 s · número do processo / "ganhou" -->
+        <section id="s3" class="clip" data-start="7.55" data-duration="3.07" data-track-index="1">
+          <div class="cam" id="s3-cam"><div class="push" id="s3-push">
+            <div class="layer bg-navy"></div>
+            <div class="brilho" id="s3-farol" style="left:40px; top:120px; width:1000px; height:1000px;"></div>
+            <div class="obj" id="s3-doc"><div class="obj3d" id="s3-doc3d">
+              <div class="folha">
+                <div class="tit">PROCESSO</div>
+                <div class="barra" style="top:160px; width:600px;"></div>
+                <div class="barra" style="top:200px; width:540px;"></div>
+                <div class="barra" style="top:240px; width:580px;"></div>
+                <div class="barra" style="top:330px; width:600px; background:#5d5d5d;"></div>
+                <div class="barra" style="top:370px; width:420px;"></div>
+                <div class="barra" style="top:410px; width:560px;"></div>
+                <div class="barra" style="top:450px; width:500px;"></div>
+                <div class="barra" style="top:540px; width:600px;"></div>
+                <div class="barra" style="top:580px; width:470px;"></div>
+                <div class="barra" style="top:620px; width:560px;"></div>
+                <div class="selo" style="left:520px; top:720px; width:150px; height:150px;"></div>
+                <svg viewBox="0 0 740 940" width="740" height="940" style="position:absolute; inset:0;"><path d="M90 820 c30 -50 60 20 90 -12 s40 -36 60 4 s40 12 70 -20" fill="none" stroke="#1e1e1e" stroke-width="4" stroke-linecap="round" /><polygon points="420,0 520,0 200,940 100,940" fill="#ffffff" opacity="0.25" /></svg>
+              </div>
+            </div></div>
+
+            <div class="line" style="top:250px;" id="s3-l1">
+              <span class="w sans on-dark fx-rise" data-t="3:0" style="font-size:74px;">Cita</span>
+              <span class="w sans on-dark fx-rise" data-t="3:1" style="font-size:74px;">o</span>
+              <span class="w imp c-gold g-gold fx-pop" data-t="3:2" style="font-size:96px;">NÚMERO</span>
+            </div>
+            <div class="line" style="top:362px;" id="s3-l2">
+              <span class="w sans on-dark fx-rise" data-t="3:3" style="font-size:64px;">do</span>
+              <span class="w sans on-dark fx-rise" data-t="3:4" style="font-size:64px;">seu</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="3:5" style="font-size:130px;">processo</span>
+            </div>
+
+            <div class="line" style="top:250px;">
+              <span class="w sans on-dark fx-rise" data-t="3:6" style="font-size:60px;">e</span>
+              <span class="w sans on-dark fx-rise" data-t="3:7" style="font-size:60px;">diz</span>
+              <span class="w sans on-dark fx-rise" data-t="3:8" style="font-size:60px;">que</span>
+              <span class="w sans on-dark fx-rise" data-t="3:9" style="font-size:60px;">você</span>
+            </div>
+            <div class="line" style="top:330px;"><span class="w imp c-gold g-gold fx-pop" data-t="3:10" style="font-size:200px;">GANHOU</span></div>
+            <div class="line" style="top:520px;">
+              <span class="w scr c-gold g-gold fx-mask" data-t="3:11" style="font-size:130px;">a</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="3:12" style="font-size:130px;">causa</span>
+            </div>
+
+            <div class="abs" id="s3-faixa">
+              <div class="rot">PROCESSO Nº</div>
+              <div id="s3-numero"></div>
+              <svg class="mk gold" style="left:110px; top:150px; width:720px; height:30px;" viewBox="0 0 720 30" id="s3-ul"><path stroke-width="6"></path></svg>
+            </div>
+            <svg class="full" id="s3-brilhos"></svg>
+            <div class="layer vinheta" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 4 · 10,62–14,0 s · Pix urgente de taxa -->
+        <section id="s4" class="clip" data-start="10.62" data-duration="3.38" data-track-index="1">
+          <div class="cam" id="s4-cam"><div class="push" id="s4-push">
+            <div class="layer bg-paper"></div>
+            <div class="layer grade"></div>
+            <div class="layer papel"></div>
+            <div class="brilho" style="left:100px; top:600px; width:880px; height:880px; opacity:0.7;"></div>
+
+            <div id="s4-fase1">
+              <div class="line" style="top:250px;">
+                <span class="w sans on-light fx-rise" data-t="4:0" style="font-size:66px;">Mas,</span>
+                <span class="w sans on-light fx-rise" data-t="4:1" style="font-size:66px;">para</span>
+                <span class="w imp on-light g-none fx-pop" data-t="4:2" style="font-size:88px;">LIBERAR</span>
+              </div>
+              <div class="line" style="top:350px;">
+                <span class="w scr c-gold-deep g-soft-light fx-mask" data-t="4:3" style="font-size:150px;">o</span>
+                <span class="w scr c-gold-deep g-soft-light fx-mask" data-t="4:4" style="font-size:150px;">dinheiro</span>
+              </div>
+            </div>
+            <div id="s4-fase2">
+              <div class="line" style="top:250px;">
+                <span class="w sans on-light fx-rise" data-t="4:5" style="font-size:66px;">pede</span>
+                <span class="w sans on-light fx-rise" data-t="4:6" style="font-size:66px;">um</span>
+                <span class="w imp on-light g-none fx-pop" data-t="4:7" style="font-size:150px;">PIX</span>
+              </div>
+              <div class="line" style="top:420px;"><span class="w scr c-gold-deep g-soft-light fx-mask" data-t="4:8" style="font-size:140px;">urgente</span></div>
+            </div>
+
+            <div class="obj" id="s4-cartao"><div class="obj3d" id="s4-cartao3d">
+              <div class="pg">
+                <div class="pg-topo"><b>PAGAMENTO VIA PIX</b><div id="s4-relogio">⏱ 00:59</div></div>
+                <div class="pg-row" style="top:160px;"><div class="k">Destinatário</div><div class="v" style="font-size:40px; letter-spacing:0.1em;">••••••••••••••</div></div>
+                <div class="pg-row" style="top:280px;"><div class="k">Descrição</div><div class="v" id="s4-taxa" style="font-size:50px; display:inline-block;">TAXA DE LIBERAÇÃO</div></div>
+                <div class="pg-row" style="top:410px;"><div class="k">Valor</div><div class="v" style="font-size:96px; letter-spacing:-0.02em;">R$ 3.870,00</div></div>
+                <svg viewBox="0 0 840 640" width="840" height="640" style="position:absolute; inset:0;"><polygon points="520,0 640,0 300,640 180,640" fill="#ffffff" opacity="0.35" /></svg>
+              </div>
+            </div></div>
+            <svg class="full mk ink" id="s4-marcas"><path id="s4-circ" stroke-width="7"></path><path id="s4-seta" stroke-width="7"></path><path id="s4-setah" stroke-width="7"></path></svg>
+            <div class="carimbo-ink" id="s4-urgente">URGENTE</div>
+            <div class="rotulo" style="left:60px; top:1440px; width:520px;">
+              <span class="w scr c-gold-deep g-soft-light fx-mask" data-t="4:9" style="font-size:120px;">de</span>
+              <span class="w imp on-light g-none fx-pop" data-t="4:10" style="font-size:110px;">TAXA</span>
+            </div>
+            <div class="layer vinheta-clara" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 5 · 14,0–17,78 s · É GOLPE! / dados públicos -->
+        <section id="s5" class="clip" data-start="14" data-duration="3.78" data-track-index="1">
+          <div class="cam" id="s5-cam"><div class="push" id="s5-push">
+            <div class="layer bg-navy"></div>
+            <div class="brilho" id="s5-farol" style="left:-160px; top:300px; width:1400px; height:1400px; background:radial-gradient(circle, rgba(214,40,57,0.28) 0%, rgba(214,40,57,0.08) 40%, rgba(214,40,57,0) 70%);"></div>
+            <div data-layout-allow-overflow class="fantasma c-red" id="s5-f1" style="top:180px; font-size:250px; opacity:0.08;">GOLPE GOLPE GOLPE</div>
+            <div data-layout-allow-overflow class="fantasma c-red" id="s5-f2" style="top:1420px; font-size:250px; opacity:0.08;">GOLPE GOLPE GOLPE</div>
+
+            <svg class="obj" id="s5-capuz" viewBox="0 0 520 760">
+              <path d="M260 40 C 120 40 70 170 80 300 C 86 380 60 430 30 470 C 0 520 0 760 0 760 L 520 760 C 520 760 520 520 490 470 C 460 430 434 380 440 300 C 450 170 400 40 260 40 Z" fill="url(#gCapuz)" />
+              <path d="M260 120 C 180 120 150 210 158 300 C 166 380 210 430 260 430 C 310 430 354 380 362 300 C 370 210 340 120 260 120 Z" fill="#020202" />
+              <path d="M260 40 C 400 40 450 170 440 300" fill="none" stroke="#9a9a9a" stroke-width="5" opacity="0.6" />
+            </svg>
+
+            <div class="abs" id="s5-golpe">
+              <div class="line" style="top:0;">
+                <span class="w imp on-dark g-none fx-slam" id="s5-e" style="font-size:150px;">É</span>
+                <span class="w imp c-red g-red fx-slam" id="s5-g" style="font-size:196px;">GOLPE!</span>
+              </div>
+            </div>
+
+            <div class="line" style="top:520px;">
+              <span class="w sans on-dark fx-rise" data-t="5:2" style="font-size:58px;">Os</span>
+              <span class="w sans on-dark fx-rise" data-t="5:3" style="font-size:58px;">dados</span>
+              <span class="w sans on-dark fx-rise" data-t="5:4" style="font-size:58px;">do</span>
+              <span class="w sans on-dark fx-rise" data-t="5:5" style="font-size:58px;">processo</span>
+            </div>
+            <div class="line" style="top:600px;">
+              <span class="w sans on-dark fx-rise" data-t="5:6" style="font-size:58px; vertical-align:30px;">são</span>
+              <span class="w imp c-gold g-gold fx-pop" data-t="5:7" style="font-size:124px;">PÚBLICOS</span>
+            </div>
+
+            <div class="obj" id="s5-lista"><div class="obj3d" id="s5-lista3d">
+              <div class="ficha">
+                <div class="item" style="top:44px;"><div class="k">Partes</div><div class="tarja" style="width:520px;"></div><div class="marca"></div></div>
+                <div class="item" style="top:150px;"><div class="k">Nº do processo</div><div class="tarja" style="width:600px;"></div><div class="marca"></div></div>
+                <div class="item" style="top:256px;"><div class="k">Advogado</div><div class="tarja" style="width:440px;"></div><div class="marca"></div></div>
+                <div class="item" style="top:362px;"><div class="k">Valor da causa</div><div class="tarja" style="width:360px;"></div><div class="marca"></div></div>
+                <svg viewBox="0 0 780 520" width="780" height="520" style="position:absolute; inset:0;"><polygon points="460,0 560,0 280,520 180,520" fill="#ffffff" opacity="0.3" /></svg>
+              </div>
+            </div></div>
+            <svg class="obj" id="s5-lupa" viewBox="0 0 320 420">
+              <rect x="190" y="250" width="44" height="170" rx="20" fill="url(#gMetalV)" transform="rotate(-32 212 335)" />
+              <circle cx="140" cy="150" r="118" fill="url(#gLente)" stroke="url(#gMetal)" stroke-width="22" />
+              <path d="M80 100 q30 -40 80 -40" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.7" />
+            </svg>
+
+            <div class="line" style="top:1370px;">
+              <span class="w sans on-dark fx-rise" data-t="5:8" style="font-size:58px;">e</span>
+              <span class="w sans on-dark fx-rise" data-t="5:9" style="font-size:58px;">o</span>
+              <span class="w imp on-dark g-soft fx-pop" data-t="5:10" style="font-size:84px;">CRIMINOSO</span>
+            </div>
+            <div class="line" style="top:1450px;">
+              <span class="w scr c-gold g-gold fx-mask" data-t="5:11" style="font-size:130px;">usa</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="5:12" style="font-size:130px;">isso</span>
+            </div>
+            <div class="layer vinheta" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 6 · 17,78–21,8 s · NÃO PAGUE / ligue -->
+        <section id="s6" class="clip" data-start="17.78" data-duration="4.02" data-track-index="1">
+          <div class="cam" id="s6-cam"><div class="push" id="s6-push">
+            <div class="layer bg-paper"></div>
+            <div class="layer grade"></div>
+            <div class="layer papel"></div>
+            <div class="brilho" style="left:-100px; top:100px; width:1280px; height:900px; opacity:0.6;"></div>
+
+            <div class="line" style="top:262px;">
+              <span class="w imp c-red g-red-light fx-slam" data-t="6:0" style="font-size:134px;">NÃO</span>
+              <span class="w imp c-red g-red-light fx-slam" data-t="6:1" style="font-size:134px;">PAGUE<svg class="mk ul redk" viewBox="0 0 600 30" preserveAspectRatio="none"><path stroke-width="8"></path></svg></span>
+            </div>
+            <div class="line" style="top:430px;"><span class="w scr c-ink g-none fx-mask" data-t="6:2" style="font-size:140px;">nada.</span></div>
+
+            <div class="cartao-claro" id="s6-item1">
+              <div class="obj" id="s6-fone"><div class="obj3d" id="s6-fone3d">
+                <svg viewBox="0 0 210 210" width="210" height="210">
+                  <circle cx="105" cy="105" r="100" fill="url(#gMetal)" />
+                  <circle cx="105" cy="105" r="86" fill="#1c1c1c" />
+                  <path d="M66 52 c10 -6 22 -4 28 6 l14 24 c5 9 2 20 -6 26 l-10 7 c8 20 22 35 42 44 l8 -10 c6 -8 17 -10 26 -5 l23 14 c10 6 12 18 6 28 c-14 22 -38 28 -62 18 c-42 -18 -74 -50 -92 -92 c-10 -24 -4 -48 23 -60 z" fill="url(#gMetalV)" />
+                </svg>
+              </div></div>
+              <div class="tx1"><span class="w sans on-light fx-rise" data-t="6:3">Ligue</span> <span class="w sans on-light fx-rise" data-t="6:4">para</span> <span class="w sans on-light fx-rise" data-t="6:5">o</span></div>
+              <div class="tx2"><span class="w imp on-light g-none fx-pop" data-t="6:6">seu</span> <span class="w imp on-light g-none fx-pop" data-t="6:7">advogado</span></div>
+            </div>
+
+            <div class="line" style="top:990px;">
+              <span class="w sans on-light fx-rise" data-t="6:8" style="font-size:56px;">no</span>
+              <span class="w sans on-light fx-rise" data-t="6:9" style="font-size:56px;">número</span>
+              <span class="w sans on-light fx-rise" data-t="6:10" style="font-size:56px;">que</span>
+              <span class="w sans on-light fx-rise" data-t="6:11" style="font-size:56px;">você</span>
+            </div>
+            <div class="line" style="top:1070px; padding-right:110px;">
+              <span class="w imp c-gold-deep g-soft-light fx-pop" data-t="6:12" style="font-size:128px;">JÁ</span>
+              <span class="w imp c-gold-deep g-soft-light fx-pop" data-t="6:13" style="font-size:128px;">CONHECE<svg class="mk ul goldd" viewBox="0 0 600 30" preserveAspectRatio="none"><path stroke-width="8"></path></svg></span>
+            </div>
+            <svg class="mk ink" id="s6-check" viewBox="0 0 150 140"><path stroke-width="12"></path></svg>
+            <div class="line" style="top:1290px;"><span class="w sans on-light fx-rise" id="s6-dica" style="font-size:36px; color:#2b3550;">(o do contrato, do cartão ou do site oficial)</span></div>
+            <div class="layer vinheta-clara" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 7 · 21,8–25,42 s · já pagou? -->
+        <section id="s7" class="clip" data-start="21.8" data-duration="3.62" data-track-index="1">
+          <div class="cam" id="s7-cam"><div class="push" id="s7-push">
+            <div class="layer bg-navy"></div>
+            <div class="brilho" id="s7-farol" style="left:-100px; top:-200px; width:1280px; height:1100px;"></div>
+            <div class="line" style="top:220px;">
+              <span class="w scr c-gold g-gold fx-mask" data-t="7:0" style="font-size:190px;">Já</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="7:1" style="font-size:190px;">pagou?</span>
+            </div>
+
+            <div class="cartao-escuro" id="s7-c1">
+              <div class="ico obj"><div class="obj3d" id="s7-ico1">
+                <svg viewBox="0 0 200 200" width="200" height="200">
+                  <rect x="34" y="26" width="132" height="166" rx="14" fill="url(#gCartao)" stroke="#1d1d1d" stroke-width="4" />
+                  <rect x="70" y="12" width="60" height="30" rx="8" fill="url(#gMetal)" />
+                  <rect x="56" y="70" width="88" height="10" rx="5" fill="#3a3a3a" /><rect x="56" y="96" width="70" height="10" rx="5" fill="#3a3a3a" /><rect x="56" y="122" width="82" height="10" rx="5" fill="#3a3a3a" /><rect x="56" y="148" width="50" height="10" rx="5" fill="#3a3a3a" />
+                </svg>
+              </div></div>
+              <div class="num">1 · REGISTRE</div>
+              <div class="tx"><span class="w fx-rise" data-t="7:3">Boletim</span> <span class="w fx-rise" data-t="7:4">de</span><br /><span class="w fx-rise" data-t="7:5">Ocorrência</span></div>
+              <svg class="mk gold" id="s7-k1" viewBox="0 0 150 140"><path stroke-width="12"></path></svg>
+            </div>
+            <div class="cartao-escuro" id="s7-c2">
+              <div class="ico obj"><div class="obj3d" id="s7-ico2">
+                <svg viewBox="0 0 200 200" width="200" height="200">
+                  <rect x="86" y="8" width="28" height="22" rx="5" fill="url(#gMetal)" />
+                  <circle cx="100" cy="110" r="82" fill="url(#gMetal)" />
+                  <circle cx="100" cy="110" r="66" fill="#f2f2f2" />
+                  <g stroke="#2a2a2a" stroke-width="5" stroke-linecap="round"><path d="M100 54 v12" /><path d="M156 110 h-12" /><path d="M100 166 v-12" /><path d="M44 110 h12" /></g>
+                  <path id="s7-ponteiro" d="M100 110 L100 64" stroke="#111111" stroke-width="7" stroke-linecap="round" />
+                  <circle cx="100" cy="110" r="8" fill="#111111" />
+                </svg>
+              </div></div>
+              <div class="num">2 · AVISE</div>
+              <div class="tx"><span class="w fx-rise" data-t="7:8">seu</span> <span class="w fx-rise" data-t="7:9">banco</span><br /><span class="w scr fx-mask" data-t="7:10">na</span> <span class="w scr fx-mask" data-t="7:11">hora</span></div>
+              <svg class="mk gold" id="s7-k2" viewBox="0 0 150 140"><path stroke-width="12"></path></svg>
+            </div>
+            <div class="abs" id="s7-nota">Peça o <b>MED do Pix</b> — Mecanismo Especial de Devolução do Banco Central</div>
+            <div class="layer vinheta" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 8 · 25,42–28,7 s · é crime -->
+        <section id="s8" class="clip" data-start="25.42" data-duration="3.28" data-track-index="1">
+          <div class="cam" id="s8-cam"><div class="push" id="s8-push">
+            <div class="layer bg-paper"></div>
+            <div class="layer grade"></div>
+            <div class="layer papel"></div>
+            <div class="obj" id="s8-balanca"><div class="obj3d" id="s8-balanca3d">
+              <svg viewBox="0 0 700 640" width="700" height="640">
+                <rect x="335" y="90" width="30" height="470" rx="10" fill="url(#gMetalV)" />
+                <path d="M250 600 h200 l-30 -46 h-140 z" fill="url(#gMetal)" />
+                <circle cx="350" cy="80" r="26" fill="url(#gMetal)" />
+                <g id="s8-braco">
+                  <rect x="80" y="120" width="540" height="16" rx="8" fill="url(#gMetal)" />
+                  <g stroke="#3c3c3c" stroke-width="3"><path d="M110 128 L60 330" /><path d="M110 128 L160 330" /><path d="M590 128 L540 330" /><path d="M590 128 L640 330" /></g>
+                  <path d="M40 330 h140 q-10 50 -70 52 q-60 -2 -70 -52 z" fill="url(#gMetal)" />
+                  <path d="M520 330 h140 q-10 50 -70 52 q-60 -2 -70 -52 z" fill="url(#gMetal)" />
+                </g>
+              </svg>
+            </div></div>
+            <div class="abs" id="s8-tag"><span>ART. 171, § 2º-A, DO CÓDIGO PENAL</span></div>
+            <div class="line" style="top:370px;"><span class="w imp on-light g-none fx-pop" data-t="8:0" style="font-size:130px;">FRAUDE</span></div>
+            <div class="line" style="top:470px;"><span class="w scr c-gold-deep g-soft-light fx-mask" data-t="8:1" style="font-size:150px;">eletrônica</span></div>
+            <div class="line" style="top:690px;">
+              <span class="w scr c-ink fx-mask" data-t="8:2" style="font-size:130px;">é</span>
+              <span class="w imp on-light g-none fx-slam" data-t="8:3" style="font-size:150px;">CRIME<svg class="mk ul goldd" viewBox="0 0 600 30" preserveAspectRatio="none"><path stroke-width="9"></path></svg></span>
+            </div>
+            <div class="line" style="top:1000px;">
+              <span class="w sans on-light fx-rise" data-t="8:4" style="font-size:60px;">pena</span>
+              <span class="w sans on-light fx-rise" data-t="8:5" style="font-size:60px;">de</span>
+            </div>
+            <div class="line" style="top:1080px;">
+              <span class="w imp c-gold-deep g-soft-light fx-pop" data-t="8:6" style="font-size:250px;">4</span>
+              <span class="w scr c-ink fx-mask" data-t="8:7" style="font-size:130px;">a</span>
+              <span class="w imp c-gold-deep g-soft-light fx-pop" data-t="8:8" style="font-size:250px;">8</span>
+              <span class="w imp on-light g-none fx-pop" data-t="8:9" style="font-size:96px;">ANOS</span>
+            </div>
+            <div class="layer vinheta-clara" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+
+        <!-- ======================================================= CENA 9 · 28,7–33 s · cartela final -->
+        <section id="s9" class="clip" data-start="28.7" data-duration="4.3" data-track-index="1">
+          <div class="cam" id="s9-cam"><div class="push" id="s9-push">
+            <div class="layer bg-navy"></div>
+            <div class="brilho" id="s9-farol" style="left:40px; top:20px; width:1000px; height:1000px;"></div>
+            <svg class="full" id="s9-po"></svg>
+            <div class="abs" id="s9-logo"><img src="assets/media/logo_colunas_cartela.png" alt="" /></div>
+            <div class="abs" id="s9-nome">ARTHUR PIRES NASCIMENTO</div>
+            <div class="abs" id="s9-regra"></div>
+            <div class="abs" id="s9-area">ADVOCACIA ESPECIALIZADA</div>
+            <div class="line" style="top:1100px;">
+              <span class="w scr c-gold g-gold fx-mask" data-t="9:0" style="font-size:100px;">Compartilhe</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="9:1" style="font-size:100px;">e</span>
+            </div>
+            <div class="line" style="top:1220px;">
+              <span class="w scr c-gold g-gold fx-mask" data-t="9:2" style="font-size:96px;">proteja</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="9:3" style="font-size:96px;">quem</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="9:4" style="font-size:96px;">você</span>
+              <span class="w scr c-gold g-gold fx-mask" data-t="9:5" style="font-size:96px;">ama</span>
+            </div>
+            <div class="abs" id="s9-arroba"><span>@adv.arthurpiresnascimento</span></div>
+            <div class="layer vinheta" data-layout-allow-occlusion></div>
+          </div></div>
+        </section>
+      </div>
+
+      <!-- elementos recorrentes: emblema no canto e marca d'água (cenas 1–8) -->
+      <div class="clip" id="recorrentes" data-start="0" data-duration="28.7" data-track-index="5">
+        <div class="abs" id="marca-canto"><img src="assets/media/logo_colunas.png" alt="" /></div>
+        <div class="abs" id="wm">@adv.arthurpiresnascimento</div>
+      </div>
+
+      <!-- acabamento global: franja RGB nas bordas, flash, grão -->
+      <div id="rgb-borda"></div>
+      <div id="flash"></div>
+      <div id="grao"></div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+        var tl = gsap.timeline({ paused: true });
+        var SYNC = window.SYNC;
+        var FPS = 30;
+        var TOTAL = 33;
+
+        // ---------------------------------------------------------------- utilidades
+        function T(ref) {
+          var p = ref.split(":");
+          return SYNC[+p[0] - 1].p[+p[1]].s;
+        }
+        function hash(n, seed) {
+          var x = Math.sin(n * 127.1 + (seed || 1) * 311.7) * 43758.5453;
+          return (x - Math.floor(x)) * 2 - 1;
+        }
+        var renders = [];
+        tl.eventCallback("onUpdate", function () {
+          for (var i = 0; i < renders.length; i++) renders[i]();
+        });
+
+        // sombras de texto: [vermelho, ciano, brilho] sempre com a mesma estrutura
+        var RGB_IN = "-18px 0 0 rgba(255,30,60,0.9), 18px 0 0 rgba(0,225,255,0.9), 0 0 0 rgba(201,162,74,0)";
+        var RGB_SOFT = "-9px 0 0 rgba(255,30,60,0.75), 9px 0 0 rgba(0,225,255,0.75), 0 0 0 rgba(201,162,74,0)";
+        var GLOW = {
+          gold: "0 0 0 rgba(255,30,60,0), 0 0 0 rgba(0,225,255,0), 0 0 36px rgba(201,162,74,0.75)",
+          red: "0 0 0 rgba(255,30,60,0), 0 0 0 rgba(0,225,255,0), 0 0 40px rgba(214,40,57,0.7)",
+          "red-light": "0 0 0 rgba(255,30,60,0), 0 0 0 rgba(0,225,255,0), 0 0 26px rgba(214,40,57,0.35)",
+          soft: "0 0 0 rgba(255,30,60,0), 0 0 0 rgba(0,225,255,0), 0 0 30px rgba(241,236,225,0.35)",
+          "soft-light": "0 0 0 rgba(255,30,60,0), 0 0 0 rgba(0,225,255,0), 0 0 26px rgba(201,162,74,0.6)",
+          none: "0 0 0 rgba(255,30,60,0), 0 0 0 rgba(0,225,255,0), 0 0 0 rgba(201,162,74,0)",
+        };
+        function glowOf(el) {
+          var m = el.className.match(/g-([a-z-]+)/);
+          return GLOW[m ? m[1] : "none"] || GLOW.none;
+        }
+
+        // entradas palavra a palavra
+        function entra(el, t) {
+          var c = el.className;
+          var g = glowOf(el);
+          if (c.indexOf("fx-pop") >= 0) {
+            tl.fromTo(el, { opacity: 0, scale: 1.45, filter: "blur(14px)", textShadow: RGB_IN }, { opacity: 1, scale: 1, filter: "blur(0px)", textShadow: g, duration: 0.34, ease: "expo.out" }, t);
+          } else if (c.indexOf("fx-slam") >= 0) {
+            tl.fromTo(el, { opacity: 0, scale: 2.3, rotation: -4, filter: "blur(10px)", textShadow: RGB_IN }, { opacity: 1, scale: 1, rotation: 0, filter: "blur(0px)", duration: 0.2, ease: "power4.in" }, t);
+            tl.to(el, { textShadow: g, duration: 0.35, ease: "power2.out" }, t + 0.2);
+          } else if (c.indexOf("fx-mask") >= 0) {
+            tl.fromTo(el, { opacity: 1, clipPath: "inset(-30% 100% -30% 0%)", x: -14, textShadow: RGB_SOFT }, { clipPath: "inset(-30% -10% -30% 0%)", x: 0, textShadow: g, duration: 0.32, ease: "power3.out" }, t);
+          } else {
+            tl.fromTo(el, { opacity: 0, y: 34, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, t);
+          }
+        }
+        function sai(sel, t, dy) {
+          tl.to(sel, { opacity: 0, y: dy === undefined ? -40 : dy, filter: "blur(10px)", duration: 0.22, ease: "power2.in" }, t);
+        }
+        document.querySelectorAll(".w[data-t]").forEach(function (el) {
+          entra(el, T(el.getAttribute("data-t")) - 0.04);
+        });
+
+        // traços feitos à mão (sublinhado, círculo, seta, check) com tremor de animação
+        function trilha(w, h, seed) {
+          var mid = h / 2, segs = Math.max(4, Math.round(w / 110));
+          var d = "M 3 " + (mid + hash(0, seed) * 3).toFixed(1);
+          for (var i = 1; i <= segs; i++) {
+            var x = (w / segs) * i;
+            d += " Q " + (x - w / segs / 2 + hash(i * 4 + 1, seed) * 8).toFixed(1) + " " + (mid + (i % 2 ? -1 : 1) * (5 + hash(i * 4 + 2, seed) * 3)).toFixed(1) + " " + x.toFixed(1) + " " + (mid + hash(i * 4 + 3, seed) * 3).toFixed(1);
+          }
+          return d;
+        }
+        function elipse(cx, cy, rx, ry, seed) {
+          var d = "", n = 28;
+          for (var i = 0; i <= n + 3; i++) {
+            var a = -2.2 + (i / n) * Math.PI * 2.1;
+            var r = 1 + hash(i, seed) * 0.035 + (i / n) * 0.06;
+            var x = cx + Math.cos(a) * rx * r, y = cy + Math.sin(a) * ry * r;
+            d += (i ? " L " : "M ") + x.toFixed(1) + " " + y.toFixed(1);
+          }
+          return d;
+        }
+        function seta(x1, y1, x2, y2, curva, seed) {
+          var mx = (x1 + x2) / 2 + (y2 - y1) * curva + hash(1, seed) * 10;
+          var my = (y1 + y2) / 2 - (x2 - x1) * curva + hash(2, seed) * 10;
+          var corpo = "M " + x1 + " " + y1 + " Q " + mx.toFixed(1) + " " + my.toFixed(1) + " " + x2 + " " + y2;
+          var ang = Math.atan2(y2 - my, x2 - mx), L = 38;
+          var a1 = ang + Math.PI * 0.82, a2 = ang - Math.PI * 0.82;
+          var cab = "M " + (x2 + Math.cos(a1) * L).toFixed(1) + " " + (y2 + Math.sin(a1) * L).toFixed(1) + " L " + x2 + " " + y2 + " L " + (x2 + Math.cos(a2) * L).toFixed(1) + " " + (y2 + Math.sin(a2) * L).toFixed(1);
+          return [corpo, cab];
+        }
+        var CHECK = "M 14 74 L 54 116 L 138 18";
+        function desenha(path, t, dur) {
+          var len = path.getTotalLength();
+          tl.fromTo(path, { strokeDasharray: len + 2, strokeDashoffset: len + 2 }, { strokeDashoffset: 0, duration: dur || 0.4, ease: "power2.inOut" }, t);
+        }
+        function tremor(sel, seed) {
+          var els = gsap.utils.toArray(sel);
+          renders.push(function () {
+            var step = Math.floor((tl.time() * FPS) / 3);
+            for (var i = 0; i < els.length; i++) {
+              gsap.set(els[i], { x: hash(step * 3 + i * 97, seed) * 1.6, y: hash(step * 3 + 1 + i * 97, seed) * 1.6 });
+            }
+          });
+        }
+        // sublinhados dentro das palavras: desenhados logo após a palavra entrar
+        document.querySelectorAll(".w .ul path").forEach(function (p, i) {
+          p.setAttribute("d", trilha(600, 30, i + 3));
+          var w = p.closest(".w");
+          desenha(p, T(w.getAttribute("data-t")) + 0.22, 0.4);
+        });
+
+        // câmera: empurrão lento em cada cena + transições (chicote, zoom com desfoque, máscara)
+        var CENAS = [
+          { id: "s1", a: 0, b: 4.36, ent: "zoom", sai: "chicote" },
+          { id: "s2", a: 4.36, b: 7.55, ent: "chicote", sai: "zoom" },
+          { id: "s3", a: 7.55, b: 10.62, ent: "zoom", sai: "mascara" },
+          { id: "s4", a: 10.62, b: 14.0, ent: "mascara", sai: "zoom" },
+          { id: "s5", a: 14.0, b: 17.78, ent: "impacto", sai: "chicote" },
+          { id: "s6", a: 17.78, b: 21.8, ent: "chicote", sai: "mascara" },
+          { id: "s7", a: 21.8, b: 25.42, ent: "mascara", sai: "zoom" },
+          { id: "s8", a: 25.42, b: 28.7, ent: "zoom", sai: "zoom" },
+          { id: "s9", a: 28.7, b: 33.0, ent: "impacto", sai: null },
+        ];
+        CENAS.forEach(function (c, i) {
+          var cam = "#" + c.id + "-cam", push = "#" + c.id + "-push";
+          tl.fromTo(push, { scale: 1 }, { scale: 1.075, duration: c.b - c.a, ease: "none" }, c.a);
+          if (c.ent === "zoom") tl.fromTo(cam, { scale: 1.28, filter: "blur(22px)" }, { scale: 1, filter: "blur(0px)", duration: 0.32, ease: "expo.out" }, c.a);
+          if (c.ent === "chicote") tl.fromTo(cam, { x: 520, filter: "blur(26px)" }, { x: 0, filter: "blur(0px)", duration: 0.28, ease: "expo.out" }, c.a);
+          if (c.ent === "mascara") tl.fromTo(cam, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.34, ease: "power3.inOut" }, c.a);
+          if (c.ent === "impacto") tl.fromTo(cam, { scale: 1.45, filter: "blur(18px)" }, { scale: 1, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, c.a);
+          var o = c.b - 0.16;
+          if (c.sai === "chicote") tl.to(cam, { x: -520, filter: "blur(26px)", duration: 0.16, ease: "power2.in" }, o);
+          if (c.sai === "zoom") tl.to(cam, { scale: 1.35, filter: "blur(22px)", duration: 0.16, ease: "power2.in" }, o);
+          if (c.sai === "mascara") tl.to(cam, { y: -60, filter: "blur(8px)", duration: 0.16, ease: "power2.in" }, o);
+          // flash de luz + franja RGB nos cortes
+          var forte = c.ent === "impacto" || i === 0;
+          tl.fromTo("#flash", { opacity: forte ? 0.95 : 0.55 }, { opacity: 0, duration: forte ? 0.36 : 0.2, ease: "power2.out" }, c.a);
+          tl.fromTo("#rgb-borda", { opacity: 1, boxShadow: "inset 46px 0 60px rgba(255,30,60,0.75), inset -46px 0 60px rgba(0,220,255,0.75)" }, { opacity: 0.6, boxShadow: "inset 10px 0 26px rgba(255,30,60,0.35), inset -10px 0 26px rgba(0,220,255,0.35)", duration: 0.4, ease: "power2.out" }, Math.max(0, c.a - 0.05));
+        });
+        // marca d'água: cor segundo o fundo da cena
+        [["s1", 0, false], ["s2", 4.36, true], ["s3", 7.55, false], ["s4", 10.62, true], ["s5", 14.0, false], ["s6", 17.78, true], ["s7", 21.8, false], ["s8", 25.42, true]].forEach(function (c) {
+          tl.set("#wm", { color: c[2] ? "#121a2e" : "#f1ece1" }, c[1]);
+        });
+        tl.fromTo("#marca-canto", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.3);
+        tl.fromTo("#wm", { opacity: 0 }, { opacity: 0.8, duration: 0.5 }, 0.4);
+        tl.to("#marca-canto img", { filter: "drop-shadow(0 0 18px rgba(201,162,74,0.85))", duration: 1.2, yoyo: true, repeat: 10, ease: "sine.inOut" }, 0.8);
+
+        // grão de filme: muda de posição a cada quadro (determinístico)
+        tl.fromTo("#grao", { backgroundPosition: "0px 0px" }, { backgroundPosition: 173 * TOTAL * FPS + "px " + 97 * TOTAL * FPS + "px", duration: TOTAL, ease: "steps(" + TOTAL * FPS + ")" }, 0);
+
+        // objetos 3D: rotação lenta e flutuação
+        function flutua(sel, a, b, rotY, rotX, dy) {
+          tl.fromTo(sel, { rotationY: -rotY, rotationX: rotX, y: dy }, { rotationY: rotY, rotationX: -rotX * 0.5, y: -dy, duration: b - a, ease: "sine.inOut" }, a);
+        }
+        // tremor de câmera (impacto)
+        function treme(sel, t, forca, n) {
+          for (var k = 0; k < n; k++) {
+            tl.to(sel, { x: hash(k, 9) * forca * (1 - k / n), y: hash(k + 50, 9) * forca * 0.6 * (1 - k / n), duration: 1 / FPS, ease: "none" }, t + k / FPS);
+          }
+          tl.to(sel, { x: 0, y: 0, duration: 1 / FPS, ease: "none" }, t + n / FPS);
+        }
+
+        // ===== CENA 1 =====
+        tl.fromTo("#s1-farol", { scale: 0.8, opacity: 0.5 }, { scale: 1.15, opacity: 1, duration: 0.9, yoyo: true, repeat: 3, ease: "sine.inOut" }, 0);
+        tl.fromTo("#s1-fant", { x: 160 }, { x: -160, duration: 4.36, ease: "none" }, 0);
+        tl.fromTo("#s1-icone", { opacity: 0, scale: 0.4, rotation: -20 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2)" }, 0.12);
+        tl.to("#s1-icone", { scale: 1.12, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 0.6);
+        var r1 = document.querySelector("#s1-regra path");
+        r1.setAttribute("d", trilha(580, 30, 2));
+        desenha(r1, 0.62, 0.45);
+        flutua("#s1-card3d", 0, 4.36, 16, 8, 14);
+        tl.fromTo("#s1-card", { opacity: 0.55, filter: "blur(9px)", scale: 0.86, y: 60 }, { opacity: 0.7, filter: "blur(7px)", scale: 0.9, y: 40, duration: 2.6, ease: "none" }, 0);
+        sai(["#s1-icone", "#s1-regra", "#s1 .w[data-t]"], 2.82, -50);
+        tl.to("#s1-card", { opacity: 1, filter: "blur(0px)", scale: 1, y: 0, duration: 0.4, ease: "expo.out" }, 2.95);
+        tl.fromTo("#flash", { opacity: 0.7 }, { opacity: 0, duration: 0.25 }, 2.96);
+        var tit = document.querySelectorAll(".s1-tit");
+        entra(tit[0], 2.96); entra(tit[1], 2.98); entra(tit[2], 3.2); entra(tit[3], T("1:11") - 0.04); entra(tit[4], 3.86);
+        tl.fromTo("#s1-carimbo", { opacity: 0, scale: 2.6, rotation: -2 }, { opacity: 0.95, scale: 1, rotation: -12, duration: 0.18, ease: "power4.in" }, T("1:11") + 0.02);
+        treme("#s1-push", T("1:11") + 0.2, 16, 7);
+
+        // ===== CENA 2 =====
+        flutua("#s2-fone3d", 4.36, 7.55, 7, 4, 10);
+        tl.fromTo("#s2-fone", { y: 260, opacity: 0, rotation: 6, scale: 0.8 }, { y: 0, opacity: 1, rotation: 0, scale: 0.88, duration: 0.5, ease: "expo.out" }, 4.42);
+        tl.fromTo("#s2-dig", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, 4.62);
+        tl.to("#s2-dig i", { y: -8, duration: 0.14, yoyo: true, repeat: 3, stagger: 0.07, ease: "sine.inOut" }, 4.7);
+        tl.to("#s2-dig", { opacity: 0, duration: 0.1 }, 5.0);
+        tl.fromTo("#s2-b1", { opacity: 0, scale: 0.7, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(1.8)", transformOrigin: "0% 0%" }, 5.0);
+        tl.fromTo("#s2-b2", { opacity: 0, scale: 0.7, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "back.out(1.8)", transformOrigin: "0% 0%" }, 5.95);
+        var s1 = seta(165, 1090, 392, 806, 0.28, 3), s2 = seta(915, 1160, 640, 800, -0.25, 5);
+        document.getElementById("s2-a1").setAttribute("d", s1[0]);
+        document.getElementById("s2-a1h").setAttribute("d", s1[1]);
+        document.getElementById("s2-a2").setAttribute("d", s2[0]);
+        document.getElementById("s2-a2h").setAttribute("d", s2[1]);
+        desenha(document.getElementById("s2-a1"), T("2:7") + 0.05, 0.35);
+        desenha(document.getElementById("s2-a1h"), T("2:7") + 0.38, 0.14);
+        desenha(document.getElementById("s2-a2"), T("2:10") + 0.02, 0.3);
+        desenha(document.getElementById("s2-a2h"), T("2:10") + 0.3, 0.12);
+        tl.fromTo("#s2-fone .avatar", { boxShadow: "0 0 0 0px rgba(201,162,74,0)" }, { boxShadow: "0 0 0 8px rgba(201,162,74,0.9)", duration: 0.25 }, T("2:7"));
+        tl.fromTo("#s2-fone .chat-nome", { backgroundColor: "rgba(201,162,74,0)" }, { backgroundColor: "rgba(201,162,74,0.55)", duration: 0.25 }, T("2:10"));
+        tremor(["#s2-setas"], 4);
+        tl.fromTo("#s2-grade", { backgroundPosition: "-2px -2px" }, { backgroundPosition: "-2px 70px", duration: 3.19, ease: "none" }, 4.36);
+
+        // ===== CENA 3 =====
+        flutua("#s3-doc3d", 7.55, 10.62, 10, 12, 10);
+        tl.fromTo("#s3-doc", { opacity: 0, y: 120, filter: "blur(0px)" }, { opacity: 0.95, y: 0, duration: 0.5, ease: "expo.out" }, 7.6);
+        var NUM = "5•••••8-••.2025.8.••.••••";
+        var numEl = document.getElementById("s3-numero");
+        for (var i = 0; i < NUM.length; i++) {
+          var sp = document.createElement("span");
+          sp.textContent = NUM[i];
+          numEl.appendChild(sp);
+        }
+        tl.fromTo("#s3-faixa", { opacity: 0, scaleX: 0.6 }, { opacity: 1, scaleX: 1, duration: 0.3, ease: "expo.out" }, T("3:2") - 0.05);
+        tl.fromTo("#s3-numero span", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.08, stagger: 0.022, ease: "none" }, T("3:2") + 0.12);
+        var u3 = document.querySelector("#s3-ul path");
+        u3.setAttribute("d", trilha(720, 30, 7));
+        desenha(u3, T("3:5"), 0.45);
+        tl.to("#s3-doc", { filter: "blur(8px)", opacity: 0.6, duration: 0.5, ease: "power2.out" }, T("3:6"));
+        sai(["#s3-l1 .w", "#s3-l2 .w"], T("3:6") - 0.2, -40);
+        tl.fromTo("#s3-farol", { opacity: 0.5, scale: 0.9 }, { opacity: 1, scale: 1.2, duration: 0.6, ease: "power2.out" }, T("3:10"));
+        // brilhos dourados em torno de "GANHOU"
+        var brilhos = document.getElementById("s3-brilhos");
+        for (var b = 0; b < 9; b++) {
+          var bx = 540 + hash(b, 21) * 430, by = 430 + hash(b + 20, 21) * 150;
+          var st = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          var r = 14 + Math.abs(hash(b + 40, 21)) * 16;
+          st.setAttribute("d", "M " + bx + " " + (by - r) + " Q " + bx + " " + by + " " + (bx + r) + " " + by + " Q " + bx + " " + by + " " + bx + " " + (by + r) + " Q " + bx + " " + by + " " + (bx - r) + " " + by + " Q " + bx + " " + by + " " + bx + " " + (by - r) + " Z");
+          st.setAttribute("fill", "#e9cf8c");
+          st.setAttribute("opacity", "0");
+          brilhos.appendChild(st);
+          tl.fromTo(st, { opacity: 0, scale: 0, transformOrigin: bx + "px " + by + "px" }, { opacity: 1, scale: 1, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out" }, T("3:10") + 0.05 + b * 0.05);
+        }
+
+        // ===== CENA 4 =====
+        flutua("#s4-cartao3d", 10.62, 14.0, 9, 6, 10);
+        tl.fromTo("#s4-cartao", { opacity: 0, y: 200, rotation: -5 }, { opacity: 1, y: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 10.75);
+        sai("#s4-fase1 .w", T("4:5") - 0.18, -40);
+        var rel = document.getElementById("s4-relogio");
+        ["00:59", "00:58", "00:57", "00:56"].forEach(function (v, k) {
+          tl.set(rel, { textContent: "⏱ " + v }, 11.0 + k * 0.95);
+        });
+        tl.fromTo(rel, { scale: 1 }, { scale: 1.12, duration: 0.12, yoyo: true, repeat: 5, ease: "power1.inOut" }, 12.55);
+        tl.fromTo("#s4-urgente", { opacity: 0, scale: 2.4, rotation: 4 }, { opacity: 0.92, scale: 1, rotation: -9, duration: 0.18, ease: "power4.in" }, T("4:8") + 0.05);
+        treme("#s4-push", T("4:8") + 0.23, 10, 6);
+        var circ = document.getElementById("s4-circ");
+        circ.setAttribute("d", elipse(390, 1032, 290, 70, 6));
+        desenha(circ, T("4:9") - 0.05, 0.45);
+        var s4s = seta(330, 1450, 430, 1112, -0.22, 8);
+        document.getElementById("s4-seta").setAttribute("d", s4s[0]);
+        document.getElementById("s4-setah").setAttribute("d", s4s[1]);
+        desenha(document.getElementById("s4-seta"), T("4:10"), 0.25);
+        desenha(document.getElementById("s4-setah"), T("4:10") + 0.24, 0.1);
+        tremor(["#s4-marcas"], 6);
+
+        // ===== CENA 5 =====
+        tl.fromTo("#s5-f1", { x: 0 }, { x: -420, duration: 3.78, ease: "none" }, 14.0);
+        tl.fromTo("#s5-f2", { x: -420 }, { x: 0, duration: 3.78, ease: "none" }, 14.0);
+        tl.fromTo("#s5-farol", { scale: 0.7, opacity: 1 }, { scale: 1.1, opacity: 0.55, duration: 1.2, ease: "power2.out" }, 14.0);
+        entra(document.getElementById("s5-e"), 14.02);
+        entra(document.getElementById("s5-g"), 14.12);
+        treme("#s5-push", 14.32, 26, 9);
+        tl.fromTo("#s5-golpe", { y: 0, scale: 1 }, { y: -400, scale: 0.6, duration: 0.45, ease: "power3.inOut" }, T("5:2") - 0.12);
+        tl.fromTo("#s5-lista", { opacity: 0, y: 160 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, T("5:3"));
+        flutua("#s5-lista3d", 14.8, 17.78, 8, 8, 8);
+        tl.fromTo("#s5-lupa", { opacity: 0, x: 120, y: 140, rotation: 10 }, { opacity: 1, x: 0, y: 0, rotation: 0, duration: 0.4, ease: "expo.out" }, T("5:5"));
+        tl.to("#s5-lupa", { x: -330, y: 320, duration: 1.3, ease: "sine.inOut" }, T("5:5") + 0.4);
+        tl.to("#s5-lista .marca", { width: 560, duration: 0.25, stagger: 0.16, ease: "power2.out" }, T("5:7"));
+        tl.fromTo("#s5-capuz", { opacity: 0, x: 80, filter: "blur(16px)" }, { opacity: 0.85, x: 0, filter: "blur(7px)", duration: 0.7, ease: "power2.out" }, T("5:8"));
+        tl.to("#s5-lista", { filter: "blur(5px)", opacity: 0.55, duration: 0.4 }, T("5:10"));
+
+        // ===== CENA 6 =====
+        treme("#s6-push", T("6:1") + 0.2, 14, 7);
+        tl.fromTo("#s6-item1", { opacity: 0, x: -200 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, T("6:3") - 0.12);
+        flutua("#s6-fone3d", 18.6, 21.8, 18, 6, 4);
+        tl.to("#s6-fone3d", { rotation: 8, duration: 0.06, yoyo: true, repeat: 7, ease: "none" }, T("6:3") + 0.2);
+        var ck = document.querySelector("#s6-check path");
+        ck.setAttribute("d", CHECK);
+        desenha(ck, T("6:13") + 0.25, 0.3);
+        entra(document.getElementById("s6-dica"), T("6:13") + 0.35);
+
+        // ===== CENA 7 =====
+        tl.fromTo("#s7-c1", { opacity: 0, y: 80, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "expo.out" }, T("7:2") - 0.05);
+        tl.fromTo("#s7-c2", { opacity: 0, y: 80, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "expo.out" }, T("7:7") - 0.05);
+        flutua("#s7-ico1", 22.5, 25.42, 22, 6, 6);
+        flutua("#s7-ico2", 24.0, 25.42, 22, 6, 6);
+        tl.fromTo("#s7-ponteiro", { rotation: 0, svgOrigin: "100 110" }, { rotation: 360, svgOrigin: "100 110", duration: 1.4, ease: "none" }, 24.0);
+        var k1 = document.querySelector("#s7-k1 path"), k2 = document.querySelector("#s7-k2 path");
+        k1.setAttribute("d", CHECK); k2.setAttribute("d", CHECK);
+        desenha(k1, T("7:5") + 0.35, 0.3);
+        desenha(k2, T("7:9") + 0.12, 0.25);
+        tl.fromTo("#s7-nota", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, T("7:10"));
+        tl.fromTo("#s7-farol", { opacity: 0.6 }, { opacity: 1, duration: 0.8, yoyo: true, repeat: 3, ease: "sine.inOut" }, 21.8);
+
+        // ===== CENA 8 =====
+        tl.fromTo("#s8-tag", { opacity: 0, y: -20, clipPath: "inset(0% 50% 0% 50%)" }, { opacity: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "power3.out" }, 25.6);
+        flutua("#s8-balanca3d", 25.42, 28.7, 26, 5, 8);
+        tl.fromTo("#s8-balanca", { opacity: 0, filter: "blur(2px)", y: 80 }, { opacity: 0.55, filter: "blur(4px)", y: 0, duration: 0.6, ease: "expo.out" }, 25.5);
+        tl.fromTo("#s8-braco", { rotation: -6, svgOrigin: "350 128" }, { rotation: 6, svgOrigin: "350 128", duration: 1.0, yoyo: true, repeat: 2, ease: "sine.inOut" }, 25.5);
+        tl.to("#s8-balanca", { filter: "blur(9px)", opacity: 0.35, duration: 0.4 }, T("8:6"));
+        treme("#s8-push", T("8:8") + 0.15, 12, 6);
+
+        // ===== CENA 9 =====
+        tl.fromTo("#s9-logo", { clipPath: "inset(100% 0% 0% 0%)", y: 40, filter: "drop-shadow(0 0 0px rgba(201,162,74,0))" }, { clipPath: "inset(0% 0% 0% 0%)", y: 0, filter: "drop-shadow(0 0 28px rgba(201,162,74,0.7))", duration: 0.75, ease: "power3.out" }, 28.78);
+        tl.to("#s9-logo", { y: -12, duration: 1.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 29.6);
+        tl.fromTo("#s9-nome", { opacity: 0, scaleX: 1.18, filter: "blur(10px)", textShadow: RGB_IN }, { opacity: 1, scaleX: 1, filter: "blur(0px)", textShadow: GLOW.soft, duration: 0.6, ease: "expo.out" }, 29.2);
+        tl.fromTo("#s9-regra", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.inOut" }, 29.45);
+        tl.fromTo("#s9-area", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 29.6);
+        tl.fromTo("#s9-arroba", { opacity: 0, y: 40, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 30.95);
+        tl.fromTo("#s9-farol", { opacity: 0.4, scale: 0.8 }, { opacity: 1, scale: 1.1, duration: 2, yoyo: true, repeat: 1, ease: "sine.inOut" }, 28.7);
+        // pó dourado flutuando
+        var po = document.getElementById("s9-po");
+        for (var q = 0; q < 26; q++) {
+          var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          var px = 540 + hash(q, 31) * 520, py = 960 + hash(q + 60, 31) * 900;
+          c.setAttribute("cx", px.toFixed(1)); c.setAttribute("cy", py.toFixed(1));
+          c.setAttribute("r", (2 + Math.abs(hash(q + 90, 31)) * 4).toFixed(1));
+          c.setAttribute("fill", "#e2c47a");
+          po.appendChild(c);
+          tl.fromTo(c, { opacity: 0, y: 0 }, { opacity: 0.25 + Math.abs(hash(q + 7, 31)) * 0.6, y: -120 - Math.abs(hash(q + 3, 31)) * 160, duration: 4.3, ease: "sine.out" }, 28.7);
+        }
+
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
