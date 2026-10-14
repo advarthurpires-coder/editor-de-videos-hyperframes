@@ -34,7 +34,8 @@ def fades(x, ms=6):
 TRAT = ("highpass=f=75,afftdn=nr=10:nf=-42,"
         "equalizer=f=250:t=q:w=1.2:g=-2,equalizer=f=3200:t=q:w=1.0:g=2.5,equalizer=f=9000:t=q:w=1.0:g=1.5,"
         "acompressor=threshold=-22dB:ratio=3:attack=6:release=90:makeup=3")
-ar = ler(f"{D}/src/arthur.mp4", TRAT)
+AR_SRC = f"{D}/src/arthur_hq.mp4" if os.path.exists(f"{D}/src/arthur_hq.mp4") else f"{D}/src/arthur.mp4"
+ar = ler(AR_SRC, TRAT)   # original do iPhone (mesma linha do tempo da cópia do WhatsApp)
 voz = np.zeros(N, np.float32)
 for s in SEGS:
     a, b = int(s["src"] * SR), int(s["fim_src"] * SR)

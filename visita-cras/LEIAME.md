@@ -17,7 +17,13 @@ lupa do pente-fino · vapor e "cafezinho" saindo da xícara real · miniatura do
 chip "vale a partir de JUL/2027" · INSS / Justiça (escudo e balança em 3D) · avião de papel em "encaminhe" ✋.
 
 ## Pipeline
-Brutos (não versionados): `src/tiktok.mp4` (recorte 0–21,8 s) e `src/arthur.mp4` (gravação do WhatsApp, 108 s).
+Brutos (não versionados): `src/tiktok.mp4` (recorte 0–21,8 s), `src/arthur.mp4` (cópia do WhatsApp, 576×1024, usada no rastreio/transcrição)
+e `src/original/original_arthur.mp4` (original do iPhone, HEVC 10 bits HLG/Dolby Vision, 1080×1920 — mesma linha do tempo, deslocamento 0,0 s).
+O original vira `src/arthur_hq.mp4` (SDR BT.709) e passa a ser a fonte do vídeo-base e da voz:
+```bash
+ffmpeg -i src/original/original_arthur.mp4 -vf "zscale=t=linear:npl=180,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p" \
+  -c:v libx264 -crf 12 -g 30 -c:a aac -b:a 256k src/arthur_hq.mp4
+```
 ```bash
 python3 -I tools/transcrever_asr.py audio16k.wav tools/asr_arthur.json <modelos> "<blocos>"  # (feito uma vez) -> tools/asr_arthur.json, tools/asr_tiktok.json
 python3 -I tools/rastrear.py src/arthur.mp4 tools/rastreio.json <modelos>   # rosto e mãos (MediaPipe)

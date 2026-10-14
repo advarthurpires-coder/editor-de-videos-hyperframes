@@ -134,18 +134,27 @@ def ler(src, idx):
 def limpar(f):
     return cv2.fastNlMeansDenoisingColored(f, None, 3, 3, 5, 15)
 
-def grade(img, scale=1.0):
+# fonte do Arthur: original do iPhone convertido para SDR (src/arthur_hq.mp4, 1080x1920) se existir;
+# senão a cópia do WhatsApp (576x1024). Coordenadas de rastreio/recorte ficam na escala 576 e são multiplicadas por K.
+AR_SRC = f"{D}/src/arthur_hq.mp4" if os.path.exists(f"{D}/src/arthur_hq.mp4") else f"{D}/src/arthur.mp4"
+_c = cv2.VideoCapture(AR_SRC); K = _c.get(3) / SW; _c.release()
+HQ = K > 1.5
+# nitidez: forte para a cópia comprimida do WhatsApp, leve para o original em 1080p
+NIT = (0.32, 0.18, 0.12, 1.07) if HQ else (0.80, 0.32, 0.16, 1.04)
+
+def grade(img, scale=1.0, nit=None):
+    fn, md, cl, sat = nit or NIT
     x = img.astype(np.float32) / 255
     ycc = cv2.cvtColor(x, cv2.COLOR_BGR2YCrCb); Y = ycc[..., 0]
     fine = Y - cv2.GaussianBlur(Y, (0, 0), 1.1 * scale + 0.2)
     mid = Y - cv2.GaussianBlur(Y, (0, 0), 3.0 * scale + 0.5)
     clar = Y - cv2.GaussianBlur(Y, (0, 0), 14 * scale + 1)
-    Y = Y + 0.80 * fine + 0.32 * mid + 0.16 * clar
+    Y = Y + fn * fine + md * mid + cl * clar
     ycc[..., 0] = np.clip(Y, 0, 1)
     x = cv2.cvtColor(ycc, cv2.COLOR_YCrCb2BGR)
     lum = x[..., 0] * 0.114 + x[..., 1] * 0.587 + x[..., 2] * 0.299
     x = np.clip(x, 0, 1) ** 0.96
-    x = lum[..., None] + (x - lum[..., None]) * 1.04
+    x = lum[..., None] + (x - lum[..., None]) * sat
     return (np.clip(x, 0, 1) * 255 + 0.5).astype(np.uint8)
 
 def warp(f, x0, y0, cw, ch, W, H):
@@ -154,8 +163,8 @@ def warp(f, x0, y0, cw, ch, W, H):
 
 class Fonte:
     """Leitor sequencial com cache dos quadros já decodificados (os pedidos são quase sempre crescentes)."""
-    def __init__(self, path):
-        self.cap = cv2.VideoCapture(path); self.i = -1; self.f = None; self.cache = {}
+    def __init__(self, path, limpa=True):
+        self.cap = cv2.VideoCapture(path); self.i = -1; self.f = None; self.cache = {}; self.limpa = limpa
     def get(self, idx):
         if idx in self.cache: return self.cache[idx]
         if idx < self.i or idx > self.i + 90:
@@ -164,13 +173,13 @@ class Fonte:
             ok, f = self.cap.read()
             if not ok: break
             self.i += 1; self.f = f
-        out = limpar(self.f)
+        out = limpar(self.f) if self.limpa else self.f
         self.cache = {idx: out}
         return out
 
 def render_lote(args):
     ini, fim, arq = args
-    tk, ar = Fonte(f"{D}/src/tiktok.mp4"), Fonte(f"{D}/src/arthur.mp4")
+    tk, ar = Fonte(f"{D}/src/tiktok.mp4"), Fonte(AR_SRC, limpa=not HQ)
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{ow}x{oh}",
                             "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "medium", "-crf", "15",
                             "-pix_fmt", "yuv420p", "-g", "30", "-keyint_min", "30", arq], stdin=subprocess.PIPE)
@@ -185,13 +194,15 @@ def render_lote(args):
             a = warp(ftk, (SW - cw) / 2, TK_Y0 + (TK_H - ch) / 2, cw, ch, ow, int(760 * s))
             far = ar.get(int(round(d["ar"] * TFPS)))
             ch2 = AR_H / p
-            b = warp(far, (SW - cw) / 2, AR_Y0 + (AR_H - ch2) * 0.3, cw, ch2, ow, oh - int((FAIXA + 760) * s))
+            b = warp(far, K * (SW - cw) / 2, K * (AR_Y0 + (AR_H - ch2) * 0.3), K * cw, K * ch2, ow, oh - int((FAIXA + 760) * s))
             img[int(FAIXA * s):int(FAIXA * s) + a.shape[0]] = a
             img[int((FAIXA + 760) * s):] = b
-            img = grade(img, s)
+            tk_h = int((FAIXA + 760) * s)
+            img[:tk_h] = grade(img[:tk_h], s, (0.80, 0.32, 0.16, 1.04))   # TikTok (comprimido)
+            img[tk_h:] = grade(img[tk_h:], s)
         else:
             far = ar.get(int(round(d["ar"] * TFPS)))
-            img = grade(warp(far, d["x0"], d["y0"], d["cw"], d["ch"], ow, oh), s)
+            img = grade(warp(far, K * d["x0"], K * d["y0"], K * d["cw"], K * d["ch"], ow, oh), s)
         enc.stdin.write(img.tobytes())
     enc.stdin.close(); enc.wait()
     return arq
