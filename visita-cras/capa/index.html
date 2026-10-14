@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Capa — A visita do CRAS vai virar regra</title>
+    <style>
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/Montserrat-SemiBold.ttf"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/Montserrat-ExtraBold.ttf"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a1630; font-family: "Montserrat", sans-serif; }
+      .abs { position: absolute; }
+      #foto { left: 0; top: 0; width: 1080px; height: 1920px; background: url("assets/foto.png") center / cover; }
+      #grad { left: 0; top: 0; width: 1080px; height: 1920px;
+        background: linear-gradient(180deg, rgba(10,22,48,0.55) 0%, rgba(10,22,48,0) 22%, rgba(10,22,48,0) 40%, rgba(10,22,48,0.88) 58%, rgba(6,13,30,0.97) 100%); }
+      #pill { left: 0; right: 0; top: 968px; text-align: center; }
+      #pill span { display: inline-block; padding: 12px 30px 13px; border-radius: 40px; background: rgba(10,22,48,0.82); border: 2px solid #c9a24a;
+        font-weight: 600; font-size: 30px; letter-spacing: 0.12em; color: #f1d9a4; }
+      #cal { left: 772px; top: 500px; width: 230px; height: 250px; border-radius: 24px; overflow: hidden; transform: rotate(7deg);
+        background: linear-gradient(180deg, #fbf7ee, #ece4d2); box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 4px #c9a24a, 0 0 50px rgba(201,162,74,0.5); }
+      #cal .t { height: 82px; background: linear-gradient(180deg, #e2c47a, #c9a24a 60%, #a8822f); text-align: center; font-weight: 800; font-size: 48px; line-height: 88px; color: #0a1630; letter-spacing: 0.08em; }
+      #cal .a { text-align: center; font-weight: 800; font-size: 86px; line-height: 160px; color: #9c7524; }
+      #tit { left: 50px; right: 50px; top: 1066px; text-align: center; color: #fff; font-weight: 800; text-transform: uppercase;
+        text-shadow: 0 6px 30px rgba(0,0,0,0.7); }
+      #tit .l1 { font-size: 92px; line-height: 1.0; }
+      #tit .l2 { font-size: 230px; line-height: 0.95; letter-spacing: 0.02em; color: transparent;
+        background: linear-gradient(100deg, #b8902f 0%, #f1d9a4 40%, #fff6dc 52%, #f1d9a4 64%, #b8902f 100%); -webkit-background-clip: text; background-clip: text;
+        filter: drop-shadow(0 0 24px rgba(201,162,74,0.55)); }
+      #tit .l3 { font-size: 92px; line-height: 1.05; }
+      #tit .l3 b { color: #fff; background: #d62839; padding: 0 18px 4px; border-radius: 14px; }
+      #rod { left: 0; right: 0; top: 1540px; display: flex; align-items: center; justify-content: center; gap: 18px; }
+      #rod img { width: 46px; height: 60px; filter: drop-shadow(0 0 10px rgba(201,162,74,0.6)); }
+      #rod span { font-weight: 600; font-size: 34px; color: #f1ece1; letter-spacing: 0.04em; }
+    </style>
+  </head>
+  <body>
+    <div class="abs" id="foto"></div>
+    <div class="abs" id="grad"></div>
+    <div class="abs" id="pill"><span>BOLSA FAMÍLIA · BPC/LOAS · CADÚNICO</span></div>
+    <div class="abs" id="cal"><div class="t">JUL</div><div class="a">2027</div></div>
+    <div class="abs" id="tit">
+      <div class="l1">A visita do</div>
+      <div class="l2">CRAS</div>
+      <div class="l3">vai virar <b>regra</b></div>
+    </div>
+    <div class="abs" id="rod"><img src="assets/logo_colunas.png" alt="" /><span>@adv.arthurpiresnascimento</span></div>
+  </body>
+</html>

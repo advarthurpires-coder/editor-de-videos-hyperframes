@@ -1,0 +1,8 @@
+renders/
+snapshots/
+src/
+qa/tmp/
+assets/media/base.mp4
+assets/media/mix_pre.wav
+__pycache__/
+assets/music/trilha_lofi.wav

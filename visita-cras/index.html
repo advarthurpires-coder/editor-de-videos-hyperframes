@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>A visita do CRAS vai virar regra — reel</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/sincronia.js"></script>
+    <style>
+      @font-face { font-family: "Montserrat"; font-weight: 400; src: url("assets/fonts/Montserrat-Regular.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url("assets/fonts/Montserrat-SemiBold.ttf") format("truetype"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url("assets/fonts/Montserrat-ExtraBold.ttf") format("truetype"); }
+      @font-face { font-family: "Playfair Display"; font-weight: 800; src: url("assets/fonts/PlayfairDisplay-ExtraBold.ttf") format("truetype"); }
+      @font-face { font-family: "Noto Color Emoji"; src: local("Noto Color Emoji"); }
+      @font-face { font-family: "Pinyon Script"; font-weight: 400; src: url("assets/fonts/pinyon-script-latin-400-normal.woff2") format("woff2"); }
+
+      :root {
+        --navy: #0a1630;
+        --navy2: #12234a;
+        --gold: #c9a24a;
+        --gold-hi: #f1d9a4;
+        --gold-deep: #8f6c25;
+        --cream: #f1ece1;
+        --red: #d62839;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--navy); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; color: #fff; background: var(--navy); }
+      .clip { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      #base { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+
+      /* ------------------------------------------------ tela dividida */
+      #faixa { left: 0; top: 0; width: 1080px; height: 250px; overflow: hidden;
+        background: radial-gradient(120% 140% at 50% 0%, #1a2d57 0%, #0a1630 62%, #070f22 100%); }
+      #faixa .grade { position: absolute; inset: 0; opacity: 0.5;
+        background-image: linear-gradient(rgba(201,162,74,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(201,162,74,0.10) 1px, transparent 1px);
+        background-size: 54px 54px; }
+      #faixa .brilho { position: absolute; left: 240px; top: -120px; width: 600px; height: 300px; border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(201,162,74,0.28), rgba(201,162,74,0)); }
+      #titulo { position: absolute; left: 40px; right: 40px; top: 44px; text-align: center; }
+      #titulo .l1 { font-weight: 800; font-size: 50px; line-height: 1.12; color: var(--cream); white-space: nowrap; }
+      #titulo .l2 { font-weight: 800; font-size: 50px; line-height: 1.18; color: #fff; white-space: nowrap; margin-top: 4px; }
+      #titulo .w { display: inline-block; }
+      #titulo .ouro { color: transparent; background: linear-gradient(100deg, #b8902f 0%, #f1d9a4 38%, #fff6dc 50%, #f1d9a4 62%, #b8902f 100%);
+        background-size: 260% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text;
+        filter: drop-shadow(0 0 12px rgba(201,162,74,0.45)); }
+      #titulo .emo { font-family: "Noto Color Emoji", sans-serif; font-size: 46px; }
+      #costura-a, #costura-b { position: absolute; left: 0; width: 1080px; height: 4px;
+        background: linear-gradient(90deg, rgba(201,162,74,0) 0%, #c9a24a 18%, #f1d9a4 50%, #c9a24a 82%, rgba(201,162,74,0) 100%);
+        box-shadow: 0 0 16px rgba(201,162,74,0.7); }
+      #costura-a { top: 248px; }
+      #costura-b { top: 1008px; }
+      #credito { left: 26px; top: 274px; padding: 8px 18px 9px 14px; border-radius: 30px; background: rgba(5,10,22,0.62);
+        border: 1px solid rgba(241,217,164,0.35); font-size: 26px; font-weight: 600; color: var(--cream); letter-spacing: 0.02em; }
+      #credito .cam { display: inline-block; vertical-align: -3px; margin-right: 10px; }
+      #tk-leg { left: 50px; right: 50px; top: 880px; height: 116px; display: flex; align-items: flex-end; justify-content: center; }
+      #tk-leg .t { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; font-weight: 800; font-size: 40px; line-height: 1.16;
+        color: #fff; opacity: 0;
+        text-shadow: 0 0 2px #000, 2px 2px 0 #0a1630, -2px 2px 0 #0a1630, 2px -2px 0 #0a1630, -2px -2px 0 #0a1630, 0 4px 14px rgba(0,0,0,0.7); }
+      #tk-leg .t span { background: rgba(5,10,22,0.45); padding: 2px 14px 4px; border-radius: 10px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+      /* ------------------------------------------------ legendas dinâmicas */
+      #legendas { left: 40px; right: 40px; top: 1130px; height: 150px; }
+      .lg { position: absolute; left: 0; right: 0; top: 0; height: 150px; display: flex; align-items: center; justify-content: center;
+        gap: 0 16px; flex-wrap: wrap; text-align: center; opacity: 0; }
+      .lg .p { display: inline-block; position: relative; font-weight: 800; font-size: 72px; line-height: 1.0; letter-spacing: 0.005em; text-transform: uppercase;
+        color: #fff; padding: 8px 12px 10px; border-radius: 14px; white-space: nowrap; isolation: isolate;
+        text-shadow: 3px 3px 0 #0a1630, -3px 3px 0 #0a1630, 3px -3px 0 #0a1630, -3px -3px 0 #0a1630, 0 3px 0 #0a1630, 0 -3px 0 #0a1630, 3px 0 0 #0a1630, -3px 0 0 #0a1630, 0 8px 22px rgba(0,0,0,0.6); }
+      .lg .p.g { color: var(--gold-hi); }
+      .lg .p.r { color: #ff5d6b; }
+      .lg .p .bx { position: absolute; inset: 0; border-radius: 14px; background: var(--gold); opacity: 0; transform: scale(0.8);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 24px rgba(201,162,74,0.55); z-index: -1; }
+      .lg .p.r .bx { background: var(--red); box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 26px rgba(214,40,57,0.6); }
+      .lg .p .tx { position: relative; }
+
+      /* ------------------------------------------------ recorrentes */
+      #marca-canto { left: 990px; top: 52px; width: 50px; height: 65px; }
+      #marca-canto img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 0 10px rgba(201,162,74,0.6)); }
+      #wm { left: 0; right: 0; top: 1712px; text-align: center; font-size: 28px; font-weight: 600; letter-spacing: 0.06em; color: var(--cream); opacity: 0.8;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.75); }
+      #vinheta { position: absolute; inset: 0; background: radial-gradient(85% 60% at 50% 42%, rgba(0,0,0,0) 58%, rgba(4,8,18,0.55) 100%); }
+      #alerta { position: absolute; inset: 0; opacity: 0;
+        box-shadow: inset 0 0 120px 30px rgba(214,40,57,0.75), inset 0 0 0 6px rgba(214,40,57,0.9); }
+      #grao { position: absolute; inset: 0; background: url("assets/media/grao.png") 0 0 / 512px 512px repeat; opacity: 0.05; mix-blend-mode: overlay; pointer-events: none; }
+      #flash { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, #ffffff 0%, #fff4dc 45%, #e9cf8c 100%); opacity: 0; }
+
+      /* ------------------------------------------------ elementos gráficos */
+      .p3d { perspective: 1000px; }
+      .vidro { background: linear-gradient(160deg, rgba(26,45,87,0.92) 0%, rgba(10,22,48,0.94) 100%); border: 2px solid rgba(201,162,74,0.85);
+        box-shadow: 0 26px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.12), 0 0 30px rgba(201,162,74,0.25); }
+
+      #nome { left: 54px; top: 1012px; width: 640px; height: 96px; overflow: hidden; }
+      #nome .barra { position: absolute; left: 0; top: 6px; width: 8px; height: 84px; background: linear-gradient(180deg, #f1d9a4, #c9a24a); border-radius: 4px; box-shadow: 0 0 14px rgba(201,162,74,0.7); }
+      #nome .n { position: absolute; left: 26px; top: 4px; font-weight: 800; font-size: 38px; color: #fff; letter-spacing: 0.02em; white-space: nowrap; text-shadow: 0 3px 12px rgba(0,0,0,0.8); }
+      #nome .c { position: absolute; left: 28px; top: 52px; font-weight: 600; font-size: 25px; color: var(--gold-hi); letter-spacing: 0.24em; white-space: nowrap; text-shadow: 0 3px 12px rgba(0,0,0,0.8); }
+
+      #cal { left: 0; top: 0; width: 250px; height: 270px; }
+      #cal .card { position: absolute; inset: 0; border-radius: 26px; overflow: hidden; transform-style: preserve-3d;
+        background: linear-gradient(180deg, #fbf7ee 0%, #ece4d2 100%); box-shadow: 0 30px 60px rgba(0,0,0,0.55), 0 0 0 3px rgba(201,162,74,0.9), 0 0 40px rgba(201,162,74,0.35); }
+      #cal .topo { position: absolute; left: 0; right: 0; top: 0; height: 88px; background: linear-gradient(180deg, #e2c47a, #c9a24a 60%, #a8822f);
+        font-weight: 800; font-size: 50px; color: var(--navy); text-align: center; line-height: 96px; letter-spacing: 0.08em; }
+      #cal .arg { position: absolute; top: -12px; width: 18px; height: 40px; border-radius: 9px; background: #2b3550; box-shadow: inset 0 2px 0 rgba(255,255,255,0.3); }
+      #cal .ano { position: absolute; left: 0; right: 0; top: 110px; height: 130px; perspective: 500px; }
+      #cal .ano div { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-weight: 800; font-size: 92px; line-height: 130px; color: var(--navy); backface-visibility: hidden; transform-origin: 50% 0%; }
+      #cal .ano .novo { color: #9c7524; }
+      #cal .sombra { position: absolute; left: 30px; top: 280px; width: 190px; height: 30px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,0.45), rgba(0,0,0,0)); }
+
+      #casa { left: 0; top: 0; width: 210px; height: 250px; }
+      #casa .disco { position: absolute; left: 0; top: 0; width: 210px; height: 210px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+      #casa .rot { position: absolute; left: 0; top: 0; width: 210px; height: 210px; transform-style: preserve-3d; }
+      #casa .rot svg { position: absolute; left: 35px; top: 32px; }
+      #casa .rot-l { position: absolute; left: -40px; right: -40px; top: 222px; text-align: center; font-weight: 800; font-size: 26px; letter-spacing: 0.14em; color: var(--gold-hi); white-space: nowrap; text-shadow: 0 3px 10px rgba(0,0,0,0.85); }
+
+      .cartao { position: absolute; top: 0; width: 340px; height: 206px; border-radius: 24px; overflow: hidden; }
+      .cartao .chip { position: absolute; left: 28px; top: 34px; width: 56px; height: 42px; border-radius: 9px; background: linear-gradient(135deg, #f1d9a4, #b8902f); }
+      .cartao .chip::after { content: ""; position: absolute; inset: 10px 0; border-top: 2px solid rgba(10,22,48,0.35); border-bottom: 2px solid rgba(10,22,48,0.35); }
+      .cartao .rot { position: absolute; left: 28px; bottom: 26px; font-weight: 800; font-size: 34px; letter-spacing: 0.03em; color: #fff; white-space: nowrap; }
+      .cartao .sub { position: absolute; left: 30px; bottom: 74px; font-weight: 600; font-size: 18px; letter-spacing: 0.28em; color: var(--gold-hi); }
+      .cartao .reflexo { position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.22) 45%, rgba(255,255,255,0) 60%); background-size: 300% 100%; background-position: 100% 0; }
+      #cartoes { left: 0; top: 740px; width: 1080px; height: 260px; perspective: 1100px; }
+      #cartaoBF { left: 58px; }
+      #cartaoBPC { left: 682px; }
+
+      #lupa { left: 0; top: 0; width: 300px; height: 300px; }
+
+      #cafe { left: 0; top: 0; width: 1080px; height: 1920px; }
+      #cafe-rot { left: 0; top: 0; font-family: "Pinyon Script", cursive; font-size: 92px; color: var(--gold-hi); white-space: nowrap;
+        text-shadow: 0 0 8px rgba(201,162,74,0.9), 0 0 26px rgba(201,162,74,0.55), 0 4px 10px rgba(0,0,0,0.8); }
+
+      #porta { left: 650px; top: 150px; width: 380px; height: 540px; perspective: 1200px; }
+      #porta .moldura { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; border: 4px solid var(--gold);
+        box-shadow: 0 36px 70px rgba(0,0,0,0.6), 0 0 36px rgba(201,162,74,0.45); background: #000; }
+      #porta video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+      #porta .tag { position: absolute; left: 50%; top: -26px; transform: translateX(-50%); padding: 8px 22px 9px; border-radius: 30px; background: var(--gold);
+        font-weight: 800; font-size: 26px; letter-spacing: 0.08em; color: var(--navy); white-space: nowrap; box-shadow: 0 8px 18px rgba(0,0,0,0.45); }
+
+      #dois { left: 0; top: 0; width: 220px; height: 260px; text-align: center; font-family: "Playfair Display", serif; font-weight: 800; font-size: 250px; line-height: 260px;
+        color: #f1d9a4;
+        text-shadow: 0 2px 0 #d9b766, 0 4px 0 #c9a24a, 0 6px 0 #b18b37, 0 8px 0 #977428, 0 10px 0 #7d5f1f, 0 12px 0 #634a17, 0 26px 40px rgba(0,0,0,0.6), 0 0 40px rgba(201,162,74,0.6); }
+
+      #lista { left: 60px; top: 820px; width: 960px; height: 300px; perspective: 1400px; }
+      #lista .painel { position: absolute; left: 0; top: 0; width: 960px; border-radius: 28px; padding: 26px 34px 24px; transform-origin: 50% 0%; }
+      #lista .tit { font-weight: 800; font-size: 28px; letter-spacing: 0.22em; color: var(--gold-hi); }
+      #lista .it { position: relative; height: 86px; margin-top: 16px; display: flex; align-items: center; }
+      #lista .num { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #f1d9a4, #b8902f); color: var(--navy); font-weight: 800; font-size: 38px;
+        display: flex; align-items: center; justify-content: center; flex: 0 0 64px; box-shadow: 0 0 18px rgba(201,162,74,0.55); }
+      #lista .txt { margin-left: 24px; font-weight: 800; font-size: 42px; color: #fff; white-space: nowrap; }
+      #lista .txt b { color: var(--gold-hi); font-weight: 800; }
+      #lista .ok { position: absolute; right: 6px; top: 12px; width: 62px; height: 62px; }
+
+      #aviso { left: 0; top: 0; width: 170px; height: 160px; }
+
+      #julchip { left: 54px; top: 160px; height: 84px; padding: 0 30px 0 22px; border-radius: 44px; display: flex; align-items: center; gap: 14px; }
+      #julchip .t { font-weight: 800; font-size: 36px; color: #fff; letter-spacing: 0.04em; white-space: nowrap; }
+      #julchip .t b { color: var(--gold-hi); }
+
+      #inss, #justica { top: 800px; width: 380px; height: 128px; border-radius: 64px; display: flex; align-items: center; padding-left: 22px; gap: 18px; }
+      #inss { left: 46px; }
+      #justica { left: 654px; width: 400px; }
+      #inss .t, #justica .t { font-weight: 800; font-size: 40px; letter-spacing: 0.06em; color: #fff; white-space: nowrap; }
+      .ic3d { width: 92px; height: 92px; flex: 0 0 92px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #23386a, #0a1630 70%);
+        border: 2px solid rgba(241,217,164,0.6); display: flex; align-items: center; justify-content: center; perspective: 300px; }
+
+      #aviao { left: 0; top: 0; width: 1080px; height: 1920px; }
+
+      /* ------------------------------------------------ cartela */
+      #cartela .fundo { position: absolute; inset: 0; background: radial-gradient(90% 60% at 50% 40%, #182b57 0%, #0a1630 60%, #060d1e 100%); }
+      #c-logo { left: 400px; top: 340px; width: 280px; height: 365px; }
+      #c-logo img { width: 100%; height: 100%; display: block; }
+      #c-nome { left: 0; right: 0; top: 800px; text-align: center; font-size: 56px; font-weight: 800; letter-spacing: 0.05em; color: var(--cream); white-space: nowrap; }
+      #c-regra { left: 300px; top: 900px; width: 480px; height: 4px; background: var(--gold); box-shadow: 0 0 14px rgba(201,162,74,0.7); }
+      #c-area { left: 0; right: 0; top: 930px; text-align: center; font-size: 36px; font-weight: 600; letter-spacing: 0.3em; color: var(--gold); white-space: nowrap; }
+      #c-scr { left: 0; right: 0; top: 1060px; text-align: center; font-family: "Pinyon Script", cursive; font-size: 104px; line-height: 1.1; color: var(--gold-hi);
+        text-shadow: 0 0 8px rgba(201,162,74,0.85), 0 0 30px rgba(201,162,74,0.5); }
+      #c-cta { left: 60px; right: 60px; top: 1200px; text-align: center; font-weight: 800; font-size: 46px; line-height: 1.2; color: #fff; }
+      #c-cta b { color: var(--gold-hi); }
+      #c-arroba { left: 0; right: 0; top: 1420px; text-align: center; }
+      #c-arroba span { display: inline-block; padding: 18px 44px; border-radius: 50px; border: 3px solid var(--gold); font-size: 42px; font-weight: 600; color: var(--cream); letter-spacing: 0.02em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="100.667" data-width="1080" data-height="1920">
+      <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="100.667" data-track-index="20" data-volume="1"></audio>
+      <video id="base" class="clip" src="assets/media/base.mp4" muted playsinline data-start="0" data-duration="100.667" data-track-index="0"></video>
+
+      <!-- ============================================ BLOCO 1 · tela dividida (0 – 14,3 s) -->
+      <div id="intro" class="clip" data-start="0" data-duration="14.3" data-track-index="1">
+        <div class="abs" id="faixa" data-layout-allow-overflow>
+          <div class="grade"></div><div class="brilho"></div>
+          <div id="titulo">
+            <div class="l1"><span class="w">A</span> <span class="w">partir</span> <span class="w">de</span> <span class="w ouro" id="t-jul">JULHO DE 2027,</span></div>
+            <div class="l2"><span class="w">isso</span> <span class="w">vai</span> <span class="w">ser</span> <span class="w">de</span> <span class="w">verdade</span> <span class="w emo" id="t-olhos">👀</span></div>
+          </div>
+        </div>
+        <div id="costura-a"></div>
+        <div id="costura-b"></div>
+        <div class="abs" id="credito"><svg class="cam" width="30" height="22" viewBox="0 0 30 22"><rect x="1" y="3" width="20" height="16" rx="4" fill="#c9a24a" /><path d="M21 9 L29 4 V18 L21 13 Z" fill="#c9a24a" /><circle cx="8" cy="11" r="3" fill="#0a1630" /></svg>@peraimash</div>
+        <div class="abs" id="tk-leg"></div>
+      </div>
+
+      <!-- ============================================ BLOCO 2 · Arthur em tela cheia -->
+      <div id="fala" class="clip" data-start="14.3" data-duration="83.167" data-track-index="2">
+        <div id="vinheta"></div>
+        <div id="alerta"></div>
+
+        <div class="abs" id="nome" data-layout-allow-overflow><div class="barra"></div><div class="n">ARTHUR PIRES NASCIMENTO</div><div class="c">ADVOGADO</div></div>
+
+        <div class="abs p3d" id="cal">
+          <div class="card" id="cal-card">
+            <div class="topo">JUL<div class="arg" style="left:58px"></div><div class="arg" style="left:174px"></div></div>
+            <div class="ano"><div class="velho" id="ano-velho">2026</div><div class="novo" id="ano-novo">2027</div></div>
+          </div>
+        </div>
+
+        <div class="abs p3d" id="casa" data-layout-allow-overflow>
+          <div class="disco vidro" id="casa-disco"></div>
+          <div class="rot" id="casa-rot">
+            <svg width="140" height="140" viewBox="0 0 140 140" fill="none" stroke="#f1d9a4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 66 L70 18 L126 66" /><path d="M28 56 V122 H112 V56" />
+              <circle cx="70" cy="70" r="13" fill="#c9a24a" stroke="none" /><path d="M48 118 C50 98 58 90 70 90 C82 90 90 98 92 118" fill="#c9a24a" stroke="none" />
+            </svg>
+          </div>
+          <div class="rot-l" id="casa-l">MORA SÓ VOCÊ?</div>
+        </div>
+
+        <div class="abs" id="cartoes">
+          <div class="cartao vidro" id="cartaoBF"><div class="chip"></div><div class="sub">BENEFÍCIO</div><div class="rot">BOLSA FAMÍLIA</div><div class="reflexo"></div></div>
+          <div class="cartao vidro" id="cartaoBPC"><div class="chip"></div><div class="sub">BENEFÍCIO</div><div class="rot">BPC / LOAS</div><div class="reflexo"></div></div>
+        </div>
+
+        <svg class="abs" id="lupa" viewBox="0 0 300 300" width="300" height="300">
+          <defs><radialGradient id="lente" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#ffffff" stop-opacity="0.45" /><stop offset="0.55" stop-color="#9ec3ff" stop-opacity="0.12" /><stop offset="1" stop-color="#0a1630" stop-opacity="0.25" /></radialGradient></defs>
+          <line x1="190" y1="190" x2="278" y2="278" stroke="#0a1630" stroke-width="34" stroke-linecap="round" />
+          <line x1="190" y1="190" x2="278" y2="278" stroke="#c9a24a" stroke-width="22" stroke-linecap="round" />
+          <circle cx="120" cy="120" r="92" fill="url(#lente)" stroke="#c9a24a" stroke-width="16" />
+          <circle cx="120" cy="120" r="92" fill="none" stroke="#f1d9a4" stroke-width="4" />
+          <path d="M70 92 A60 60 0 0 1 112 58" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.8" />
+        </svg>
+
+        <div class="abs" id="cafe">
+          <svg class="full" id="cafe-svg" viewBox="0 0 1080 1920" fill="none"></svg>
+          <div class="abs" id="cafe-rot">cafezinho</div>
+        </div>
+
+        <div class="abs" id="porta">
+          <div class="moldura" id="porta-mold">
+            <video id="v-porta" class="clip" src="assets/media/tiktok_porta.mp4" muted playsinline data-start="49.866" data-duration="2.3" data-media-start="0.2" data-track-index="3"></video>
+          </div>
+          <div class="tag">COMO NO VÍDEO</div>
+        </div>
+
+        <div class="abs" id="dois">2</div>
+
+        <div class="abs" id="lista">
+          <div class="painel vidro" id="lista-painel">
+            <div class="tit">O QUE O CRAS VAI CONFERIR</div>
+            <div class="it" id="it1"><div class="num">1</div><div class="txt">Se você <b>mora sozinho</b> mesmo</div>
+              <svg class="ok" viewBox="0 0 62 62"><circle cx="31" cy="31" r="28" fill="#1f9d55" /><path id="ok1" d="M17 32 L27 42 L46 21" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+            <div class="it" id="it2"><div class="num">2</div><div class="txt">Se a <b>renda declarada</b> é real</div>
+              <svg class="ok" viewBox="0 0 62 62"><circle cx="31" cy="31" r="28" fill="#1f9d55" /><path id="ok2" d="M17 32 L27 42 L46 21" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+          </div>
+        </div>
+
+        <svg class="abs" id="aviso" viewBox="0 0 170 160" width="170" height="160">
+          <path d="M85 10 L162 146 H8 Z" fill="#d62839" stroke="#f1d9a4" stroke-width="8" stroke-linejoin="round" />
+          <rect x="77" y="52" width="16" height="56" rx="8" fill="#fff" /><circle cx="85" cy="126" r="10" fill="#fff" />
+        </svg>
+
+        <div class="abs vidro" id="julchip" data-layout-allow-overflow>
+          <svg width="46" height="46" viewBox="0 0 46 46"><rect x="3" y="7" width="40" height="36" rx="7" fill="#f1ece1" /><rect x="3" y="7" width="40" height="13" rx="6" fill="#c9a24a" /><rect x="11" y="2" width="6" height="12" rx="3" fill="#2b3550" /><rect x="29" y="2" width="6" height="12" rx="3" fill="#2b3550" /></svg>
+          <div class="t">VALE A PARTIR DE <b>JUL/2027</b></div>
+        </div>
+
+        <div class="abs vidro" id="inss">
+          <div class="ic3d"><svg id="ic-escudo" width="58" height="58" viewBox="0 0 58 58"><path d="M29 4 L50 12 V28 C50 41 41 50 29 54 C17 50 8 41 8 28 V12 Z" fill="#c9a24a" stroke="#f1d9a4" stroke-width="3" /><path d="M19 29 L26 36 L40 21" stroke="#0a1630" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+          <div class="t">INSS</div>
+        </div>
+        <div class="abs vidro" id="justica">
+          <div class="ic3d"><svg id="ic-balanca" width="66" height="66" viewBox="0 0 66 66" fill="none" stroke="#f1d9a4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M33 8 V56" /><path d="M20 58 H46" /><circle cx="33" cy="8" r="3.5" fill="#c9a24a" />
+            <g id="bal-braco"><path d="M10 16 H56" /><path d="M10 16 L3 34 H17 Z" fill="#c9a24a" /><path d="M56 16 L49 34 H63 Z" fill="#c9a24a" /></g></svg></div>
+          <div class="t">JUSTIÇA</div>
+        </div>
+
+        <div class="abs" id="aviao">
+          <svg class="full" viewBox="0 0 1080 1920" fill="none">
+            <path id="aviao-rastro" d="" stroke="#f1d9a4" stroke-width="5" stroke-dasharray="4 16" stroke-linecap="round" opacity="0.85" />
+            <g id="aviao-g"><g id="aviao-ic" transform="translate(-60,-50)">
+              <path d="M4 52 L116 6 L84 98 L58 70 Z" fill="#f1ece1" stroke="#c9a24a" stroke-width="4" stroke-linejoin="round" />
+              <path d="M116 6 L58 70 L52 96 L40 62 Z" fill="#c9a24a" />
+            </g></g>
+          </svg>
+        </div>
+
+        <div class="abs" id="legendas"></div>
+
+        <div class="abs" id="marca-canto"><img src="assets/media/logo_colunas.png" alt="" /></div>
+        <div class="abs" id="wm">@adv.arthurpiresnascimento</div>
+      </div>
+
+      <!-- ============================================ cartela final -->
+      <div id="cartela" class="clip" data-start="97.467" data-duration="3.2" data-track-index="4">
+        <div class="fundo"></div>
+        <div class="abs" id="c-logo"><img src="assets/media/logo_colunas_cartela.png" alt="" /></div>
+        <div class="abs" id="c-nome">ARTHUR PIRES NASCIMENTO</div>
+        <div class="abs" id="c-regra"></div>
+        <div class="abs" id="c-area">ADVOCACIA ESPECIALIZADA</div>
+        <div class="abs" id="c-scr">Compartilhe</div>
+        <div class="abs" id="c-cta">com quem recebe<br /><b>Bolsa Família</b> ou <b>BPC/LOAS</b></div>
+        <div class="abs" id="c-arroba"><span>@adv.arthurpiresnascimento</span></div>
+      </div>
+
+      <div id="flash" class="clip" data-start="0" data-duration="100.667" data-track-index="6"></div>
+      <div id="grao"></div>
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+        var S = window.SYNC, E = S.ev, FPS = S.fps;
+        var tl = gsap.timeline({ paused: true });
+        var $ = function (s) { return document.querySelector(s); };
+
+        // posição de uma âncora (mão/rosto, coordenadas do quadro 1080x1920) no instante t
+        function pos(nome, t) {
+          var a = S.anc[nome], i = Math.round((t - a.t0) * FPS);
+          i = Math.max(0, Math.min(a.pts.length - 1, i));
+          return a.pts[i];
+        }
+        // faz o elemento acompanhar a âncora (x/y do invólucro), de t0 a t1, quadro a quadro
+        function seguir(sel, nome, dx, dy, t0, t1, peso) {
+          var el = $(sel), w = peso == null ? 1 : peso, p0 = pos(nome, t0);
+          for (var t = t0; t <= t1 + 1e-6; t += 1 / FPS) {
+            var p = pos(nome, t);
+            tl.set(el, { x: p0[0] + (p[0] - p0[0]) * w + dx, y: p0[1] + (p[1] - p0[1]) * w + dy }, t);
+          }
+        }
+        function hash(n, s) { var x = Math.sin(n * 127.1 + s * 311.7) * 43758.5453; return x - Math.floor(x); }
+
+        // estados iniciais
+        gsap.set(["#nome", "#cal", "#casa", "#cartaoBF", "#cartaoBPC", "#lupa", "#cafe", "#porta", "#dois", "#lista", "#aviso", "#julchip", "#inss", "#justica", "#aviao"], { opacity: 0 });
+
+        // =========================================================== BLOCO 1 · tela dividida
+        tl.from("#faixa", { y: -250, duration: 0.45, ease: "power3.out" }, 0);
+        tl.from("#titulo .w", { y: 40, opacity: 0, scale: 0.85, duration: 0.35, stagger: 0.07, ease: "back.out(2)" }, 0.25);
+        tl.to("#t-jul", { backgroundPosition: "0% 0", duration: 1.4, ease: "sine.inOut", repeat: 4, repeatDelay: 1.3 }, 1.2);
+        tl.to("#t-olhos", { rotation: 12, y: -6, duration: 0.35, yoyo: true, repeat: 17, ease: "sine.inOut" }, 1.4);
+        tl.from(["#costura-a", "#costura-b"], { scaleX: 0, duration: 0.6, ease: "power2.out" }, 0.1);
+        tl.from("#credito", { x: -40, opacity: 0, duration: 0.4, ease: "power2.out" }, 0.6);
+        var tk = $("#tk-leg");
+        S.tiktok.forEach(function (l, i) {
+          var d = document.createElement("div"); d.className = "t"; d.innerHTML = "<span>" + l.txt + "</span>"; tk.appendChild(d);
+          tl.fromTo(d, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.14, ease: "power2.out" }, l.s);
+          tl.set(d, { opacity: 0 }, Math.min(l.e, S.intro - 0.02));
+        });
+
+        // =========================================================== legendas da fala
+        var box = $("#legendas");
+        S.leg.forEach(function (g, gi) {
+          var el = document.createElement("div"); el.className = "lg";
+          g.p.forEach(function (w) {
+            var s = document.createElement("span"); s.className = "p" + (w.c ? " " + w.c : "");
+            s.innerHTML = '<span class="bx"></span><span class="tx">' + w.w + "</span>";
+            el.appendChild(s);
+          });
+          box.appendChild(el);
+          var ps = el.querySelectorAll(".p");
+          tl.fromTo(el, { opacity: 0, scale: 0.86, y: 18 }, { opacity: 1, scale: 1, y: 0, duration: 0.13, ease: "back.out(2.2)" }, g.s);
+          g.p.forEach(function (w, j) {
+            var p = ps[j], bx = p.querySelector(".bx"), tx = p.querySelector(".tx");
+            var cor = w.c === "r" ? "#ffffff" : "#0a1630";
+            var corBase = w.c === "g" ? "#f1d9a4" : w.c === "r" ? "#ff5d6b" : "#ffffff";
+            tl.to(bx, { opacity: 1, scale: 1, duration: 0.08, ease: "power2.out" }, w.t);
+            tl.set(tx, { color: cor, textShadow: "none" }, w.t);
+            tl.fromTo(p, { scale: 1 }, { scale: 1.08, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.out" }, w.t);
+            if (w.e < g.e - 0.01) {
+              tl.to(bx, { opacity: 0, scale: 0.85, duration: 0.06 }, w.e);
+              tl.set(tx, { color: corBase, clearProps: "textShadow" }, w.e);
+            }
+          });
+          tl.set(el, { opacity: 0 }, g.e);
+        });
+
+        // =========================================================== recorrentes
+        tl.fromTo("#marca-canto", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+        tl.to("#marca-canto img", { filter: "drop-shadow(0 0 18px rgba(201,162,74,0.9))", duration: 1.4, yoyo: true, repeat: 40, ease: "sine.inOut" }, 1);
+        tl.fromTo("#wm", { opacity: 0 }, { opacity: 0.8, duration: 0.5 }, S.intro + 0.3);
+        // corte seco: pequeno "soco" de entrada na tela cheia
+        tl.fromTo("#base", { scale: 1.06 }, { scale: 1, duration: 0.35, ease: "power3.out" }, S.intro);
+        tl.fromTo("#flash", { opacity: 0.35 }, { opacity: 0, duration: 0.25, ease: "power2.out" }, S.intro);
+
+        // =========================================================== nome (lower third)
+        tl.set("#nome", { opacity: 1 }, E.nome_in);
+        tl.from("#nome .barra", { scaleY: 0, duration: 0.3, ease: "power3.out" }, E.nome_in);
+        tl.from(["#nome .n", "#nome .c"], { x: -520, duration: 0.5, stagger: 0.08, ease: "power3.out" }, E.nome_in + 0.1);
+        tl.to(["#nome .n", "#nome .c"], { x: -620, duration: 0.4, stagger: 0.05, ease: "power3.in" }, E.nome_in + 3.0);
+        tl.to("#nome .barra", { scaleY: 0, duration: 0.25 }, E.nome_in + 3.35);
+        tl.set("#nome", { opacity: 0 }, E.nome_in + 3.62);
+
+        // =========================================================== calendário 3D (julho de 2027)
+        (function () {
+          var n = pos("nariz_cal", E.cal_in);
+          var x = Math.min(800, n[0] + 230), y = Math.max(300, n[1] - 190);
+          tl.set("#cal", { x: x, y: y, opacity: 1 }, E.cal_in);
+          tl.fromTo("#cal-card", { rotationY: -85, scale: 0.4, z: -200 }, { rotationY: -14, scale: 1, z: 0, duration: 0.55, ease: "back.out(1.6)" }, E.cal_in);
+          tl.to("#cal-card", { rotationY: -6, rotationX: 4, duration: 1.2, ease: "sine.inOut" }, E.cal_in + 0.55);
+          gsap.set("#ano-novo", { rotationX: 90 });
+          tl.to("#ano-velho", { rotationX: -90, duration: 0.16, ease: "power2.in" }, E.cal_2027 - 0.16);
+          tl.to("#ano-novo", { rotationX: 0, duration: 0.22, ease: "back.out(2)" }, E.cal_2027);
+          tl.fromTo("#cal-card", { boxShadow: "0 30px 60px rgba(0,0,0,0.55), 0 0 0 3px rgba(201,162,74,0.9), 0 0 40px rgba(201,162,74,0.35)" },
+            { boxShadow: "0 30px 60px rgba(0,0,0,0.55), 0 0 0 5px rgba(241,217,164,1), 0 0 90px rgba(241,217,164,0.85)", duration: 0.25, yoyo: true, repeat: 1 }, E.cal_2027);
+          tl.to("#cal", { opacity: 0, scale: 0.6, y: y - 60, duration: 0.3, ease: "power2.in" }, E.cal_out + 0.35);
+        })();
+
+        // =========================================================== casa (único residente) na mão
+        (function () {
+          var t0 = E.casa_in, t1 = E.casa_out;
+          seguir("#casa", "mao_casa", -105, -300, t0 - 0.05, t1 + 0.3, 0.6);
+          tl.set("#casa", { opacity: 1 }, t0);
+          tl.fromTo(["#casa-disco", "#casa-rot"], { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(2.4)" }, t0);
+          tl.fromTo("#casa-rot", { rotationY: -180 }, { rotationY: 0, duration: 0.9, ease: "power3.out" }, t0);
+          tl.from("#casa-l", { opacity: 0, y: -10, duration: 0.25 }, t0 + 0.35);
+          tl.to("#casa", { opacity: 0, scale: 0.5, duration: 0.25, ease: "power2.in" }, t1);
+        })();
+
+        // =========================================================== cartões Bolsa Família / BPC
+        tl.set("#cartaoBF", { opacity: 1 }, E.bf_in);
+        tl.fromTo("#cartaoBF", { rotationY: 80, x: -260, scale: 0.6 }, { rotationY: 14, x: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, E.bf_in);
+        tl.set("#cartaoBPC", { opacity: 1 }, E.bpc_in);
+        tl.fromTo("#cartaoBPC", { rotationY: -80, x: 260, scale: 0.6 }, { rotationY: -14, x: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, E.bpc_in);
+        tl.to("#cartaoBF", { y: -10, rotationZ: -2, duration: 0.9, yoyo: true, repeat: 1, ease: "sine.inOut" }, E.bf_in + 0.5);
+        tl.to("#cartaoBPC", { y: -10, rotationZ: 2, duration: 0.9, yoyo: true, repeat: 1, ease: "sine.inOut" }, E.bpc_in + 0.5);
+        tl.to(".cartao .reflexo", { backgroundPosition: "0% 0", duration: 0.8, stagger: 0.7, ease: "power1.inOut" }, E.bf_in + 0.3);
+        tl.to("#cartaoBF", { x: -500, rotationY: 50, opacity: 0, duration: 0.35, ease: "power2.in" }, E.cartoes_out);
+        tl.to("#cartaoBPC", { x: 500, rotationY: -50, opacity: 0, duration: 0.35, ease: "power2.in" }, E.cartoes_out);
+
+        // =========================================================== lupa (pente-fino)
+        tl.set("#lupa", { opacity: 1 }, E.lupa_in);
+        tl.fromTo("#lupa", { x: -330, y: 840, rotation: -25 }, { x: 1110, y: 760, rotation: 15, duration: 1.05, ease: "power2.inOut" }, E.lupa_in);
+        tl.to("#lupa", { opacity: 0, duration: 0.1 }, E.lupa_in + 1.0);
+
+        // =========================================================== cafezinho: vapor saindo da xícara real
+        (function () {
+          var svg = $("#cafe-svg"), NS = "http://www.w3.org/2000/svg";
+          var xc = pos("xicara", E.cafe_in), cx = xc[0], cy = xc[1];   // boca da xícara no quadro (segue o zoom do trecho)
+          for (var k = 0; k < 3; k++) {
+            var p = document.createElementNS(NS, "path"), x0 = cx - 46 + k * 46;
+            var d = "M" + x0 + " " + cy;
+            for (var s = 1; s <= 6; s++) d += " Q" + (x0 + (s % 2 ? 26 : -26)) + " " + (cy - s * 44 + 22) + " " + x0 + " " + (cy - s * 44);
+            p.setAttribute("d", d); p.setAttribute("stroke", "#fff6e2"); p.setAttribute("stroke-width", "9"); p.setAttribute("stroke-linecap", "round");
+            p.setAttribute("opacity", "0.0"); p.style.filter = "blur(3px)"; svg.appendChild(p);
+            var L = 330;
+            p.setAttribute("stroke-dasharray", "90 " + L);
+            tl.fromTo(p, { strokeDashoffset: 0, opacity: 0 }, { strokeDashoffset: -L, opacity: 0.75, duration: 1.1, ease: "none", repeat: 2, delay: k * 0.25 }, E.cafe_in);
+            tl.to(p, { opacity: 0, duration: 0.3 }, E.cafe_out);
+          }
+          var c = document.createElementNS(NS, "ellipse");
+          c.setAttribute("cx", cx); c.setAttribute("cy", cy + 110); c.setAttribute("rx", 150); c.setAttribute("ry", 175);
+          c.setAttribute("stroke", "#c9a24a"); c.setAttribute("stroke-width", "6"); c.setAttribute("stroke-dasharray", "14 12"); c.setAttribute("fill", "none");
+          c.style.filter = "drop-shadow(0 0 8px rgba(201,162,74,0.8))"; svg.appendChild(c);
+          gsap.set("#cafe-rot", { x: cx - 330, y: cy + 30 });
+          tl.set("#cafe", { opacity: 1 }, E.cafe_in);
+          tl.fromTo(c, { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, E.cafe_in);
+          tl.to(c, { rotation: 40, duration: 3, ease: "none", transformOrigin: "50% 50%" }, E.cafe_in);
+          tl.fromTo("#cafe-rot", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.6, ease: "power2.out" }, E.cafe_in + 0.2);
+          tl.to("#cafe", { opacity: 0, duration: 0.3 }, E.cafe_out);
+        })();
+
+        // =========================================================== porta de vidro: "como no vídeo"
+        (function () {
+          var h = pos("mao_porta", E.porta_in);
+          tl.set("#porta", { opacity: 1 }, E.porta_in);
+          tl.fromTo("#porta", { x: h[0] - 650 - 190, y: h[1] - 150 - 270, scale: 0.15, rotationY: 0 },
+            { x: 0, y: 0, scale: 1, rotationY: -12, duration: 0.55, ease: "power3.out" }, E.porta_in);
+          tl.to("#porta", { rotationY: -6, rotationX: 3, duration: 1.4, ease: "sine.inOut" }, E.porta_in + 0.55);
+          tl.to("#porta", { opacity: 0, scale: 0.7, x: 120, duration: 0.3, ease: "power2.in" }, E.porta_out);
+        })();
+
+        // =========================================================== "2" (V com os dedos) e lista de conferência
+        (function () {
+          var f = pos("dedos_dois", E.dois_in);
+          tl.set("#dois", { x: f[0] - 330, y: f[1] - 200, opacity: 1 }, E.dois_in);
+          tl.fromTo("#dois", { scale: 0, rotationY: -120, transformPerspective: 600 }, { scale: 1, rotationY: 0, duration: 0.45, ease: "back.out(2.2)" }, E.dois_in);
+          tl.to("#dois", { y: "-=12", duration: 0.5, ease: "sine.inOut" }, E.dois_in + 0.45);
+          tl.to("#dois", { scale: 0.3, opacity: 0, x: 120, y: 790, duration: 0.35, ease: "power2.in" }, E.lista_in - 0.05);
+
+          gsap.set("#it2", { display: "none" });
+          tl.set("#lista", { opacity: 1 }, E.lista_in);
+          tl.fromTo("#lista-painel", { rotationX: -80, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.45, ease: "back.out(1.4)" }, E.lista_in);
+          tl.from("#it1", { x: -60, opacity: 0, duration: 0.3, ease: "power2.out" }, E.item1_in);
+          gsap.set(["#ok1", "#ok2"], { strokeDasharray: 50, strokeDashoffset: 50 });
+          gsap.set("#lista .ok", { scale: 0, transformOrigin: "50% 50%" });
+          tl.to("#it1 .ok", { scale: 1, duration: 0.25, ease: "back.out(3)" }, E.check1);
+          tl.to("#ok1", { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" }, E.check1 + 0.08);
+          tl.to("#lista-painel", { rotationX: 80, opacity: 0, duration: 0.3, ease: "power2.in" }, E.lista_out);
+          tl.set("#lista", { opacity: 0 }, E.lista_out + 0.3);
+          // segunda situação
+          tl.set("#it2", { display: "flex" }, E.lista2_in - 0.01);
+          tl.set("#it1", { opacity: 0.55 }, E.lista2_in - 0.01);
+          tl.set("#lista", { opacity: 1 }, E.lista2_in);
+          tl.fromTo("#lista-painel", { rotationX: -80, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.45, ease: "back.out(1.4)" }, E.lista2_in);
+          tl.fromTo("#it2", { x: -60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }, E.item2_in);
+          tl.fromTo("#it2 .num", { scale: 1 }, { scale: 1.25, duration: 0.15, yoyo: true, repeat: 1 }, E.item2_in);
+          tl.to("#it2 .ok", { scale: 1, duration: 0.25, ease: "back.out(3)" }, E.check2);
+          tl.to("#ok2", { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" }, E.check2 + 0.08);
+          tl.to("#lista-painel", { y: -30, opacity: 0, duration: 0.3, ease: "power2.in" }, E.lista2_out);
+          tl.set("#lista", { opacity: 0 }, E.lista2_out + 0.3);
+        })();
+
+        // =========================================================== "tome muito cuidado" / "omita"
+        function alerta(t, forte) {
+          var n = pos("nariz_cuidado", t);
+          tl.set("#aviso", { x: Math.min(880, n[0] + 210), y: Math.max(120, n[1] - 330), opacity: 1, scale: 0, rotation: -14 }, t);
+          tl.to("#aviso", { scale: forte ? 1.15 : 1, rotation: 0, duration: 0.35, ease: "back.out(3)" }, t);
+          tl.to("#aviso", { rotation: 8, duration: 0.07, yoyo: true, repeat: 5, ease: "none" }, t + 0.35);
+          tl.to("#aviso", { opacity: 0, scale: 0.6, duration: 0.25 }, t + 1.15);
+          tl.fromTo("#alerta", { opacity: 0 }, { opacity: forte ? 1 : 0.85, duration: 0.1 }, t);
+          tl.to("#alerta", { opacity: 0, duration: 0.9, ease: "power2.out" }, t + 0.15);
+          tl.fromTo("#base", { x: 0 }, { x: forte ? 10 : 7, duration: 0.04, yoyo: true, repeat: 5, ease: "none" }, t);
+        }
+        alerta(E.cuidado1, false);
+        tl.fromTo("#alerta", { opacity: 0 }, { opacity: 0.6, duration: 0.1 }, E.omita);
+        tl.to("#alerta", { opacity: 0, duration: 0.8 }, E.omita + 0.15);
+        alerta(E.cuidado2, true);
+
+        // =========================================================== chip "vale a partir de jul/2027"
+        tl.set("#julchip", { opacity: 1 }, E.jul_chip_in);
+        tl.fromTo("#julchip", { x: -420 }, { x: 0, duration: 0.45, ease: "power3.out" }, E.jul_chip_in);
+        tl.to("#julchip", { x: -460, duration: 0.35, ease: "power2.in" }, E.jul_chip_out);
+        tl.set("#julchip", { opacity: 0 }, E.jul_chip_out + 0.36);
+
+        // =========================================================== INSS / Justiça
+        tl.set("#inss", { opacity: 1 }, E.inss_in);
+        tl.fromTo("#inss", { scale: 0, rotationX: -90, transformPerspective: 800 }, { scale: 1, rotationX: 0, duration: 0.45, ease: "back.out(2)" }, E.inss_in);
+        tl.set("#justica", { opacity: 1 }, E.justica_in);
+        tl.fromTo("#justica", { scale: 0, rotationX: -90, transformPerspective: 800 }, { scale: 1, rotationX: 0, duration: 0.45, ease: "back.out(2)" }, E.justica_in);
+        tl.fromTo("#ic-escudo", { rotationY: 0 }, { rotationY: 360, duration: 1.4, ease: "power2.inOut" }, E.inss_in);
+        tl.fromTo("#bal-braco", { rotation: -12, svgOrigin: "33 16" }, { rotation: 12, svgOrigin: "33 16", duration: 0.5, yoyo: true, repeat: 2, ease: "sine.inOut" }, E.justica_in);
+        tl.fromTo("#ic-balanca", { rotationY: -40 }, { rotationY: 40, duration: 1.2, yoyo: true, repeat: 1, ease: "sine.inOut" }, E.justica_in);
+        tl.to(["#inss", "#justica"], { opacity: 0, y: -40, duration: 0.3, ease: "power2.in" }, E.inss_out);
+
+        // =========================================================== avião de papel (encaminhe)
+        (function () {
+          var h = pos("mao_aviao", E.aviao_in), t0 = E.aviao_in, dur = 1.3;
+          var x0 = h[0], y0 = h[1] - 60, pts = [];
+          for (var k = 0; k <= 40; k++) {
+            var u = k / 40;
+            var x = x0 + (1200 - x0) * u + Math.sin(u * Math.PI) * -120;
+            var y = y0 + (80 - y0) * u * u - Math.sin(u * Math.PI * 2) * 60;
+            pts.push([x, y]);
+          }
+          var d = "M" + pts.map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L");
+          $("#aviao-rastro").setAttribute("d", d);
+          tl.set("#aviao", { opacity: 1 }, t0);
+          gsap.set("#aviao-rastro", { strokeDashoffset: 0 });
+          var len = 2400;
+          gsap.set("#aviao-rastro", { attr: { "stroke-dasharray": "4 16" }, clipPath: "inset(0 100% 0 0)" });
+          for (var k2 = 0; k2 <= 40; k2++) {
+            var p = pts[k2], q = pts[Math.min(40, k2 + 1)], r = pts[Math.max(0, k2 - 1)];
+            var ang = Math.atan2(q[1] - r[1], q[0] - r[0]) * 180 / Math.PI + 22;
+            var tt = t0 + dur * Math.pow(k2 / 40, 1.4);
+            tl.set("#aviao-g", { x: p[0], y: p[1], rotation: ang, scale: 0.6 + 0.6 * Math.min(1, k2 / 8) }, tt);
+          }
+          tl.fromTo("#aviao-rastro", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: dur, ease: "power1.in" }, t0);
+          tl.to("#aviao", { opacity: 0, duration: 0.4 }, t0 + dur + 0.1);
+        })();
+
+        // =========================================================== saída: vídeo desfoca sob a cartela
+        tl.to("#base", { filter: "blur(16px) brightness(0.45)", scale: 1.06, duration: 0.5, ease: "power2.in" }, E.cartela - 0.35);
+        tl.to("#legendas", { opacity: 0, duration: 0.2 }, E.cartela - 0.2);
+
+        // =========================================================== cartela final
+        var C = E.cartela;
+        tl.fromTo("#cartela .fundo", { opacity: 0 }, { opacity: 1, duration: 0.35 }, C);
+        tl.fromTo("#c-logo", { clipPath: "inset(100% 0% 0% 0%)", y: 40 }, { clipPath: "inset(0% 0% 0% 0%)", y: 0, duration: 0.6, ease: "power3.out" }, C + 0.1);
+        tl.to("#c-logo", { filter: "drop-shadow(0 0 28px rgba(201,162,74,0.75))", y: -8, duration: 1.4, yoyo: true, repeat: 1, ease: "sine.inOut" }, C + 0.7);
+        tl.from("#c-nome", { opacity: 0, y: 24, scale: 1.08, duration: 0.5, ease: "power3.out" }, C + 0.35);
+        tl.from("#c-regra", { scaleX: 0, duration: 0.5, ease: "power2.out" }, C + 0.5);
+        tl.from("#c-area", { opacity: 0, duration: 0.4 }, C + 0.6);
+        tl.fromTo("#c-scr", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: "power2.out" }, C + 0.75);
+        tl.from("#c-cta", { opacity: 0, y: 20, duration: 0.4, ease: "power2.out" }, C + 1.1);
+        tl.from("#c-arroba span", { opacity: 0, scale: 0.8, duration: 0.4, ease: "back.out(2)" }, C + 1.35);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
