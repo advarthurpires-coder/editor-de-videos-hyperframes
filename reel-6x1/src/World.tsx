@@ -46,7 +46,7 @@ const Environment = () => {
   return null;
 };
 
-const COVER_POSE = { pos: [-7.0, 0.8, 17.5] as [number, number, number], tgt: [0.3, 4.0, 0] as [number, number, number], fov: 40, roll: 0 };
+const COVER_POSE = { pos: [-2.5, 1.4, 10.5] as [number, number, number], tgt: [0.2, 2.1, 0] as [number, number, number], fov: 40, roll: 0 };
 
 const Rig = ({ t, cover }: { t: number; cover?: boolean }) => {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
