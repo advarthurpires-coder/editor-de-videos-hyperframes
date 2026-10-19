@@ -40,6 +40,21 @@ ainda aparece na borda direita de algumas).
 - 04 e 05: **colagem com formas** — grandes curvas brancas texturizadas e cápsulas
   arredondadas com fotos secundárias na lateral.
 - Contraste de cor: fundo azul frio × cabelo e roupa quentes.
+- 01: **dupla exposição clara** — cantora em plano médio gigante, lavada em creme, com o
+  palco inteiro (luzes e plateia) surgindo dentro da roupa e na base; grão e partículas.
+- 02: **dois quadros de cantos arredondados** cortados por faixas diagonais brancas
+  texturizadas sobre fundo ampliado e desfocado.
+- 03: retrato com **duas faixas diagonais brancas** atrás e uma foto da plateia em vermelho
+  na lateral direita.
+
+## F — Tabuleiro de frases (`f-get-*`, @getchurchfloripa)
+- Cada slide é um **xadrez 2×2**: dois quadros de texto (fundo off-white, tipografia
+  sem serifa preta, compacta e centralizada) alternados com dois quadros de foto.
+- **A mesma foto aparece duas vezes**: em cima em P&B/sépia, embaixo em cor fria (azul-petróleo).
+- Textura de **retícula (halftone)** e grão sobre as fotos, com aparência de impresso.
+- Narrativa de contraste em cada slide: frase de objeção entre aspas no alto
+  ("É só mais um domingo.") e a virada embaixo ("Até se tornar o começo de algo novo.").
+- Fácil de reproduzir com qualquer foto: o impacto vem do texto e da repetição.
 
 ## Regras que valem para todos
 1. Feições intocadas: nada de afinar, suavizar ou redesenhar rosto ou corpo.
