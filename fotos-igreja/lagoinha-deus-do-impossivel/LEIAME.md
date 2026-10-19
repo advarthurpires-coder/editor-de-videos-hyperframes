@@ -20,5 +20,13 @@ Gerar de novo: `python3 tools/editar.py` (a partir desta pasta).
 | 09 | Retrato com halo âmbar | B Ceia | p07 |
 | 10 | Encerramento com frase e logo | F GET Church | p02 |
 
-`saida/individuais`: as 16 fotos tratadas isoladamente (4:5), para stories ou posts avulsos.
+## Carrossel 2 (`saida/carrossel_2`, fotos p17–p20)
+| # | Slide | Estilo |
+|---|---|---|
+| 01 | Intercessora de mão erguida | C IIR (paleta noite) |
+| 02 | Súplica em sépia | A Forjados |
+| 03 | Tabuleiro "Parece impossível… / Para Deus, nada é impossível. Lucas 1.37" | F GET Church |
+| 04 | Mãos abertas | C IIR (paleta noite) |
+
+`saida/individuais`: as 20 fotos tratadas isoladamente (4:5), para stories ou posts avulsos.
 O logo antigo, gravado na foto, foi cortado; o logo é reaplicado limpo (`tools/logo_lagoinha.png`).

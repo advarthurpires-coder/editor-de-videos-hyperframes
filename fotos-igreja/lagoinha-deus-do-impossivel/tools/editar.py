@@ -201,8 +201,9 @@ def texto_centro(d, caixa, linhas, fnt, cor, entre=1.02, rastreio=0):
         y += alt
 
 
-def salvar(tela, nome):
-    tela.convert("RGB").save(OUT_C / nome, quality=93, subsampling=0)
+def salvar(tela, nome, pasta=OUT_C):
+    pasta.mkdir(parents=True, exist_ok=True)
+    tela.convert("RGB").save(pasta / nome, quality=93, subsampling=0)
     print("ok", nome)
 
 
@@ -227,15 +228,15 @@ def s01_capa():
     salvar(tela, "01_capa.jpg")
 
 
-def s_unica(n, nome, estilo, fx=0.5, fy=0.5, zoom=1.0, vin=0.5, **kw):
+def s_unica(n, nome, estilo, fx=0.5, fy=0.5, zoom=1.0, vin=0.5, pasta=OUT_C, **kw):
     """Foto única com bastante respiro (fotojornalismo IIR)."""
     a = tratar(enquadrar(abrir(n), W, H, fx, fy, zoom), estilo, **kw)
     tela = u8(acabamento(a, vin)).convert("RGBA")
     por_logo(tela, 170, 40)
-    salvar(tela, nome)
+    salvar(tela, nome, pasta)
 
 
-def s_tabuleiro(n, nome, cima, baixo, fx=0.5, fy=0.4, zoom=1.0):
+def s_tabuleiro(n, nome, cima, baixo, fx=0.5, fy=0.4, zoom=1.0, ref=None, pasta=OUT_C):
     """Tabuleiro 2x2 (GET Church): frase / foto P&B / foto em cor / resposta."""
     meia_w, meia_h = W // 2, H // 2
     foto = enquadrar(abrir(n), meia_w, meia_h, fx, fy, zoom)
@@ -250,8 +251,10 @@ def s_tabuleiro(n, nome, cima, baixo, fx=0.5, fy=0.4, zoom=1.0):
     f = fonte("Medium", 62)
     texto_centro(d, (30, 0, meia_w - 30, meia_h), cima, f, TINTA, 1.0, rastreio=-2.2)
     texto_centro(d, (meia_w + 30, meia_h, W - 30, H), baixo, f, TINTA, 1.0, rastreio=-2.2)
+    if ref:
+        texto_centro(d, (meia_w, meia_h + 440, W, meia_h + 490), [ref], fonte("Light", 26), TINTA, rastreio=6)
     por_logo(tela, 150, 36, cor=TINTA)
-    salvar(tela, nome)
+    salvar(tela, nome, pasta)
 
 
 def s04_dois_quadros():
@@ -297,11 +300,11 @@ def s06_mosaico():
     salvar(tela, "06_mosaico.jpg")
 
 
-def s09_halo():
+def s_halo(n=7, nome="09_halo.jpg", fx=0.45, fy=0.42, zoom=1.08, cx=0.46, cy=0.36, r=360, pasta=OUT_C):
     """Retrato com halo âmbar atrás (Ceia 01), aplicado só nas áreas escuras."""
-    a = tratar(enquadrar(abrir(7), W, H, fx=0.45, fy=0.42, zoom=1.08))
+    a = tratar(enquadrar(abrir(n), W, H, fx=fx, fy=fy, zoom=zoom))
     y, x = np.mgrid[0:H, 0:W]
-    cx, cy, r = W * 0.46, H * 0.36, 360
+    cx, cy = W * cx, H * cy
     d = np.sqrt((x - cx) ** 2 + (y - cy) ** 2)
     anel = np.exp(-((d - r) / 55) ** 2) + 0.35 * np.exp(-((d - r) / 160) ** 2)
     escuro = np.clip(1 - lum(a) * 2.4, 0, 1)
@@ -309,7 +312,7 @@ def s09_halo():
     a = 1 - (1 - a) * (1 - brilho * 0.8)  # screen
     tela = u8(acabamento(a, 0.5)).convert("RGBA")
     por_logo(tela, 170, 40)
-    salvar(tela, "09_halo.jpg")
+    salvar(tela, nome, pasta)
 
 
 def s10_fim():
@@ -327,7 +330,7 @@ def s10_fim():
 def individuais():
     """As 16 fotos tratadas sozinhas em 4:5, com o logo reaplicado."""
     mono = {10: "sepia", 11: "neutro"}
-    for n in range(1, 17):
+    for n in range(1, len(list(ORIG.glob("p*.jpg"))) + 1):
         est = mono.get(n, "noite")
         a = tratar(enquadrar(abrir(n), W, H, 0.5, 0.45), est)
         tela = u8(acabamento(a, 0.42)).convert("RGBA")
@@ -347,6 +350,14 @@ if __name__ == "__main__":
     s06_mosaico()
     s_tabuleiro(15, "07_tabuleiro_destra.jpg", ["“Sua destra", "me sustenta…”"], ["e me faz", "prevalecer."], fx=0.48, fy=0.33, zoom=1.1)
     s_unica(14, "08_geracoes.jpg", "noite", fx=0.55, fy=0.42)
-    s09_halo()
+    s_halo()
     s10_fim()
+
+    # Carrossel 2 (fotos p17-p20), mesma paleta
+    C2 = RAIZ / "saida" / "carrossel_2"
+    s_unica(17, "01_intercessao.jpg", "noite", fx=0.42, fy=0.5, zoom=1.05, vin=0.6, pasta=C2)
+    s_unica(18, "02_suplica.jpg", "sepia", fx=0.5, fy=0.4, zoom=1.08, vin=0.6, pasta=C2)
+    s_tabuleiro(19, "03_tabuleiro_impossivel.jpg", ["“Parece", "impossível…”"], ["Para Deus,", "nada é", "impossível."],
+                fx=0.42, fy=0.38, zoom=1.15, ref="LUCAS 1.37", pasta=C2)
+    s_unica(20, "04_maos_abertas.jpg", "noite", fx=0.45, fy=0.42, pasta=C2)
     individuais()
