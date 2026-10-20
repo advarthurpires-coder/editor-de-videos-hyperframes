@@ -1,0 +1,686 @@
+[
+ {
+  "i": 1,
+  "texto": "Três motivos pra você não ir ao Culto Hero.",
+  "falado": "Três motivos pra você não ir ao Culto Hero.",
+  "dur": 3.008,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Três",
+    "fim": 0.64
+   },
+   {
+    "w": "motivos",
+    "fim": 1.237
+   },
+   {
+    "w": "pra",
+    "fim": 1.408
+   },
+   {
+    "w": "você",
+    "fim": 1.792
+   },
+   {
+    "w": "não",
+    "fim": 2.005
+   },
+   {
+    "w": "ir",
+    "fim": 2.155
+   },
+   {
+    "w": "ao",
+    "fim": 2.304
+   },
+   {
+    "w": "Culto",
+    "fim": 2.539
+   },
+   {
+    "w": "Hero.",
+    "fim": 3.008
+   }
+  ]
+ },
+ {
+  "i": 2,
+  "texto": "Primeiro: lá vai ter homem de tudo quanto é tipo.",
+  "falado": "Primeiro: lá vai ter homem de tudo quanto é tipo.",
+  "dur": 2.965,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Primeiro:",
+    "fim": 0.875
+   },
+   {
+    "w": "lá",
+    "fim": 1.067
+   },
+   {
+    "w": "vai",
+    "fim": 1.237
+   },
+   {
+    "w": "ter",
+    "fim": 1.472
+   },
+   {
+    "w": "homem",
+    "fim": 1.643
+   },
+   {
+    "w": "de",
+    "fim": 1.835
+   },
+   {
+    "w": "tudo",
+    "fim": 2.091
+   },
+   {
+    "w": "quanto",
+    "fim": 2.453
+   },
+   {
+    "w": "é",
+    "fim": 2.503
+   },
+   {
+    "w": "tipo.",
+    "fim": 2.965
+   }
+  ]
+ },
+ {
+  "i": 3,
+  "texto": "Peão, empresário, motorista, estudante, aposentado…",
+  "falado": "Peão, empresário, motorista, estudante, aposentado.",
+  "dur": 3.499,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Peão,",
+    "fim": 0.768
+   },
+   {
+    "w": "empresário,",
+    "fim": 1.387
+   },
+   {
+    "w": "motorista,",
+    "fim": 1.899
+   },
+   {
+    "w": "estudante,",
+    "fim": 2.624
+   },
+   {
+    "w": "aposentado…",
+    "fim": 3.499
+   }
+  ]
+ },
+ {
+  "i": 4,
+  "texto": "e você vai descobrir que não é tão diferente deles assim.",
+  "falado": "e você vai descobrir que não é tão diferente deles assim.",
+  "dur": 3.84,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "e",
+    "fim": 0.405
+   },
+   {
+    "w": "você",
+    "fim": 0.875
+   },
+   {
+    "w": "vai",
+    "fim": 1.024
+   },
+   {
+    "w": "descobrir",
+    "fim": 1.621
+   },
+   {
+    "w": "que",
+    "fim": 1.813
+   },
+   {
+    "w": "não",
+    "fim": 1.984
+   },
+   {
+    "w": "é",
+    "fim": 2.069
+   },
+   {
+    "w": "tão",
+    "fim": 2.219
+   },
+   {
+    "w": "diferente",
+    "fim": 3.029
+   },
+   {
+    "w": "deles",
+    "fim": 3.392
+   },
+   {
+    "w": "assim.",
+    "fim": 3.84
+   }
+  ]
+ },
+ {
+  "i": 5,
+  "texto": "Isso incomoda.",
+  "falado": "Isso incomoda.",
+  "dur": 1.28,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Isso",
+    "fim": 0.704
+   },
+   {
+    "w": "incomoda.",
+    "fim": 1.28
+   }
+  ]
+ },
+ {
+  "i": 6,
+  "texto": "Segundo: você vai sair de lá com vontade de mudar umas coisas em casa.",
+  "falado": "Segundo: você vai sair de lá com vontade de mudar umas coisas em casa.",
+  "dur": 4.48,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Segundo:",
+    "fim": 0.917
+   },
+   {
+    "w": "você",
+    "fim": 1.237
+   },
+   {
+    "w": "vai",
+    "fim": 1.365
+   },
+   {
+    "w": "sair",
+    "fim": 1.728
+   },
+   {
+    "w": "de",
+    "fim": 1.856
+   },
+   {
+    "w": "lá",
+    "fim": 2.069
+   },
+   {
+    "w": "com",
+    "fim": 2.219
+   },
+   {
+    "w": "vontade",
+    "fim": 2.816
+   },
+   {
+    "w": "de",
+    "fim": 2.901
+   },
+   {
+    "w": "mudar",
+    "fim": 3.264
+   },
+   {
+    "w": "umas",
+    "fim": 3.541
+   },
+   {
+    "w": "coisas",
+    "fim": 3.989
+   },
+   {
+    "w": "em",
+    "fim": 4.053
+   },
+   {
+    "w": "casa.",
+    "fim": 4.48
+   }
+  ]
+ },
+ {
+  "i": 7,
+  "texto": "E sua esposa vai estranhar.",
+  "falado": "E sua esposa vai estranhar.",
+  "dur": 1.963,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "E",
+    "fim": 0.405
+   },
+   {
+    "w": "sua",
+    "fim": 0.768
+   },
+   {
+    "w": "esposa",
+    "fim": 1.216
+   },
+   {
+    "w": "vai",
+    "fim": 1.323
+   },
+   {
+    "w": "estranhar.",
+    "fim": 1.963
+   }
+  ]
+ },
+ {
+  "i": 8,
+  "texto": "Terceiro, e esse é o mais perigoso:",
+  "falado": "Terceiro, e esse é o mais perigoso.",
+  "dur": 2.283,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Terceiro,",
+    "fim": 0.981
+   },
+   {
+    "w": "e",
+    "fim": 1.195
+   },
+   {
+    "w": "esse",
+    "fim": 1.344
+   },
+   {
+    "w": "é",
+    "fim": 1.394
+   },
+   {
+    "w": "o",
+    "fim": 1.444
+   },
+   {
+    "w": "mais",
+    "fim": 1.728
+   },
+   {
+    "w": "perigoso:",
+    "fim": 2.283
+   }
+  ]
+ },
+ {
+  "i": 9,
+  "texto": "você pode acabar fazendo amigo.",
+  "falado": "você pode acabar fazendo amigo.",
+  "dur": 2.368,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "você",
+    "fim": 0.747
+   },
+   {
+    "w": "pode",
+    "fim": 1.109
+   },
+   {
+    "w": "acabar",
+    "fim": 1.536
+   },
+   {
+    "w": "fazendo",
+    "fim": 2.048
+   },
+   {
+    "w": "amigo.",
+    "fim": 2.368
+   }
+  ]
+ },
+ {
+  "i": 10,
+  "texto": "Amigo de verdade.",
+  "falado": "Amigo de verdade.",
+  "dur": 1.643,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Amigo",
+    "fim": 0.832
+   },
+   {
+    "w": "de",
+    "fim": 0.96
+   },
+   {
+    "w": "verdade.",
+    "fim": 1.643
+   }
+  ]
+ },
+ {
+  "i": 11,
+  "texto": "Daqueles que te ligam pra saber como você tá.",
+  "falado": "Daqueles que te ligam pra saber como você tá.",
+  "dur": 2.88,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Daqueles",
+    "fim": 0.853
+   },
+   {
+    "w": "que",
+    "fim": 0.939
+   },
+   {
+    "w": "te",
+    "fim": 1.088
+   },
+   {
+    "w": "ligam",
+    "fim": 1.493
+   },
+   {
+    "w": "pra",
+    "fim": 1.6
+   },
+   {
+    "w": "saber",
+    "fim": 1.963
+   },
+   {
+    "w": "como",
+    "fim": 2.197
+   },
+   {
+    "w": "você",
+    "fim": 2.645
+   },
+   {
+    "w": "tá.",
+    "fim": 2.88
+   }
+  ]
+ },
+ {
+  "i": 12,
+  "texto": "Aí já era.",
+  "falado": "Aí já era.",
+  "dur": 1.131,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Aí",
+    "fim": 0.512
+   },
+   {
+    "w": "já",
+    "fim": 0.811
+   },
+   {
+    "w": "era.",
+    "fim": 1.131
+   }
+  ]
+ },
+ {
+  "i": 13,
+  "texto": "Não tem mais como sumir.",
+  "falado": "Não tem mais como sumir.",
+  "dur": 1.813,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Não",
+    "fim": 0.811
+   },
+   {
+    "w": "tem",
+    "fim": 0.861
+   },
+   {
+    "w": "mais",
+    "fim": 1.237
+   },
+   {
+    "w": "como",
+    "fim": 1.429
+   },
+   {
+    "w": "sumir.",
+    "fim": 1.813
+   }
+  ]
+ },
+ {
+  "i": 14,
+  "texto": "Então, se você quer continuar exatamente do jeito que tá…",
+  "falado": "Então, se você quer continuar exatamente do jeito que tá.",
+  "dur": 3.755,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Então,",
+    "fim": 1.045
+   },
+   {
+    "w": "se",
+    "fim": 1.095
+   },
+   {
+    "w": "você",
+    "fim": 1.365
+   },
+   {
+    "w": "quer",
+    "fim": 1.493
+   },
+   {
+    "w": "continuar",
+    "fim": 2.048
+   },
+   {
+    "w": "exatamente",
+    "fim": 2.859
+   },
+   {
+    "w": "do",
+    "fim": 2.909
+   },
+   {
+    "w": "jeito",
+    "fim": 3.328
+   },
+   {
+    "w": "que",
+    "fim": 3.392
+   },
+   {
+    "w": "tá…",
+    "fim": 3.755
+   }
+  ]
+ },
+ {
+  "i": 15,
+  "texto": "não vai.",
+  "falado": "não vai.",
+  "dur": 0.853,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "não",
+    "fim": 0.804
+   },
+   {
+    "w": "vai.",
+    "fim": 0.853
+   }
+  ]
+ },
+ {
+  "i": 16,
+  "texto": "Agora, se você topa o risco…",
+  "falado": "Agora, se você topa o risco.",
+  "dur": 2.048,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Agora,",
+    "fim": 0.811
+   },
+   {
+    "w": "se",
+    "fim": 0.981
+   },
+   {
+    "w": "você",
+    "fim": 1.323
+   },
+   {
+    "w": "topa",
+    "fim": 1.643
+   },
+   {
+    "w": "o",
+    "fim": 1.792
+   },
+   {
+    "w": "risco…",
+    "fim": 2.048
+   }
+  ]
+ },
+ {
+  "i": 17,
+  "texto": "Culto Hero.",
+  "falado": "Culto Hero.",
+  "dur": 1.088,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Culto",
+    "fim": 0.704
+   },
+   {
+    "w": "Hero.",
+    "fim": 1.088
+   }
+  ]
+ },
+ {
+  "i": 18,
+  "texto": "Sábado, dia 24, às sete e meia.",
+  "falado": "Sábado, dia vinte e quatro, às sete e meia.",
+  "dur": 2.816,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Sábado,",
+    "fim": 0.789
+   },
+   {
+    "w": "dia",
+    "fim": 1.152
+   },
+   {
+    "w": "24,",
+    "fim": 2.005
+   },
+   {
+    "w": "às",
+    "fim": 2.155
+   },
+   {
+    "w": "sete",
+    "fim": 2.368
+   },
+   {
+    "w": "e",
+    "fim": 2.418
+   },
+   {
+    "w": "meia.",
+    "fim": 2.816
+   }
+  ]
+ },
+ {
+  "i": 19,
+  "texto": "Avenida Faria Pereira, 3083.",
+  "falado": "Avenida Faria Pereira, três mil e oitenta e três.",
+  "dur": 3.392,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Avenida",
+    "fim": 0.896
+   },
+   {
+    "w": "Faria",
+    "fim": 1.237
+   },
+   {
+    "w": "Pereira,",
+    "fim": 1.643
+   },
+   {
+    "w": "3083.",
+    "fim": 3.392
+   }
+  ]
+ },
+ {
+  "i": 20,
+  "texto": "Depois não diz que eu não avisei.",
+  "falado": "Depois não diz que eu não avisei.",
+  "dur": 2.325,
+  "sr": 24000,
+  "palavras": [
+   {
+    "w": "Depois",
+    "fim": 0.853
+   },
+   {
+    "w": "não",
+    "fim": 1.152
+   },
+   {
+    "w": "diz",
+    "fim": 1.365
+   },
+   {
+    "w": "que",
+    "fim": 1.515
+   },
+   {
+    "w": "eu",
+    "fim": 1.643
+   },
+   {
+    "w": "não",
+    "fim": 1.877
+   },
+   {
+    "w": "avisei.",
+    "fim": 2.325
+   }
+  ]
+ }
+]
