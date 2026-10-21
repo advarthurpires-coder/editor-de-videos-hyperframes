@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Convite HERO — reel</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/sincronia.js"></script>
+    <script src="assets/linha_tempo.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three/three.module.min.js",
+          "three/addons/": "./assets/vendor/three/addons/"
+        }
+      }
+    </script>
+    <style>
+      @font-face { font-family: "Anton"; font-weight: 400; src: url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("assets/fonts/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url("assets/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("assets/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 800; font-style: italic; src: url("assets/fonts/barlow-condensed-latin-800-italic.woff2") format("woff2"); }
+      @font-face { font-family: "UnifrakturCook"; font-weight: 700; src: url("assets/fonts/unifrakturcook-latin-700-normal.woff2") format("woff2"); }
+
+      :root {
+        --preto: #0e0d0b;
+        --amarelo: #f5b800;
+        --amarelo-claro: #ffd447;
+        --creme: #fff6e0;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--preto); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--preto); color: #fff; font-family: "Barlow Condensed", sans-serif; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .layer { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+
+      /* ---------- vídeo + camadas presas a ele */
+      #corte, #deslize, #tremor, #camVideo { position: absolute; inset: 0; }
+      #corte { clip-path: inset(0px 0px 0px 0px); }
+      #camVideo { transform-origin: 540px 700px; }
+      #base, #pessoa { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #atras { position: absolute; inset: 0; z-index: 2; }
+      #c3dTras { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 3; }
+      .cutout-wrap { position: absolute; inset: 0; z-index: 4; }
+      #cartelaFundo { position: absolute; inset: 0; z-index: 5; opacity: 0; background: radial-gradient(ellipse 85% 55% at 50% 52%, #3a2c08 0%, #16120a 45%, #060505 100%); overflow: hidden; }
+      #cartelaFundo .marca { position: absolute; left: -60px; top: 380px; font-family: "UnifrakturCook", serif; font-weight: 700; font-size: 1500px; line-height: 1; color: var(--amarelo); opacity: 0.07; }
+      #cartelaFundo .faixa { position: absolute; left: -100px; width: 1300px; height: 120px; background: var(--amarelo); transform: rotate(-8deg); opacity: 0.95; }
+      #cartelaFundo::after { content: ""; position: absolute; inset: 0; background: url("assets/media/sujeira.png") 0 0 / 1080px 1920px; opacity: 0.4; }
+      #c3dFrente { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 6; }
+      #abertura { position: absolute; left: 0; right: 0; height: 960px; background: #000; z-index: 9; }
+
+      /* ---------- palavras-chave gigantes atrás da pessoa */
+      .kw { position: absolute; left: 0; top: 0; white-space: nowrap; line-height: 0.86; opacity: 0; will-change: transform, opacity; }
+      .kw span { display: inline-block; }
+      .kw.a { font-family: "Anton", sans-serif; font-weight: 400; color: var(--amarelo); text-transform: uppercase; text-shadow: 0 10px 40px rgba(0,0,0,0.45); }
+      .kw.g, .kw.g2 { font-family: "UnifrakturCook", serif; font-weight: 700; color: var(--creme); text-shadow: 0 0 40px rgba(245,184,0,0.55), 0 0 110px rgba(245,184,0,0.35); }
+      .kw.g2 { text-align: center; line-height: 0.92; }
+      .kw.n { font-family: "Anton", sans-serif; color: var(--amarelo); -webkit-text-stroke: 6px #fff1b8; text-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+      .kw.o { font-family: "Anton", sans-serif; color: transparent; -webkit-text-stroke: 5px var(--amarelo); text-align: center; line-height: 0.9; }
+      .kw.logo img { width: 880px; display: block; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5)); }
+      #raios { position: absolute; left: -460px; top: -440px; width: 2000px; height: 2000px; opacity: 0;
+        background: repeating-conic-gradient(from 0deg, rgba(255,205,70,0.55) 0deg 5deg, rgba(255,205,70,0) 5deg 15deg);
+        -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, rgba(0,0,0,0.6) 22%, transparent 52%);
+        mask-image: radial-gradient(circle at 50% 50%, #000 0%, rgba(0,0,0,0.6) 22%, transparent 52%); }
+      #escuro { position: absolute; inset: 0; opacity: 0; background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.82) 30%, rgba(0,0,0,0.9) 100%); }
+      #halo { position: absolute; left: 40px; top: 60px; width: 1000px; height: 1000px; border-radius: 50%; opacity: 0;
+        background: radial-gradient(circle, rgba(255,200,60,0.55) 0%, rgba(255,170,20,0.18) 35%, rgba(0,0,0,0) 68%); }
+
+      /* ---------- legendas */
+      #caps { position: absolute; left: 0; right: 0; top: 0; height: 1920px; z-index: 12; pointer-events: none; }
+      .cap { position: absolute; left: 40px; right: 40px; top: 1335px; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; margin: 0 12px; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 92px; line-height: 1; text-transform: uppercase; color: #fff;
+        -webkit-text-stroke: 10px #000; paint-order: stroke fill; text-shadow: 0 8px 24px rgba(0,0,0,0.55); opacity: 0; }
+      .cap span.k { color: var(--amarelo); font-size: 112px; }
+      .cap span.k.ka, .cap span.k.kn, .cap span.k.ko { font-family: "Anton", sans-serif; font-weight: 400; letter-spacing: 1px; }
+      .cap span.k.kg, .cap span.k.kg2 { font-family: "UnifrakturCook", serif; font-weight: 700; text-transform: none; font-size: 118px; }
+
+      /* ---------- tela dividida com o flyer */
+      #painelFlyer { position: absolute; left: 540px; top: 0; width: 540px; height: 1920px; z-index: 10; overflow: hidden; transform: translateX(560px); background: #0a0908; }
+      #painelFlyer .fundo { position: absolute; left: -270px; top: -100px; width: 1080px; height: 2120px; background: url("assets/fotos/flyer_original.png") center / cover; filter: blur(28px) brightness(0.45) saturate(1.2); }
+      #painelFlyer .cartao { position: absolute; left: 30px; top: 330px; width: 480px; height: 853px; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 0 4px rgba(245,184,0,0.85); }
+      #painelFlyer .cartao img { width: 100%; height: 100%; display: block; }
+      #painelFlyer .rotulo { position: absolute; left: 0; right: 0; top: 232px; text-align: center; font-family: "Barlow Condensed"; font-weight: 800; font-size: 46px; letter-spacing: 10px; color: var(--amarelo); }
+      #divisor { position: absolute; left: 532px; top: 0; width: 16px; height: 1920px; z-index: 11; background: linear-gradient(180deg, rgba(245,184,0,0), var(--amarelo) 12%, var(--amarelo) 88%, rgba(245,184,0,0)); box-shadow: 0 0 30px rgba(245,184,0,0.8); transform: scaleY(0); }
+      .chip { position: absolute; left: 30px; width: 480px; padding: 12px 0; text-align: center; font-family: "Anton"; font-size: 50px; letter-spacing: 3px; color: #111; background: var(--amarelo); border-radius: 10px; opacity: 0; }
+
+      /* ---------- marcas e cartela */
+      #lagoTopo { position: absolute; left: 380px; top: 1478px; width: 320px; z-index: 13; opacity: 0; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.6)); }
+      #cartelaTopo { position: absolute; inset: 0; z-index: 13; opacity: 0; }
+      #cartelaTopo .hero { position: absolute; left: 200px; top: 285px; width: 680px; }
+      #cartelaTopo .frase { position: absolute; left: 0; right: 0; top: 655px; text-align: center; font-family: "Barlow Condensed"; font-style: italic; font-weight: 800; font-size: 62px; letter-spacing: 2px; color: #fff; }
+      #cartelaTopo .frase b { color: var(--amarelo); font-weight: 800; }
+      #cartelaTopo .data { position: absolute; left: 0; right: 0; top: 1262px; text-align: center; font-family: "Anton"; font-size: 64px; letter-spacing: 3px; color: var(--amarelo); }
+      #cartelaTopo .end { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; font-family: "Barlow Condensed"; font-weight: 700; font-size: 44px; letter-spacing: 6px; color: #fff; }
+      #cartelaTopo .lago { position: absolute; left: 300px; top: 1440px; width: 480px; }
+
+      /* ---------- acabamento */
+      #luz { position: absolute; inset: 0; z-index: 14; opacity: 0; mix-blend-mode: screen; background: radial-gradient(ellipse 70% 45% at 85% 15%, rgba(255,170,40,0.9) 0%, rgba(255,120,20,0.35) 35%, rgba(0,0,0,0) 70%); }
+      #grao { position: absolute; inset: -20px; z-index: 15; background: url("assets/media/grao.png"); opacity: 0.10; mix-blend-mode: overlay; }
+      #vinheta { position: absolute; inset: 0; z-index: 15; background: radial-gradient(ellipse 80% 60% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%); }
+      #flash { position: absolute; inset: 0; z-index: 16; background: #fff7e0; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="37.4333" data-width="1080" data-height="1920">
+      <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="37.4333" data-track-index="20" data-volume="1"></audio>
+
+      <div id="cena" class="layer">
+        <div id="corte"><div id="deslize"><div id="tremor"><div id="camVideo">
+          <video id="base" class="clip" src="assets/media/base.mp4" muted playsinline data-start="0" data-media-start="0" data-duration="34.4333" data-track-index="1"></video>
+          <div id="atras">
+            <div id="escuro"></div>
+            <div id="halo"></div>
+            <div id="raios"></div>
+          </div>
+          <canvas id="c3dTras" width="1080" height="1920"></canvas>
+          <div class="cutout-wrap" id="recorte">
+            <video id="pessoa" class="clip" src="assets/media/pessoa.webm" muted playsinline data-start="0" data-media-start="0" data-duration="34.4333" data-track-index="2"></video>
+          </div>
+          <div id="cartelaFundo"><div class="marca">H</div><div class="faixa" style="top: 950px"></div></div>
+          <canvas id="c3dFrente" width="1080" height="1920"></canvas>
+        </div></div></div></div>
+        <div id="abertura" style="top: 0"></div>
+        <div id="abertura2" class="abs" style="left: 0; right: 0; top: 960px; height: 960px; background: #000; z-index: 9"></div>
+      </div>
+
+      <div id="painelFlyer" data-layout-allow-overflow>
+        <div class="fundo"></div>
+        <div class="rotulo">CULTO HERO</div>
+        <div class="cartao"><img src="assets/fotos/flyer_original.png" alt="Flyer do Culto HERO" /></div>
+        <div class="chip" id="chip1" style="top: 1222px">SÁB · 24 DE OUTUBRO</div>
+        <div class="chip" id="chip2" style="top: 1322px; font-size: 31px; padding: 22px 0; white-space: nowrap">19H30 · AV. FARIA PEREIRA, 3083</div>
+      </div>
+      <div id="divisor"></div>
+
+      <div id="caps"></div>
+      <img id="lagoTopo" src="assets/brand/logo_lagoinha_patrocinio.png" alt="Igreja Batista da Lagoinha Patrocínio" />
+
+      <div id="cartelaTopo">
+        <img class="hero" src="assets/brand/logo_hero_patrocinio.png" alt="HERO Patrocínio/MG" />
+        <div class="frase">SEU CONVITE <b>ESTÁ FEITO.</b></div>
+        <div class="data">SÁBADO · 24 DE OUTUBRO · 19H30</div>
+        <div class="end">AV. FARIA PEREIRA, 3083 · PATROCÍNIO/MG</div>
+        <img class="lago" src="assets/brand/logo_lagoinha_patrocinio.png" alt="Igreja Batista da Lagoinha Patrocínio" />
+      </div>
+
+      <div id="luz"></div>
+      <div id="grao"></div>
+      <div id="vinheta"></div>
+      <div id="flash"></div>
+    </div>
+
+    <script type="module">
+      import { montar } from "./assets/cena3d.js";
+
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      let pronto;
+      window.__hf.buildReady["convite-hero-3d"] = new Promise((r) => (pronto = r));
+
+      const S = window.SYNC, EV = S.ev, ROSTO = window.ROSTO;
+      const TOTAL = EV.total;
+      const rosto = (t) => ROSTO[Math.max(0, Math.min(ROSTO.length - 1, Math.round(t * 30)))];
+      await Promise.all([
+        document.fonts.load('400 100px "Anton"'), document.fonts.load('800 100px "Barlow Condensed"'),
+        document.fonts.load('700 100px "UnifrakturCook"'), document.fonts.load('italic 800 100px "Barlow Condensed"'),
+      ]);
+      const mundo = await montar(document.getElementById("c3dTras"), document.getElementById("c3dFrente"), EV);
+
+      // ------------------------------------------------------------------ medidas
+      const medidor = document.createElement("canvas").getContext("2d");
+      function largura(txt, fonte) { medidor.font = fonte; return medidor.measureText(txt).width; }
+
+      // ------------------------------------------------------------------ palavras-chave atrás da pessoa
+      const atras = document.getElementById("atras");
+      const KW = [];
+      S.chaves.forEach((c, i) => {
+        const el = document.createElement("div");
+        el.className = "kw " + c.est;
+        el.id = "kw" + i;
+        const [hx, hy, fw] = rosto(c.t + 0.1);
+        let w, h, size = 0;
+        if (c.est === "logo") {
+          el.innerHTML = '<img src="assets/brand/logo_lagoinha_patrocinio.png" alt="">';
+          w = 880; h = 880 * 655 / 2025;
+        } else if (c.est === "g2" || c.est === "o") {
+          const linhas = c.txt.split("|");
+          const fam = c.est === "g2" ? '700 100px "UnifrakturCook"' : '400 100px "Anton"';
+          const maxw = Math.max(...linhas.map((l) => largura(l, fam))) / 100;
+          size = Math.min(c.est === "g2" ? 270 : 300, 990 / maxw);
+          el.innerHTML = linhas.map((l) => "<div>" + l + "</div>").join("");
+          w = maxw * size; h = linhas.length * size * 0.9;
+        } else if (c.est === "n") {
+          // número partido em volta da cabeça: "2" à esquerda, "4" à direita (nada escondido)
+          size = 600;
+          const dw = largura("2", '400 100px "Anton"') / 100 * size;
+          const meia = fw * 0.62 + dw / 2 + 20;
+          el.innerHTML = [...c.txt].map((ch, k) => '<span style="position:absolute;left:' + (k ? meia * 2 : 0) + 'px;top:0">' + ch + "</span>").join("");
+          w = meia * 2 + dw; h = size * 0.86;
+          el.style.width = w + "px"; el.style.height = h + "px";
+        } else {
+          const fam = c.est === "g" ? '700 100px "UnifrakturCook"' : '400 100px "Anton"';
+          const lw = largura(c.txt, fam) / 100;
+          const max = c.est === "g" ? 270 : 290;
+          size = Math.min(max, (c.est === "g" ? 990 : 1000) / lw);
+          el.innerHTML = c.est === "a" ? [...c.txt].map((ch) => "<span>" + ch + "</span>").join("") : c.txt;
+          w = lw * size; h = size * 0.86;
+        }
+        if (size) el.style.fontSize = size + "px";
+        // centro vertical: o pé das letras encosta no alto da cabeça (a cabeça cobre só a base do meio da palavra)
+        const topoCabeca = hy - fw * 0.86;
+        let cy = c.est === "n" ? hy - fw * 0.2 : c.est === "logo" ? Math.max(160 + h / 2, topoCabeca - h * 0.25) : Math.max(165 + h / 2, topoCabeca - h * 0.15);
+        const cx = c.est === "n" ? hx : Math.max(w / 2 + 40, Math.min(1040 - w / 2, hx));
+        el.style.transformOrigin = "50% 60%";
+        gsap.set(el, { x: cx - w / 2, y: cy - h / 2 });
+        atras.appendChild(el);
+        KW.push({ el, c });
+      });
+
+      // ------------------------------------------------------------------ legendas
+      const caps = document.getElementById("caps");
+      const estiloEm = {};
+      S.chaves.forEach((c) => (estiloEm[c.t.toFixed(3)] = c.est));
+      S.blocos.forEach((b, i) => {
+        const d = document.createElement("div");
+        d.className = "cap"; d.id = "cap" + i;
+        d.innerHTML = b.p.map((p, j) => {
+          const e = p.c === "k" ? estiloEm[p.t.toFixed(3)] || "a" : "";
+          const cls = p.c === "k" ? "k k" + (e === "logo" || e === "none" ? "a" : e) : "";
+          return '<span id="cap' + i + "w" + j + '" class="' + cls + '">' + p.w + "</span>";
+        }).join("");
+        caps.appendChild(d);
+      });
+
+      // ------------------------------------------------------------------ linha do tempo
+      const tl = gsap.timeline({ paused: true });
+      const relogio = { t: 0 };
+      const grao = document.getElementById("grao");
+      const abalo = { x: 0, y: 0 };
+      function quadro(t) {
+        mundo.render(t, [abalo.x, abalo.y]);
+        const fr = Math.floor(t * 15);
+        grao.style.backgroundPosition = ((fr * 137) % 512) + "px " + ((fr * 251) % 512) + "px";
+      }
+      tl.to(relogio, { t: TOTAL, duration: TOTAL, ease: "none", onUpdate: () => quadro(relogio.t) }, 0);
+
+      function flash(t, pico = 0.8, d = 0.25) { tl.fromTo("#flash", { opacity: pico }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, t); }
+      function tremor(t, amp = 14, n = 6) {
+        for (let i = 0; i < n; i++) {
+          const k = 1 - i / n, s = i % 2 ? -1 : 1;
+          tl.to("#tremor", { x: s * amp * k, y: -s * amp * 0.6 * k * (i % 3 === 0 ? -1 : 1), duration: 0.035, ease: "none" }, t + i * 0.035);
+          tl.to(abalo, { x: -s * amp * k * 0.004, y: s * amp * k * 0.003, duration: 0.035, ease: "none" }, t + i * 0.035);
+        }
+        tl.to("#tremor", { x: 0, y: 0, duration: 0.05 }, t + n * 0.035);
+        tl.to(abalo, { x: 0, y: 0, duration: 0.05 }, t + n * 0.035);
+      }
+      // transições nos cortes: soco de zoom com desfoque, ou chicote lateral
+      function soco(t, de = 1.1) { tl.fromTo("#camVideo", { scale: de, filter: "blur(7px)" }, { scale: 1, filter: "blur(0px)", duration: 0.24, ease: "power3.out", immediateRender: false }, t); }
+      function chicote(t, dx = 140) { tl.fromTo("#camVideo", { x: dx, filter: "blur(10px)" }, { x: 0, filter: "blur(0px)", duration: 0.22, ease: "power3.out", immediateRender: false }, t); }
+      function luz(t, pico = 0.8, d = 0.7) { tl.fromTo("#luz", { opacity: pico }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, t); }
+
+      // abertura: as duas metades pretas se abrem
+      tl.set("#abertura", { y: 0 }, 0).to("#abertura", { y: -960, duration: 0.42, ease: "power3.inOut" }, 0.02);
+      tl.set("#abertura2", { y: 0 }, 0).to("#abertura2", { y: 960, duration: 0.42, ease: "power3.inOut" }, 0.02);
+      luz(0.05, 0.9, 1.0);
+      tl.fromTo("#lagoTopo", { opacity: 0, y: 20 }, { opacity: 0.9, y: 0, duration: 0.4, ease: "power2.out" }, 0.25);
+      tl.to("#lagoTopo", { opacity: 0, y: 14, duration: 0.25 }, EV.seg[1] - 0.25);
+
+      const SEG = EV.seg;
+      chicote(SEG[1], 160); luz(SEG[1], 0.5, 0.6);
+      soco(SEG[2], 1.08);
+      chicote(SEG[3], -160);
+      soco(SEG[4], 1.12);
+      chicote(SEG[5], 150);
+      soco(SEG[6], 1.07);
+      soco(SEG[7], 1.07);
+      chicote(SEG[8], -150);
+      soco(SEG[9], 1.1); luz(SEG[9], 0.45, 0.6);
+      chicote(SEG[10], 160);
+      soco(SEG[11], 1.1);
+      soco(SEG[14], 1.12);
+
+      // ------------------------------------------------------------------ palavras-chave (entrada por estilo)
+      KW.forEach(({ el, c }) => {
+        const d = Math.max(0.3, c.fim - c.t);
+        tl.set(el, { opacity: 0 }, 0);
+        if (c.est === "a") {
+          const letras = el.querySelectorAll("span");
+          tl.set(el, { opacity: 1 }, c.t - 0.06);
+          tl.fromTo(letras, { yPercent: 70, opacity: 0, rotationX: -80, scale: 0.8 }, { yPercent: 0, opacity: 1, rotationX: 0, scale: 1, duration: 0.3, ease: "back.out(2)", stagger: 0.028 }, c.t - 0.06);
+          tl.fromTo(el, { scale: 1 }, { scale: 1.06, duration: d, ease: "none" }, c.t - 0.06);
+        } else if (c.est === "g" || c.est === "g2") {
+          tl.fromTo(el, { opacity: 0, scale: 1.3, scaleX: 1.45, filter: "blur(16px)" }, { opacity: 1, scale: 1, scaleX: 1, filter: "blur(0px)", duration: 0.42, ease: "expo.out" }, c.t - 0.06);
+          tl.to(el, { scale: 1.05, duration: d - 0.4, ease: "none" }, c.t + 0.36);
+        } else if (c.est === "n") {
+          tl.fromTo(el, { opacity: 0, scale: 2.6 }, { opacity: 1, scale: 1, duration: 0.16, ease: "power4.in" }, c.t - 0.14);
+          tl.to(el, { scale: 1.08, duration: d, ease: "none" }, c.t + 0.02);
+        } else if (c.est === "o") {
+          tl.fromTo(el, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.8)" }, c.t - 0.06);
+          tl.to(el, { color: "rgba(245,184,0,1)", duration: 0.25, ease: "power2.out" }, c.t + 0.32);
+          tl.to(el, { scale: 1.08, duration: d, ease: "none" }, c.t + 0.24);
+        } else if (c.est === "logo") {
+          tl.fromTo(el, { opacity: 0, scale: 1.2, clipPath: "inset(0% 50% 0% 50%)" }, { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "expo.out" }, c.t - 0.1);
+          tl.to(el, { scale: 1.04, duration: d, ease: "none" }, c.t + 0.35);
+        }
+        tl.to(el, { opacity: 0, scale: "+=0.06", filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, c.fim - 0.16);
+      });
+      // raios e halo no "Todo-Poderoso" (até o fim da frase)
+      tl.fromTo("#raios", { opacity: 0, rotation: -8 }, { opacity: 0.8, rotation: 6, duration: 0.6, ease: "power2.out" }, EV.todo - 0.08);
+      tl.to("#raios", { rotation: 24, duration: SEG[10] - EV.todo, ease: "none" }, EV.todo + 0.5);
+      tl.to("#raios", { opacity: 0, duration: 0.35 }, EV.grandao - 0.1);
+      tl.fromTo("#escuro", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, EV.grandao - 0.4);
+      tl.to("#escuro", { opacity: 0, duration: 0.3 }, SEG[10] - 0.25);
+      tl.fromTo("#halo", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, EV.todo - 0.08);
+      tl.to("#halo", { opacity: 0, duration: 0.3 }, SEG[10] - 0.3);
+      tl.fromTo("#halo", { opacity: 0, scale: 0.5 }, { opacity: 0.8, scale: 1.1, duration: 0.4, ease: "power2.out", immediateRender: false }, EV.adorar - 0.05);
+      tl.to("#halo", { opacity: 0, duration: 0.4 }, EV.adorar + 0.9);
+      flash(EV.todo, 0.5, 0.3);
+      tremor(EV.todo, 12, 6);
+      flash(EV.dia24 + 0.02, 0.7, 0.22);
+      tremor(EV.dia24 + 0.02, 18, 7);
+      tremor(EV.grandao, 10, 5);
+      luz(EV.grandao - 0.1, 0.6, 0.9);
+
+      // ------------------------------------------------------------------ legendas: bloco + palavra a palavra
+      S.blocos.forEach((b, i) => {
+        const id = "#cap" + i;
+        tl.set(id, { opacity: 1 }, b.s - 0.04);
+        b.p.forEach((p, j) => {
+          const k = p.c === "k";
+          tl.fromTo(id + "w" + j, { opacity: 0, y: 26, scale: k ? 0.5 : 0.72 }, { opacity: 1, y: 0, scale: 1, duration: k ? 0.2 : 0.14, ease: k ? "back.out(3)" : "back.out(2.2)" }, p.t - 0.04);
+        });
+        tl.set(id, { opacity: 0 }, b.e - 0.05);
+      });
+      // legendas descem e ganham faixa escura na tela dividida
+      tl.to("#caps", { y: 225, duration: 0.25, ease: "power2.inOut" }, EV.split - 0.15);
+      tl.to("#caps", { y: 0, duration: 0.25, ease: "power2.inOut" }, EV.split_fim - 0.12);
+
+      // ------------------------------------------------------------------ tela dividida com o flyer
+      const s0 = EV.split - 0.14, s1 = EV.split_fim - 0.16;
+      tl.fromTo("#corte", { clipPath: "inset(0px 0px 0px 0px)" }, { clipPath: "inset(0px 540px 0px 0px)", duration: 0.38, ease: "power3.inOut" }, s0);
+      tl.fromTo("#deslize", { x: 0 }, { x: -270, duration: 0.38, ease: "power3.inOut" }, s0);
+      tl.fromTo("#painelFlyer", { x: 560 }, { x: 0, duration: 0.42, ease: "power3.out" }, s0 + 0.02);
+      tl.fromTo("#divisor", { scaleY: 0 }, { scaleY: 1, duration: 0.35, ease: "power3.out" }, s0 + 0.12);
+      tl.fromTo("#painelFlyer .cartao", { rotationY: -28, scale: 0.86, transformPerspective: 1200 }, { rotationY: 0, scale: 1, duration: 0.6, ease: "power3.out" }, s0 + 0.1);
+      tl.to("#painelFlyer .cartao", { scale: 1.04, duration: s1 - s0 - 0.6, ease: "none" }, s0 + 0.7);
+      tl.fromTo("#painelFlyer .rotulo", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.3 }, s0 + 0.35);
+      tl.fromTo("#chip1", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(2)" }, EV.esteja + 0.08);
+      tl.fromTo("#chip2", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(2)" }, EV.noite - 0.02);
+      tl.to("#corte", { clipPath: "inset(0px 0px 0px 0px)", duration: 0.34, ease: "power3.inOut" }, s1);
+      tl.to("#deslize", { x: 0, duration: 0.34, ease: "power3.inOut" }, s1);
+      tl.to("#painelFlyer", { x: 560, duration: 0.34, ease: "power3.in" }, s1);
+      tl.to("#divisor", { scaleY: 0, duration: 0.2 }, s1);
+
+      // ------------------------------------------------------------------ cartela final
+      const C = EV.cartela;
+      tl.fromTo("#cartelaFundo", { opacity: 0, clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)" }, { opacity: 1, clipPath: "polygon(0% -10%, 100% -30%, 100% 100%, 0% 100%)", duration: 0.45, ease: "power3.inOut" }, C - 0.25);
+      tl.fromTo("#cartelaFundo .faixa", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, C + 0.15);
+      tl.set("#cartelaTopo", { opacity: 1 }, C);
+      tl.fromTo("#cartelaTopo .hero", { opacity: 0, scale: 1.6, rotation: -6 }, { opacity: 1, scale: 1, rotation: -2, duration: 0.2, ease: "power4.in" }, C - 0.15);
+      tl.to("#cartelaTopo .hero", { scale: 1.04, rotation: 0, duration: 3.2, ease: "none" }, C + 0.05);
+      flash(C + 0.05, 0.6, 0.3);
+      tremor(C + 0.05, 16, 6);
+      tl.fromTo("#cartelaTopo .frase", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, C + 0.55);
+      tl.fromTo("#cartelaTopo .data", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "back.out(2)" }, C + 0.75);
+      tl.fromTo("#cartelaTopo .end", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, C + 0.9);
+      tl.fromTo("#cartelaTopo .lago", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, C + 1.05);
+      tl.to("#cartelaTopo", { opacity: 0, duration: 0.35 }, TOTAL - 0.35);
+      tl.to("#cartelaFundo", { opacity: 0, duration: 0.35 }, TOTAL - 0.35);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      quadro(0);
+      pronto();
+    </script>
+  </body>
+</html>

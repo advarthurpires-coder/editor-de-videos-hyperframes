@@ -1,0 +1,410 @@
+{
+ "parakeet": "Meus irmãos, a paz do Senhor Jesus, Deus que abençoe a vida de vocês. Estou aqui para te fazer um convite, um convite muito especial. Deus tem um encontro com você no dia 24, na igreja Batista Lagoinha. Que você possa vir, traga um amigo, traga um parente e venha aqui adorar ao Senhor, falar um pouco de Jesus, ouvir a palavra de Deus, adorar o Todo-Poderoso, o Grandão da Galiléia. E que o Senhor possa falar neste dia grandemente com você. Você é o nosso convidado especial. Deus que abençoe você, esteja com a gente nessa noite. Amém? Vamos junto.",
+ "whisper": "Meus irmãos, a paz do Senhor Jesus, Deus que abençoe a vida de vocês, estou aqui para te fazer um convite, um convite muito especial, ter o seu encontro com você no dia 24, na igreja Batista Lagoinha, que você possa vir, traga um amigo, traga um parente e venha aqui adorar ao Senhor, falar um pouco de Jesus, ouvir a palavra de Deus, adorar o Todo-Poderoso, o grandão da Galileia. e que o Senhor possa falar neste dia grandemente com você. Você é o nosso convidado especial. Deus que abençoe você. Esteja com a gente nesta noite. Amém? Vamos juntos?",
+ "palavras": [
+  {
+   "w": "Meus",
+   "t": 0.8
+  },
+  {
+   "w": "irmãos,",
+   "t": 1.2
+  },
+  {
+   "w": "a",
+   "t": 1.68
+  },
+  {
+   "w": "paz",
+   "t": 1.84
+  },
+  {
+   "w": "do",
+   "t": 2.08
+  },
+  {
+   "w": "Senhor",
+   "t": 2.24
+  },
+  {
+   "w": "Jesus,",
+   "t": 2.64
+  },
+  {
+   "w": "Deus",
+   "t": 3.12
+  },
+  {
+   "w": "que",
+   "t": 3.36
+  },
+  {
+   "w": "abençoe",
+   "t": 3.52
+  },
+  {
+   "w": "a",
+   "t": 4.08
+  },
+  {
+   "w": "vida",
+   "t": 4.16
+  },
+  {
+   "w": "de",
+   "t": 4.4
+  },
+  {
+   "w": "vocês.",
+   "t": 4.48
+  },
+  {
+   "w": "Estou",
+   "t": 5.04
+  },
+  {
+   "w": "aqui",
+   "t": 5.36
+  },
+  {
+   "w": "para",
+   "t": 5.52
+  },
+  {
+   "w": "te",
+   "t": 5.68
+  },
+  {
+   "w": "fazer",
+   "t": 5.84
+  },
+  {
+   "w": "um",
+   "t": 6.16
+  },
+  {
+   "w": "convite,",
+   "t": 6.32
+  },
+  {
+   "w": "um",
+   "t": 7.52
+  },
+  {
+   "w": "convite",
+   "t": 7.68
+  },
+  {
+   "w": "muito",
+   "t": 8.16
+  },
+  {
+   "w": "especial.",
+   "t": 8.32
+  },
+  {
+   "w": "Deus",
+   "t": 8.96
+  },
+  {
+   "w": "tem",
+   "t": 9.36
+  },
+  {
+   "w": "um",
+   "t": 9.52
+  },
+  {
+   "w": "encontro",
+   "t": 9.68
+  },
+  {
+   "w": "com",
+   "t": 10.16
+  },
+  {
+   "w": "você",
+   "t": 10.32
+  },
+  {
+   "w": "no",
+   "t": 10.56
+  },
+  {
+   "w": "dia",
+   "t": 10.72
+  },
+  {
+   "w": "24,",
+   "t": 10.96
+  },
+  {
+   "w": "na",
+   "t": 11.84
+  },
+  {
+   "w": "igreja",
+   "t": 12.08
+  },
+  {
+   "w": "Batista",
+   "t": 12.56
+  },
+  {
+   "w": "Lagoinha.",
+   "t": 13.2
+  },
+  {
+   "w": "Que",
+   "t": 14.72
+  },
+  {
+   "w": "você",
+   "t": 15.04
+  },
+  {
+   "w": "possa",
+   "t": 15.36
+  },
+  {
+   "w": "vir,",
+   "t": 15.84
+  },
+  {
+   "w": "traga",
+   "t": 16.4
+  },
+  {
+   "w": "um",
+   "t": 16.88
+  },
+  {
+   "w": "amigo,",
+   "t": 17.04
+  },
+  {
+   "w": "traga",
+   "t": 17.76
+  },
+  {
+   "w": "um",
+   "t": 18.24
+  },
+  {
+   "w": "parente",
+   "t": 18.4
+  },
+  {
+   "w": "e",
+   "t": 19.2
+  },
+  {
+   "w": "venha",
+   "t": 19.44
+  },
+  {
+   "w": "aqui",
+   "t": 19.84
+  },
+  {
+   "w": "adorar",
+   "t": 20.24
+  },
+  {
+   "w": "ao",
+   "t": 20.64
+  },
+  {
+   "w": "Senhor,",
+   "t": 20.88
+  },
+  {
+   "w": "falar",
+   "t": 21.76
+  },
+  {
+   "w": "um",
+   "t": 22.24
+  },
+  {
+   "w": "pouco",
+   "t": 22.4
+  },
+  {
+   "w": "de",
+   "t": 22.72
+  },
+  {
+   "w": "Jesus,",
+   "t": 22.88
+  },
+  {
+   "w": "ouvir",
+   "t": 23.44
+  },
+  {
+   "w": "a",
+   "t": 24.0
+  },
+  {
+   "w": "palavra",
+   "t": 24.08
+  },
+  {
+   "w": "de",
+   "t": 24.48
+  },
+  {
+   "w": "Deus,",
+   "t": 24.56
+  },
+  {
+   "w": "adorar",
+   "t": 24.96
+  },
+  {
+   "w": "o",
+   "t": 25.6
+  },
+  {
+   "w": "Todo-Poderoso,",
+   "t": 25.76
+  },
+  {
+   "w": "o",
+   "t": 26.8
+  },
+  {
+   "w": "Grandão",
+   "t": 26.96
+  },
+  {
+   "w": "da",
+   "t": 27.6
+  },
+  {
+   "w": "Galiléia.",
+   "t": 27.68
+  },
+  {
+   "w": "E",
+   "t": 28.4
+  },
+  {
+   "w": "que",
+   "t": 28.56
+  },
+  {
+   "w": "o",
+   "t": 28.72
+  },
+  {
+   "w": "Senhor",
+   "t": 28.8
+  },
+  {
+   "w": "possa",
+   "t": 29.12
+  },
+  {
+   "w": "falar",
+   "t": 29.44
+  },
+  {
+   "w": "neste",
+   "t": 29.68
+  },
+  {
+   "w": "dia",
+   "t": 30.08
+  },
+  {
+   "w": "grandemente",
+   "t": 30.4
+  },
+  {
+   "w": "com",
+   "t": 30.88
+  },
+  {
+   "w": "você.",
+   "t": 31.04
+  },
+  {
+   "w": "Você",
+   "t": 31.6
+  },
+  {
+   "w": "é",
+   "t": 31.84
+  },
+  {
+   "w": "o",
+   "t": 32.0
+  },
+  {
+   "w": "nosso",
+   "t": 32.16
+  },
+  {
+   "w": "convidado",
+   "t": 32.4
+  },
+  {
+   "w": "especial.",
+   "t": 32.96
+  },
+  {
+   "w": "Deus",
+   "t": 34.16
+  },
+  {
+   "w": "que",
+   "t": 34.48
+  },
+  {
+   "w": "abençoe",
+   "t": 34.64
+  },
+  {
+   "w": "você,",
+   "t": 35.28
+  },
+  {
+   "w": "esteja",
+   "t": 35.76
+  },
+  {
+   "w": "com",
+   "t": 36.16
+  },
+  {
+   "w": "a",
+   "t": 36.32
+  },
+  {
+   "w": "gente",
+   "t": 36.48
+  },
+  {
+   "w": "nessa",
+   "t": 36.8
+  },
+  {
+   "w": "noite.",
+   "t": 37.2
+  },
+  {
+   "w": "Amém?",
+   "t": 37.84
+  },
+  {
+   "w": "Vamos",
+   "t": 38.48
+  },
+  {
+   "w": "junto.",
+   "t": 38.8
+  }
+ ]
+}
