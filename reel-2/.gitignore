@@ -3,3 +3,4 @@ snapshots/
 src/
 assets/media/mix_pre.wav
 qa/_*
+.transcode-cache/
