@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Plantão HERO — reel</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/sincronia.js"></script>
+    <script src="assets/linha_tempo.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./assets/vendor/three/three.module.min.js",
+          "three/addons/": "./assets/vendor/three/addons/"
+        }
+      }
+    </script>
+    <style>
+      @font-face { font-family: "Archivo Black"; font-weight: 400; src: url("assets/fonts/archivo-black-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Bebas Neue"; font-weight: 400; src: url("assets/fonts/bebas-neue-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Space Mono"; font-weight: 700; src: url("assets/fonts/space-mono-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "UnifrakturCook"; font-weight: 700; src: url("assets/fonts/unifrakturcook-latin-700-normal.woff2") format("woff2"); }
+
+      :root { --preto: #0e0d0b; --amarelo: #f5b800; --vermelho: #e3262c; --creme: #fbf8f1; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; color: #fff; font-family: "Archivo Black", sans-serif; }
+      .clip { position: absolute; inset: 0; overflow: hidden; }
+      .layer { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+
+      /* ---------- pilha do vídeo */
+      #corte { position: absolute; inset: 0; clip-path: inset(0px 0px 0px 0px); transform-origin: 540px 960px; }
+      #deslize, #tremor { position: absolute; inset: 0; }
+      #deslize { transform-origin: 540px 691px; }
+      #palco { position: absolute; inset: 0; z-index: 1; overflow: hidden; background: radial-gradient(ellipse 90% 60% at 50% 40%, #2a2618 0%, #121110 55%, #070707 100%); }
+      #palco .pontos { position: absolute; left: -100px; top: -200px; width: 1280px; height: 2400px; opacity: 0.22;
+        background-image: radial-gradient(circle, var(--amarelo) 2.2px, transparent 2.6px); background-size: 26px 26px; }
+      #palco .faixa { position: absolute; left: -300px; width: 1700px; height: 90px; background: repeating-linear-gradient(-45deg, var(--amarelo) 0 30px, var(--preto) 30px 60px); transform: rotate(-12deg); opacity: 0.9; }
+      #palco .marca { position: absolute; left: -40px; top: 1180px; font-family: "UnifrakturCook"; font-size: 900px; line-height: 1; color: var(--amarelo); opacity: 0.08; }
+      #janela { position: absolute; inset: 0; z-index: 2; clip-path: inset(0px 0px 0px 0px round 0px); }
+      #moldura { position: absolute; z-index: 3; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; border: 8px solid var(--amarelo); border-radius: 44px; box-shadow: 0 0 0 6px var(--preto), 0 30px 80px rgba(0,0,0,0.6); }
+      .cam { position: absolute; inset: 0; transform-origin: 540px 1300px; }
+      .cam video { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #cloneW { position: absolute; inset: 0; z-index: 3; opacity: 0; filter: grayscale(1) sepia(1) saturate(5) hue-rotate(-8deg) brightness(1.08) contrast(1.1); }
+      #cloneDesl { position: absolute; inset: 0; transform-origin: 540px 1920px; }
+      #atras { position: absolute; inset: 0; z-index: 4; }
+      #c3dTras { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 5; }
+      #recorte { position: absolute; inset: 0; z-index: 6; }
+      #cartelaFundo { position: absolute; inset: 0; z-index: 7; opacity: 0; overflow: hidden; background: var(--amarelo); }
+      #cartelaFundo .pontos { position: absolute; inset: 0; opacity: 0.16; background-image: radial-gradient(circle, #000 2.4px, transparent 2.8px); background-size: 24px 24px; }
+      #cartelaFundo .banda { position: absolute; left: -200px; top: 860px; width: 1500px; height: 470px; background: var(--preto); transform: rotate(-7deg); }
+      #c3dFrente { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; z-index: 8; }
+
+      /* ---------- palavras atrás dele (eco empilhado) */
+      .kw { position: absolute; left: 0; top: 0; white-space: nowrap; font-family: "Bebas Neue"; line-height: 0.85; opacity: 0; text-align: center; }
+      .kw .eco { position: absolute; left: 0; right: 0; color: transparent; -webkit-text-stroke: 3px var(--amarelo); }
+      .kw .solida { position: relative; color: var(--amarelo); text-shadow: 0 14px 0 var(--preto), 0 24px 50px rgba(0,0,0,0.55); }
+      .kw.vermelho .solida { color: var(--vermelho); text-shadow: 0 14px 0 #fff, 0 24px 50px rgba(0,0,0,0.4); }
+      .kw.vermelho .eco { -webkit-text-stroke-color: var(--vermelho); }
+
+      /* ---------- tela dividida (flyer no alto) */
+      #flyerTopo { position: absolute; left: 0; top: 0; width: 1080px; height: 900px; z-index: 9; overflow: hidden; transform: translateY(-920px); background: var(--amarelo); }
+      #flyerTopo .pontos { position: absolute; inset: 0; opacity: 0.18; background-image: radial-gradient(circle, #000 2.4px, transparent 2.8px); background-size: 24px 24px; }
+      #flyerTopo .cartao { position: absolute; left: 330px; top: 70px; width: 420px; height: 746px; border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 6px var(--preto), 0 26px 60px rgba(0,0,0,0.45); }
+      #flyerTopo .cartao img { width: 100%; height: 100%; display: block; }
+      #flyerTopo .lado { position: absolute; top: 330px; width: 300px; text-align: center; font-family: "Bebas Neue"; color: var(--preto); line-height: 0.86; }
+      #flyerTopo .lado b { display: block; font-weight: 400; }
+      #linhaDiv { position: absolute; left: 0; top: 892px; width: 1080px; height: 16px; z-index: 10; background: var(--preto); transform: scaleX(0); box-shadow: 0 0 0 4px var(--amarelo); }
+      #seloLago { position: absolute; left: 330px; top: 852px; width: 420px; height: 96px; z-index: 11; border-radius: 48px; background: var(--preto); display: flex; align-items: center; justify-content: center; opacity: 0; }
+      #seloLago img { width: 300px; }
+
+      /* ---------- HUD de telejornal */
+      #hud { position: absolute; inset: 0; z-index: 12; pointer-events: none; }
+      #aoVivo { position: absolute; left: 44px; top: 176px; display: flex; align-items: center; gap: 12px; padding: 10px 22px 10px 18px; background: var(--vermelho); border-radius: 10px; font-family: "Bebas Neue"; font-size: 48px; letter-spacing: 3px; color: #fff; opacity: 0; }
+      #aoVivo i { width: 18px; height: 18px; border-radius: 50%; background: #fff; display: block; }
+      #local { position: absolute; left: 48px; top: 252px; font-family: "Space Mono"; font-weight: 700; font-size: 26px; letter-spacing: 3px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 0; }
+      #heroHud { position: absolute; left: 846px; top: 168px; width: 196px; opacity: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
+      #ticker { position: absolute; left: 0; top: 1486px; width: 1080px; height: 66px; z-index: 13; overflow: hidden; background: var(--amarelo); transform: translateY(90px); box-shadow: 0 -4px 0 var(--preto); }
+      #ticker .rolo { position: absolute; left: 0; top: 13px; white-space: nowrap; font-family: "Space Mono"; font-weight: 700; font-size: 32px; color: var(--preto); letter-spacing: 1px; }
+      #ticker .tag { position: absolute; left: 0; top: 0; height: 66px; width: 236px; background: var(--vermelho); font-family: "Bebas Neue"; font-size: 52px; line-height: 70px; text-align: center; color: #fff; letter-spacing: 3px; z-index: 2; }
+      #gc { position: absolute; left: 44px; top: 1130px; z-index: 13; opacity: 0; }
+      #gc .tag { display: inline-block; padding: 6px 18px; background: var(--vermelho); font-family: "Bebas Neue"; font-size: 46px; letter-spacing: 4px; color: #fff; }
+      #gc .tit { display: block; margin-top: 6px; padding: 10px 22px; background: var(--preto); font-family: "Archivo Black"; font-size: 48px; color: #fff; border-left: 12px solid var(--amarelo); }
+
+      /* ---------- legendas: tarja com marca-texto */
+      #caps { position: absolute; inset: 0; z-index: 14; pointer-events: none; }
+      .tarja { position: absolute; left: 0; right: 0; top: 1322px; text-align: center; opacity: 0; }
+      .tarja .caixa { position: relative; display: inline-block; padding: 14px 26px 16px; background: var(--preto); transform: skewX(-8deg); box-shadow: 10px 10px 0 rgba(245,184,0,0.95); }
+      .tarja .linha { position: relative; display: inline-block; transform: skewX(8deg); white-space: nowrap; }
+      .tarja .marca { position: absolute; left: 0; top: -4px; width: 100px; height: calc(100% + 8px); background: var(--amarelo); transform-origin: 0 50%; }
+      .tarja span { position: relative; display: inline-block; margin: 0 11px; font-family: "Archivo Black"; font-size: 60px; line-height: 1.05; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+      .tarja span.k { font-family: "Bebas Neue"; font-size: 92px; line-height: 0.82; letter-spacing: 2px; color: rgba(245,184,0,0.6); }
+
+      /* ---------- momentos */
+      #sismo { position: absolute; left: 0; top: 960px; width: 1080px; height: 300px; z-index: 13; opacity: 0; }
+      #trem { position: absolute; left: 0; right: 0; top: 860px; z-index: 13; text-align: center; font-family: "Bebas Neue"; font-size: 270px; line-height: 0.85; opacity: 0; }
+      #trem div { position: absolute; left: 0; right: 0; }
+      #luzOuro { position: absolute; inset: 0; z-index: 13; opacity: 0; mix-blend-mode: overlay; background: radial-gradient(ellipse 95% 70% at 50% 15%, rgba(255,170,0,0.95) 0%, rgba(230,130,0,0.6) 50%, rgba(120,60,0,0.5) 100%); }
+      #mais1 { position: absolute; left: 760px; top: 640px; z-index: 13; width: 210px; height: 210px; border-radius: 50%; background: var(--vermelho); color: #fff; font-family: "Bebas Neue"; font-size: 150px; line-height: 222px; text-align: center; opacity: 0; box-shadow: 0 0 0 8px #fff, 0 20px 40px rgba(0,0,0,0.35); }
+      #foraTopo { position: absolute; left: 0; right: 0; top: 330px; z-index: 13; text-align: center; opacity: 0; }
+      #foraTopo .pre { font-family: "Archivo Black"; font-size: 64px; color: #fff; }
+      #foraTopo .fora { font-family: "Bebas Neue"; font-size: 330px; line-height: 0.82; color: var(--vermelho); -webkit-text-stroke: 6px #fff; paint-order: stroke fill; }
+      #carimbo { position: absolute; left: 140px; top: 900px; width: 800px; z-index: 13; padding: 20px 0; text-align: center; border: 12px solid var(--vermelho); border-radius: 24px; color: var(--vermelho); background: rgba(251,248,241,0.92); font-family: "Bebas Neue"; font-size: 120px; line-height: 0.9; opacity: 0; transform: rotate(-8deg); }
+
+      /* ---------- cartela */
+      #cartelaTopo { position: absolute; inset: 0; z-index: 15; opacity: 0; }
+      #cartelaTopo .hero { position: absolute; left: 220px; top: 236px; width: 640px; }
+      #cartelaTopo .conv { position: absolute; left: 0; right: 0; top: 572px; text-align: center; font-family: "Archivo Black"; font-size: 56px; color: var(--preto); }
+      #cartelaTopo .traga { position: absolute; left: 290px; top: 676px; width: 500px; padding: 6px 0 2px; text-align: center; border: 8px solid #c4161c; border-radius: 16px; color: #c4161c; font-family: "Bebas Neue"; font-size: 96px; line-height: 0.9; transform: rotate(-5deg); background: var(--creme); }
+      #cartelaTopo .rot { position: absolute; top: 1226px; width: 420px; text-align: center; font-family: "Bebas Neue"; font-size: 60px; line-height: 1; color: var(--amarelo); letter-spacing: 3px; }
+      #cartelaTopo .rot span { display: inline-block; padding: 6px 18px 2px; background: var(--preto); border-radius: 8px; }
+      #cartelaTopo .end { position: absolute; left: 0; right: 0; top: 1318px; text-align: center; }
+      #cartelaTopo .end span { display: inline-block; padding: 10px 24px; background: var(--preto); font-family: "Space Mono"; font-weight: 700; font-size: 31px; color: #fff; border-radius: 8px; }
+      #cartelaTopo .lago { position: absolute; left: 345px; top: 1412px; width: 390px; height: 64px; border-radius: 32px; background: var(--preto); display: flex; align-items: center; justify-content: center; }
+      #cartelaTopo .lago img { width: 260px; }
+
+      /* ---------- acabamento */
+      #grao { position: absolute; inset: -20px; z-index: 16; background: url("assets/media/grao.png"); opacity: 0.07; mix-blend-mode: overlay; }
+      #linhasTv { position: absolute; inset: 0; z-index: 16; opacity: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.28) 0 2px, rgba(0,0,0,0) 2px 5px); }
+      #flash { position: absolute; inset: 0; z-index: 17; background: #fff; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="27.3333" data-width="1080" data-height="1920">
+      <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="27.3333" data-track-index="20" data-volume="1"></audio>
+
+      <div id="cena" class="layer">
+        <div id="corte"><div id="deslize"><div id="tremor">
+          <div id="palco"><div class="pontos"></div><div class="faixa" style="top: 300px"></div><div class="faixa" style="top: 1660px"></div><div class="marca">H</div></div>
+          <div id="janela"><div class="cam">
+            <video id="base" class="clip" src="assets/media/base.mp4" muted playsinline data-start="0" data-media-start="0" data-duration="24.5333" data-track-index="1"></video>
+          </div></div>
+          <div id="moldura"></div>
+          <div id="cloneW"><div id="cloneDesl"><div class="cam">
+            <video id="clone" class="clip" src="assets/media/pessoa.webm" muted playsinline data-start="0" data-media-start="0" data-duration="24.5" data-track-index="2"></video>
+          </div></div></div>
+          <div id="atras"></div>
+          <canvas id="c3dTras" width="1080" height="1920"></canvas>
+          <div id="recorte" class="cutout-wrap"><div class="cam">
+            <video id="pessoa" class="clip" src="assets/media/pessoa.webm" muted playsinline data-start="0" data-media-start="0" data-duration="24.5333" data-track-index="3"></video>
+          </div></div>
+          <div id="cartelaFundo"><div class="pontos"></div><div class="banda"></div></div>
+          <canvas id="c3dFrente" width="1080" height="1920"></canvas>
+        </div></div></div>
+      </div>
+
+      <div id="flyerTopo" data-layout-allow-overflow>
+        <div class="pontos"></div>
+        <div class="lado" style="left: 20px"><b style="font-size: 78px">PRIMEIRO</b><b style="font-size: 150px">CULTO</b></div>
+        <div class="lado" style="left: 760px"><b style="font-size: 150px">HERO</b><b style="font-size: 92px">SÁBADO</b><b style="font-size: 120px">24/10</b></div>
+        <div class="cartao"><img src="assets/fotos/flyer_original.png" alt="Flyer do Culto HERO" /></div>
+      </div>
+      <div id="linhaDiv"></div>
+      <div id="seloLago"><img src="assets/brand/logo_lagoinha_patrocinio.png" alt="Igreja Batista da Lagoinha Patrocínio" /></div>
+
+      <div id="hud">
+        <div id="aoVivo"><i></i>AO VIVO</div>
+        <div id="local">PATROCÍNIO · MG</div>
+        <img id="heroHud" src="assets/brand/logo_hero_patrocinio.png" alt="HERO Patrocínio/MG" />
+      </div>
+      <div id="gc"><span class="tag">URGENTE</span><span class="tit">1º CULTO HERO · NESTE SÁBADO</span></div>
+
+      <svg id="sismo" viewBox="0 0 1080 300" preserveAspectRatio="none"><path id="sismoLinha" d="" fill="none" stroke="#e3262c" stroke-width="7" stroke-linejoin="round" /></svg>
+      <div id="trem" data-layout-allow-overlap><div style="color: #00e5ff; mix-blend-mode: screen" id="tremC" data-layout-allow-overlap>TREMENDO</div><div style="color: #ff2a3a; mix-blend-mode: screen" id="tremV" data-layout-allow-overlap>TREMENDO</div><div style="color: #fff; -webkit-text-stroke: 4px #000; paint-order: stroke fill" id="tremB" data-layout-allow-overlap>TREMENDO</div></div>
+      <div id="luzOuro"></div>
+      <div id="mais1">+1</div>
+      <div id="foraTopo" data-layout-allow-overlap><div class="pre">NÃO FICA DE</div><div class="fora">FORA</div></div>
+      <div id="carimbo">NÃO FIQUE<br />DE FORA!</div>
+
+      <div id="caps"></div>
+      <div id="ticker" data-layout-allow-overlap data-layout-allow-overflow><div class="tag" data-layout-allow-overlap>PLANTÃO</div><div class="rolo" id="rolo" data-layout-allow-overlap data-layout-allow-overflow></div></div>
+
+      <div id="cartelaTopo">
+        <img class="hero" src="assets/brand/logo_hero_patrocinio.png" alt="HERO Patrocínio/MG" />
+        <div class="conv">VOCÊ ESTÁ CONVOCADO.</div>
+        <div class="traga">TRAGA MAIS UM!</div>
+        <div class="rot" style="left: 60px"><span>SÁBADO · 24/10</span></div>
+        <div class="rot" style="left: 600px"><span>19H30</span></div>
+        <div class="end"><span>AV. FARIA PEREIRA, 3083 · PATROCÍNIO/MG</span></div>
+        <div class="lago"><img src="assets/brand/logo_lagoinha_patrocinio.png" alt="Igreja Batista da Lagoinha Patrocínio" /></div>
+      </div>
+
+      <div id="grao"></div>
+      <div id="linhasTv"></div>
+      <div id="flash"></div>
+    </div>
+
+    <script type="module">
+      import { montar } from "./assets/cena3d.js";
+
+      window.__hf = window.__hf || {};
+      window.__hf.buildReady = window.__hf.buildReady || {};
+      let pronto;
+      window.__hf.buildReady["plantao-hero-3d"] = new Promise((r) => (pronto = r));
+
+      const S = window.SYNC, EV = S.ev, ROSTO = window.ROSTO, TOTAL = EV.total, SEG = EV.seg;
+      const rosto = (t) => ROSTO[Math.max(0, Math.min(ROSTO.length - 1, Math.round(t * 30)))];
+      await Promise.all(['400 100px "Archivo Black"', '400 100px "Bebas Neue"', '700 100px "Space Mono"', '700 100px "UnifrakturCook"'].map((f) => document.fonts.load(f)));
+      const mundo = await montar(document.getElementById("c3dTras"), document.getElementById("c3dFrente"), EV);
+      const medidor = document.createElement("canvas").getContext("2d");
+      const largura = (txt, fonte) => { medidor.font = fonte; return medidor.measureText(txt).width; };
+
+      // ------------------------------------------------------------------ letreiro
+      const frase = "SÁBADO, 24/10 • 19H30 • 1º CULTO HERO • IGREJA BATISTA DA LAGOINHA • AV. FARIA PEREIRA, 3083 • PATROCÍNIO/MG • TRAGA MAIS UM • ";
+      document.getElementById("rolo").textContent = frase.repeat(4);
+      const passoLetreiro = largura(frase, '700 32px "Space Mono"') + frase.length * 1;
+
+      // ------------------------------------------------------------------ sismógrafo (traço determinístico)
+      (function () {
+        let d = "M 0 150", y;
+        for (let x = 0; x <= 1080; x += 6) {
+          const env = Math.exp(-Math.pow((x - 520) / 260, 2));
+          y = 150 + Math.sin(x * 0.9) * 120 * env * Math.sin(x * 0.13 + 1) + Math.sin(x * 2.3) * 8;
+          d += " L " + x + " " + y.toFixed(1);
+        }
+        document.getElementById("sismoLinha").setAttribute("d", d);
+      })();
+
+      // ------------------------------------------------------------------ palavras atrás dele (janela)
+      const KWS = [
+        { id: "kwConv", txt: "TE CONVIDAR", t: EV.convidar, fim: SEG[2] + 0.25 },
+        { id: "kwPres", txt: "PRESENTE", t: EV.presente, fim: EV.venha1 - 0.04 },
+        { id: "kwVen1", txt: "VENHA", t: EV.venha1, fim: SEG[5] + 0.2, cor: "vermelho" },
+        { id: "kwVen2", txt: "VENHA!", t: EV.venha2, fim: EV.nao - 0.1 },
+      ];
+      const atras = document.getElementById("atras");
+      KWS.forEach((k) => {
+        const el = document.createElement("div");
+        el.className = "kw" + (k.cor ? " " + k.cor : ""); el.id = k.id;
+        const size = Math.min(330, 990 / (largura(k.txt, '400 100px "Bebas Neue"') / 100));
+        el.style.fontSize = size + "px"; el.style.width = "1080px";
+        el.innerHTML = '<div class="eco" style="top:' + size * 0.62 + 'px;opacity:.35">' + k.txt + '</div><div class="eco" style="top:' + size * 0.31 + 'px;opacity:.65">' + k.txt + '</div><div class="solida">' + k.txt + "</div>";
+        gsap.set(el, { x: 0, y: 545 - size * 0.85 });
+        atras.appendChild(el);
+      });
+
+      // ------------------------------------------------------------------ tarjas (karaokê com marca-texto)
+      const caps = document.getElementById("caps");
+      S.blocos.forEach((b, i) => {
+        const d = document.createElement("div");
+        d.className = "tarja"; d.id = "tj" + i;
+        d.innerHTML = '<div class="caixa"><div class="linha"><div class="marca" id="tj' + i + 'm"></div>' +
+          b.p.map((p, j) => '<span id="tj' + i + "w" + j + '" class="' + (p.c === "k" ? "k" : "") + '">' + p.w + "</span>").join("") + "</div></div>";
+        caps.appendChild(d);
+      });
+
+      // ------------------------------------------------------------------ linha do tempo
+      const tl = gsap.timeline({ paused: true });
+      const relogio = { t: 0 };
+      const grao = document.getElementById("grao");
+      const abalo = { x: 0, y: 0 };
+      function quadro(t) {
+        mundo.render(t, [abalo.x, abalo.y]);
+        const fr = Math.floor(t * 15);
+        grao.style.backgroundPosition = ((fr * 137) % 512) + "px " + ((fr * 251) % 512) + "px";
+      }
+      tl.to(relogio, { t: TOTAL, duration: TOTAL, ease: "none", onUpdate: () => quadro(relogio.t) }, 0);
+      tl.fromTo("#rolo", { x: 260 }, { x: 260 - passoLetreiro * 2.2, duration: TOTAL, ease: "none" }, 0);
+      tl.fromTo("#palco .pontos", { y: 0 }, { y: -260, duration: TOTAL, ease: "none" }, 0);
+      tl.fromTo("#palco .faixa", { x: 0 }, { x: -340, duration: TOTAL, ease: "none" }, 0);
+
+      const flash = (t, pico = 0.8, d = 0.22) => tl.fromTo("#flash", { opacity: pico }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, t);
+      function tremor(t, amp = 14, n = 6, passo = 0.035) {
+        for (let i = 0; i < n; i++) {
+          const k = 1 - i / n, s = i % 2 ? -1 : 1;
+          tl.to("#tremor", { x: s * amp * k, y: -s * amp * 0.6 * k * (i % 3 === 0 ? -1 : 1), rotation: s * amp * 0.03 * k, duration: passo, ease: "none" }, t + i * passo);
+          tl.to(abalo, { x: -s * amp * k * 0.004, y: s * amp * k * 0.003, duration: passo, ease: "none" }, t + i * passo);
+        }
+        tl.to("#tremor", { x: 0, y: 0, rotation: 0, duration: 0.05 }, t + n * passo);
+        tl.to(abalo, { x: 0, y: 0, duration: 0.05 }, t + n * passo);
+      }
+      const soco = (t, de = 1.08) => tl.fromTo("#tremor", { scale: de, filter: "blur(6px)" }, { scale: 1, filter: "blur(0px)", duration: 0.22, ease: "power3.out", immediateRender: false }, t);
+
+      // modos de enquadramento: A (tela cheia) · B (janela, ele salta para fora) · D (janela estreita, datas) · F ("FORA")
+      const MODO = {
+        A: { s: 1, clip: "inset(0px 0px 0px 0px round 0px)", mold: [0, 0, 0, 0], mo: 0 },
+        B: { s: 0.78, clip: "inset(600px 150px 380px 150px round 44px)", mold: [600, 150, 380, 150], mo: 1 },
+        D: { s: 0.7, clip: "inset(660px 215px 400px 215px round 44px)", mold: [660, 215, 400, 215], mo: 1 },
+        F: { s: 0.5, clip: "inset(720px 300px 620px 300px round 36px)", mold: [720, 300, 620, 300], mo: 1 },
+      };
+      function modo(nome, t, d = 0.38) {
+        const m = MODO[nome];
+        tl.to(".cam", { scale: m.s, duration: d, ease: "power3.inOut" }, t);
+        tl.to("#janela", { clipPath: m.clip, duration: d, ease: "power3.inOut" }, t);
+        const [to, ri, bo, le] = m.mold;
+        tl.to("#moldura", { x: le - 8, y: to - 8, scaleX: (1080 - le - ri + 16) / 1080, scaleY: (1920 - to - bo + 16) / 1920, opacity: m.mo, transformOrigin: "0px 0px", duration: d, ease: "power3.inOut" }, t);
+      }
+      gsap.set("#moldura", { transformOrigin: "0px 0px" });
+
+      // ---- abertura: TV liga (linha branca que abre), selo AO VIVO, GC "URGENTE"
+      tl.fromTo("#corte", { scaleY: 0.006, scaleX: 0.6, filter: "brightness(4)" }, { scaleY: 1, scaleX: 1, filter: "brightness(1)", duration: 0.26, ease: "expo.out" }, 0);
+      tl.fromTo("#linhasTv", { opacity: 0.9 }, { opacity: 0, duration: 0.7, ease: "power2.out" }, 0.05);
+      tl.fromTo("#aoVivo", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(2)" }, 0.3);
+      tl.fromTo("#aoVivo i", { opacity: 1 }, { opacity: 0.15, duration: 0.5, ease: "none", repeat: Math.floor((TOTAL - 1) / 0.5), yoyo: true }, 0.6);
+      tl.fromTo("#local", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3 }, 0.45);
+      tl.fromTo("#heroHud", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 0.5);
+      tl.fromTo("#ticker", { y: 90 }, { y: 0, duration: 0.35, ease: "power3.out" }, 0.55);
+      tl.fromTo("#gc", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 0.4);
+      tl.to("#gc", { opacity: 0, x: -60, duration: 0.25 }, EV.convidar - 0.3);
+
+      // ---- "te convidar": janela + palavra atrás
+      modo("B", EV.convidar - 0.22);
+      soco(EV.convidar - 0.02, 1.05);
+      modo("A", SEG[2] - 0.05, 0.3);
+
+      // ---- sábado / 24 / outubro / 7 e meia: janela estreita, calendário e relógio dos lados
+      modo("D", EV.sabado - 0.3);
+      tremor(EV.dia24 + 0.02, 8, 5);
+      modo("A", EV.sera + 0.3, 0.35);
+
+      // ---- culto HERO: tela dividida (flyer em cima, ele embaixo) + selo Lagoinha
+      const s0 = EV.culto - 0.18, s1 = EV.te - 0.12;
+      tl.to("#corte", { clipPath: "inset(900px 0px 0px 0px)", duration: 0.4, ease: "power3.inOut" }, s0);
+      tl.to("#deslize", { scale: 0.8, y: 700, duration: 0.4, ease: "power3.inOut" }, s0);
+      tl.fromTo("#flyerTopo", { y: -920 }, { y: 0, duration: 0.42, ease: "power3.out" }, s0 + 0.02);
+      tl.fromTo("#linhaDiv", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, s0 + 0.12);
+      tl.fromTo("#flyerTopo .cartao", { rotation: -8, scale: 0.8 }, { rotation: 2, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, EV.hero - 0.1);
+      tl.to("#flyerTopo .cartao", { rotation: -1, scale: 1.04, duration: s1 - EV.hero - 0.4, ease: "none" }, EV.hero + 0.4);
+      tl.fromTo("#flyerTopo .lado", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.12, ease: "back.out(2)" }, EV.hero);
+      flash(EV.hero, 0.5, 0.2);
+      tl.fromTo("#seloLago", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.5)" }, EV.lagoinha - 0.05);
+      tl.to("#heroHud", { opacity: 0, duration: 0.2 }, s0);
+      tl.to("#corte", { clipPath: "inset(0px 0px 0px 0px)", duration: 0.36, ease: "power3.inOut" }, s1);
+      tl.to("#deslize", { scale: 1, y: 0, duration: 0.36, ease: "power3.inOut" }, s1);
+      tl.to("#flyerTopo", { y: -920, duration: 0.36, ease: "power3.in" }, s1);
+      tl.to("#linhaDiv", { scaleX: 0, duration: 0.2 }, s1);
+      tl.to("#seloLago", { opacity: 0, scale: 0.6, duration: 0.2 }, s1);
+      tl.to("#heroHud", { opacity: 1, duration: 0.3 }, s1 + 0.3);
+
+      // ---- presente / venha: janela
+      modo("B", EV.presente - 0.25);
+      soco(EV.venha1 - 0.02, 1.06);
+      modo("A", SEG[5] - 0.05, 0.3);
+
+      // ---- traga MAIS UM: clone amarelo desliza para o lado + selo +1
+      tl.fromTo("#cloneW", { opacity: 0 }, { opacity: 0.92, duration: 0.15 }, EV.mais - 0.08);
+      tl.fromTo("#cloneDesl", { x: 0, scale: 1 }, { x: 235, scale: 0.8, duration: 0.42, ease: "back.out(1.6)" }, EV.mais - 0.08);
+      tl.fromTo("#mais1", { opacity: 0, scale: 0.2, rotation: -40 }, { opacity: 1, scale: 1, rotation: 8, duration: 0.3, ease: "back.out(3)" }, EV.um + 0.02);
+      tl.to("#mais1", { opacity: 0, scale: 0.4, duration: 0.15 }, EV.tremendo - 0.1);
+      for (let i = 0; i < 5; i++) tl.set("#cloneDesl", { x: 235 + (i % 2 ? -40 : 40), skewX: i % 2 ? 12 : -12 }, EV.tremendo - 0.05 + i * 0.04);
+      tl.set("#cloneW", { opacity: 0 }, EV.tremendo + 0.16);
+
+      // ---- TREMENDO: sismógrafo, fenda RGB, tremor forte
+      const L = 3000;
+      gsap.set("#sismoLinha", { strokeDasharray: L, strokeDashoffset: L });
+      tl.set("#sismo", { opacity: 1 }, EV.tremendo - 0.05);
+      tl.fromTo("#sismoLinha", { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.out" }, EV.tremendo - 0.05);
+      tl.to("#sismo", { opacity: 0, duration: 0.25 }, EV.uncao - 0.3);
+      tl.set("#trem", { opacity: 1 }, EV.tremendo - 0.04);
+      for (let i = 0; i < 12; i++) {
+        const tt = EV.tremendo - 0.04 + i * 0.05, a = 28 * Math.exp(-i / 6);
+        tl.set("#tremC", { x: -a * (i % 2 ? 1 : 0.5), y: a * 0.3 }, tt);
+        tl.set("#tremV", { x: a * (i % 3 ? 1 : 0.6), y: -a * 0.25 }, tt);
+        tl.set("#tremB", { x: (i % 2 ? 1 : -1) * a * 0.3, skewX: (i % 2 ? 1 : -1) * a * 0.2 }, tt);
+      }
+      tl.fromTo("#trem", { scale: 1.5 }, { scale: 1, duration: 0.18, ease: "power4.out" }, EV.tremendo - 0.04);
+      tl.to("#trem", { opacity: 0, scale: 1.15, duration: 0.2 }, EV.uncao - 0.25);
+      tremor(EV.tremendo - 0.02, 30, 14, 0.04);
+      flash(EV.tremendo - 0.02, 0.45, 0.2);
+      tl.fromTo("#linhasTv", { opacity: 0.8 }, { opacity: 0, duration: 0.6, immediateRender: false }, EV.tremendo);
+
+      // ---- unção: luz dourada (gotas de ouro no 3D)
+      tl.fromTo("#luzOuro", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, EV.uncao - 0.1);
+      tl.to("#luzOuro", { opacity: 0, duration: 0.4 }, SEG[6] - 0.1);
+
+      // ---- adoração / comunhão: carrossel 3D de fotos (cena3d.js)
+      soco(SEG[6], 1.06);
+
+      // ---- "Venha!": janela e palavra
+      modo("B", EV.venha2 - 0.24);
+      soco(EV.venha2 - 0.02, 1.06);
+
+      // ---- "não fica FORA dessa, não": ele fica preso numa janela pequena, FORA do lado de fora; carimbo
+      modo("F", EV.nao - 0.12, 0.42);
+      tl.to("#recorte", { opacity: 0, duration: 0.2 }, EV.nao - 0.1);
+      tl.fromTo("#foraTopo", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2)" }, EV.fora - 0.12);
+      tl.fromTo("#foraTopo .fora", { scale: 1.8 }, { scale: 1, duration: 0.2, ease: "power4.in" }, EV.fora - 0.12);
+      tl.fromTo("#carimbo", { opacity: 0, scale: 2.4, rotation: -20 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.16, ease: "power4.in" }, EV.nao2 - 0.12);
+      tremor(EV.nao2 + 0.04, 16, 6);
+      tl.to(["#foraTopo", "#carimbo"], { opacity: 0, duration: 0.2 }, EV.tabom - 0.08);
+      tl.set("#recorte", { opacity: 1 }, EV.tabom - 0.06);
+      modo("A", EV.tabom - 0.08, 0.3);
+
+      // ------------------------------------------------------------------ palavras atrás (entrada: eco que desce e assenta)
+      KWS.forEach((k) => {
+        const el = "#" + k.id;
+        tl.set(el, { opacity: 0 }, 0);
+        tl.set(el, { opacity: 1 }, k.t - 0.08);
+        tl.fromTo(el + " .solida", { yPercent: 60, scaleY: 1.6, opacity: 0 }, { yPercent: 0, scaleY: 1, opacity: 1, duration: 0.24, ease: "back.out(2.2)" }, k.t - 0.08);
+        tl.fromTo(el + " .eco", { y: -120, opacity: 0 }, { y: 0, opacity: (i) => (i === 0 ? 0.35 : 0.65), duration: 0.3, stagger: 0.05, ease: "power3.out" }, k.t - 0.02);
+        tl.fromTo(el, { scale: 1 }, { scale: 1.06, duration: k.fim - k.t, ease: "none" }, k.t);
+        tl.to(el, { opacity: 0, y: "-=40", duration: 0.16, ease: "power2.in" }, k.fim - 0.14);
+      });
+
+      // ------------------------------------------------------------------ tarjas: linha inteira apagada, palavra falada sob marca-texto
+      S.blocos.forEach((b, i) => {
+        const id = "#tj" + i;
+        const ws = b.p.map((p, j) => document.getElementById("tj" + i + "w" + j));
+        tl.set(id, { opacity: 1 }, b.s - 0.06);
+        tl.fromTo(id + " .caixa", { scaleX: 0.6, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.14, ease: "back.out(2)" }, b.s - 0.06);
+        b.p.forEach((p, j) => {
+          const w = ws[j];
+          const x = w.offsetLeft - 9, larg = w.offsetWidth + 18;
+          tl.to(id + "m", { x, scaleX: larg / 100, duration: j === 0 ? 0.001 : 0.1, ease: "power2.out" }, p.t - 0.05);
+          tl.set(w, { color: "#0e0d0b" }, p.t - 0.03);
+          if (j > 0) tl.set(ws[j - 1], { color: b.p[j - 1].c === "k" ? "#f5b800" : "#ffffff" }, p.t - 0.03);
+          tl.fromTo(w, { scale: 1.18 }, { scale: 1, duration: 0.16, ease: "back.out(3)" }, p.t - 0.03);
+        });
+        tl.set(id, { opacity: 0 }, b.e - 0.05);
+      });
+      tl.to("#caps", { y: -392, duration: 0.3, ease: "power2.inOut" }, EV.culto - 0.18);
+      tl.to("#caps", { y: 0, duration: 0.3, ease: "power2.inOut" }, EV.te - 0.12);
+
+      // ------------------------------------------------------------------ cartela
+      const C = EV.cartela;
+      tl.fromTo("#cartelaFundo", { opacity: 0, clipPath: "circle(0% at 50% 50%)" }, { opacity: 1, clipPath: "circle(80% at 50% 50%)", duration: 0.42, ease: "power3.inOut" }, C - 0.2);
+      tl.fromTo("#cartelaFundo .banda", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, C + 0.1);
+      tl.to(["#aoVivo", "#local", "#heroHud"], { opacity: 0, duration: 0.2 }, C - 0.2);
+      tl.set("#cartelaTopo", { opacity: 1 }, C);
+      tl.fromTo("#cartelaTopo .hero", { opacity: 0, scale: 1.6, rotation: -6 }, { opacity: 1, scale: 1, rotation: -2, duration: 0.2, ease: "power4.in" }, C - 0.12);
+      tl.to("#cartelaTopo .hero", { scale: 1.04, rotation: 0, duration: 3, ease: "none" }, C + 0.08);
+      flash(C + 0.08, 0.5, 0.25);
+      tremor(C + 0.08, 12, 5);
+      tl.fromTo("#cartelaTopo .conv", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, C + 0.4);
+      tl.fromTo("#cartelaTopo .traga", { opacity: 0, scale: 2.2 }, { opacity: 1, scale: 1, duration: 0.16, ease: "power4.in" }, C + 1.15);
+      tl.fromTo("#cartelaTopo .rot", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.1 }, C + 0.8);
+      tl.fromTo("#cartelaTopo .end", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }, C + 0.95);
+      tl.fromTo("#cartelaTopo .lago", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }, C + 1.05);
+      tl.to("#cartelaTopo", { opacity: 0, duration: 0.3 }, TOTAL - 0.3);
+      tl.to("#cartelaFundo", { opacity: 0, duration: 0.3 }, TOTAL - 0.3);
+      tl.to("#ticker", { y: 90, duration: 0.3 }, TOTAL - 0.3);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      quadro(0);
+      pronto();
+    </script>
+  </body>
+</html>

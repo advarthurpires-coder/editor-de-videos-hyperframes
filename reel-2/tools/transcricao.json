@@ -1,0 +1,282 @@
+{
+ "parakeet": "Meus irmãos, tudo bem? Estou passando aqui neste momento para te convidar que nesse sábado, dia 24 de outubro, às 7 e meia, será promovido o nosso primeiro culto Hero da Igreja Batista Lagoinha, tá? Te convido a fazer presente neste momento, venha, traga mais um, que será tremendo, a unção de Deus, momento de adoração e comunhão com os irmãos. Venha, não fica fora dessa, não, tá bom?",
+ "whisper": "e",
+ "palavras": [
+  {
+   "w": "Meus",
+   "t": 0.48
+  },
+  {
+   "w": "irmãos,",
+   "t": 0.64
+  },
+  {
+   "w": "tudo",
+   "t": 0.96
+  },
+  {
+   "w": "bem?",
+   "t": 1.12
+  },
+  {
+   "w": "Estou",
+   "t": 1.44
+  },
+  {
+   "w": "passando",
+   "t": 1.68
+  },
+  {
+   "w": "aqui",
+   "t": 2.0
+  },
+  {
+   "w": "neste",
+   "t": 2.16
+  },
+  {
+   "w": "momento",
+   "t": 2.48
+  },
+  {
+   "w": "para",
+   "t": 2.8
+  },
+  {
+   "w": "te",
+   "t": 2.96
+  },
+  {
+   "w": "convidar",
+   "t": 3.12
+  },
+  {
+   "w": "que",
+   "t": 4.24
+  },
+  {
+   "w": "nesse",
+   "t": 4.56
+  },
+  {
+   "w": "sábado,",
+   "t": 4.88
+  },
+  {
+   "w": "dia",
+   "t": 5.44
+  },
+  {
+   "w": "24",
+   "t": 5.68
+  },
+  {
+   "w": "de",
+   "t": 6.08
+  },
+  {
+   "w": "outubro,",
+   "t": 6.16
+  },
+  {
+   "w": "às",
+   "t": 6.56
+  },
+  {
+   "w": "7",
+   "t": 6.72
+  },
+  {
+   "w": "e",
+   "t": 6.96
+  },
+  {
+   "w": "meia,",
+   "t": 7.04
+  },
+  {
+   "w": "será",
+   "t": 7.44
+  },
+  {
+   "w": "promovido",
+   "t": 7.92
+  },
+  {
+   "w": "o",
+   "t": 8.48
+  },
+  {
+   "w": "nosso",
+   "t": 8.56
+  },
+  {
+   "w": "primeiro",
+   "t": 8.88
+  },
+  {
+   "w": "culto",
+   "t": 9.12
+  },
+  {
+   "w": "Hero",
+   "t": 9.52
+  },
+  {
+   "w": "da",
+   "t": 10.08
+  },
+  {
+   "w": "Igreja",
+   "t": 10.16
+  },
+  {
+   "w": "Batista",
+   "t": 10.56
+  },
+  {
+   "w": "Lagoinha,",
+   "t": 11.04
+  },
+  {
+   "w": "tá?",
+   "t": 11.84
+  },
+  {
+   "w": "Te",
+   "t": 12.08
+  },
+  {
+   "w": "convido",
+   "t": 12.24
+  },
+  {
+   "w": "a",
+   "t": 12.56
+  },
+  {
+   "w": "fazer",
+   "t": 12.72
+  },
+  {
+   "w": "presente",
+   "t": 12.96
+  },
+  {
+   "w": "neste",
+   "t": 13.36
+  },
+  {
+   "w": "momento,",
+   "t": 13.68
+  },
+  {
+   "w": "venha,",
+   "t": 14.32
+  },
+  {
+   "w": "traga",
+   "t": 14.88
+  },
+  {
+   "w": "mais",
+   "t": 15.44
+  },
+  {
+   "w": "um,",
+   "t": 15.6
+  },
+  {
+   "w": "que",
+   "t": 16.16
+  },
+  {
+   "w": "será",
+   "t": 16.32
+  },
+  {
+   "w": "tremendo,",
+   "t": 16.64
+  },
+  {
+   "w": "a",
+   "t": 17.52
+  },
+  {
+   "w": "unção",
+   "t": 17.76
+  },
+  {
+   "w": "de",
+   "t": 18.32
+  },
+  {
+   "w": "Deus,",
+   "t": 18.4
+  },
+  {
+   "w": "momento",
+   "t": 19.28
+  },
+  {
+   "w": "de",
+   "t": 19.68
+  },
+  {
+   "w": "adoração",
+   "t": 19.84
+  },
+  {
+   "w": "e",
+   "t": 20.56
+  },
+  {
+   "w": "comunhão",
+   "t": 20.72
+  },
+  {
+   "w": "com",
+   "t": 21.28
+  },
+  {
+   "w": "os",
+   "t": 21.44
+  },
+  {
+   "w": "irmãos.",
+   "t": 21.6
+  },
+  {
+   "w": "Venha,",
+   "t": 23.12
+  },
+  {
+   "w": "não",
+   "t": 24.0
+  },
+  {
+   "w": "fica",
+   "t": 24.16
+  },
+  {
+   "w": "fora",
+   "t": 24.48
+  },
+  {
+   "w": "dessa,",
+   "t": 24.72
+  },
+  {
+   "w": "não,",
+   "t": 25.04
+  },
+  {
+   "w": "tá",
+   "t": 25.2
+  },
+  {
+   "w": "bom?",
+   "t": 25.36
+  }
+ ]
+}
