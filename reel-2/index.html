@@ -30,6 +30,7 @@
       .abs { position: absolute; }
 
       /* ---------- pilha do vídeo */
+      #fundoSplit { position: absolute; inset: 0; opacity: 0; background: var(--amarelo) radial-gradient(circle, rgba(0,0,0,0.18) 2.4px, transparent 2.8px) 0 0 / 24px 24px; }
       #corte { position: absolute; inset: 0; clip-path: inset(0px 0px 0px 0px); transform-origin: 540px 960px; }
       #deslize, #tremor { position: absolute; inset: 0; }
       #deslize { transform-origin: 540px 691px; }
@@ -76,7 +77,7 @@
       #aoVivo i { width: 18px; height: 18px; border-radius: 50%; background: #fff; display: block; }
       #local { position: absolute; left: 48px; top: 252px; font-family: "Space Mono"; font-weight: 700; font-size: 26px; letter-spacing: 3px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 0; }
       #heroHud { position: absolute; left: 846px; top: 168px; width: 196px; opacity: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); }
-      #ticker { position: absolute; left: 0; top: 1486px; width: 1080px; height: 66px; z-index: 13; overflow: hidden; background: var(--amarelo); transform: translateY(90px); box-shadow: 0 -4px 0 var(--preto); }
+      #ticker { position: absolute; left: 0; top: 1486px; width: 1080px; height: 66px; z-index: 13; overflow: hidden; background: var(--amarelo); transform: translateY(480px); box-shadow: 0 -4px 0 var(--preto); }
       #ticker .rolo { position: absolute; left: 0; top: 13px; white-space: nowrap; font-family: "Space Mono"; font-weight: 700; font-size: 32px; color: var(--preto); letter-spacing: 1px; }
       #ticker .tag { position: absolute; left: 0; top: 0; height: 66px; width: 236px; background: var(--vermelho); font-family: "Bebas Neue"; font-size: 52px; line-height: 70px; text-align: center; color: #fff; letter-spacing: 3px; z-index: 2; }
       #gc { position: absolute; left: 44px; top: 1130px; z-index: 13; opacity: 0; }
@@ -88,7 +89,7 @@
       .tarja { position: absolute; left: 0; right: 0; top: 1322px; text-align: center; opacity: 0; }
       .tarja .caixa { position: relative; display: inline-block; padding: 14px 26px 16px; background: var(--preto); transform: skewX(-8deg); box-shadow: 10px 10px 0 rgba(245,184,0,0.95); }
       .tarja .linha { position: relative; display: inline-block; transform: skewX(8deg); white-space: nowrap; }
-      .tarja .marca { position: absolute; left: 0; top: -4px; width: 100px; height: calc(100% + 8px); background: var(--amarelo); transform-origin: 0 50%; }
+      .tarja .marca { position: absolute; left: 0; top: -20px; width: 100px; height: calc(100% + 26px); background: var(--amarelo); transform-origin: 0 50%; }
       .tarja span { position: relative; display: inline-block; margin: 0 11px; font-family: "Archivo Black"; font-size: 60px; line-height: 1.05; text-transform: uppercase; color: rgba(255,255,255,0.5); }
       .tarja span.k { font-family: "Bebas Neue"; font-size: 92px; line-height: 0.82; letter-spacing: 2px; color: rgba(245,184,0,0.6); }
 
@@ -126,6 +127,7 @@
       <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="27.3333" data-track-index="20" data-volume="1"></audio>
 
       <div id="cena" class="layer">
+        <div id="fundoSplit"></div>
         <div id="corte"><div id="deslize"><div id="tremor">
           <div id="palco"><div class="pontos"></div><div class="faixa" style="top: 300px"></div><div class="faixa" style="top: 1660px"></div><div class="marca">H</div></div>
           <div id="janela"><div class="cam">
@@ -295,7 +297,7 @@
       tl.fromTo("#aoVivo i", { opacity: 1 }, { opacity: 0.15, duration: 0.5, ease: "none", repeat: Math.floor((TOTAL - 1) / 0.5), yoyo: true }, 0.6);
       tl.fromTo("#local", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3 }, 0.45);
       tl.fromTo("#heroHud", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 0.5);
-      tl.fromTo("#ticker", { y: 90 }, { y: 0, duration: 0.35, ease: "power3.out" }, 0.55);
+      tl.fromTo("#ticker", { y: 480 }, { y: 0, duration: 0.35, ease: "power3.out" }, 0.55);
       tl.fromTo("#gc", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 0.4);
       tl.to("#gc", { opacity: 0, x: -60, duration: 0.25 }, EV.convidar - 0.3);
 
@@ -312,7 +314,9 @@
       // ---- culto HERO: tela dividida (flyer em cima, ele embaixo) + selo Lagoinha
       const s0 = EV.culto - 0.18, s1 = EV.te - 0.12;
       tl.to("#corte", { clipPath: "inset(900px 0px 0px 0px)", duration: 0.4, ease: "power3.inOut" }, s0);
-      tl.to("#deslize", { scale: 0.8, y: 700, duration: 0.4, ease: "power3.inOut" }, s0);
+      tl.to("#deslize", { scale: 0.8, y: 620, duration: 0.4, ease: "power3.inOut" }, s0);
+      tl.to("#fundoSplit", { opacity: 1, duration: 0.2 }, s0);
+      tl.to("#fundoSplit", { opacity: 0, duration: 0.2 }, s1 + 0.25);
       tl.fromTo("#flyerTopo", { y: -920 }, { y: 0, duration: 0.42, ease: "power3.out" }, s0 + 0.02);
       tl.fromTo("#linhaDiv", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, s0 + 0.12);
       tl.fromTo("#flyerTopo .cartao", { rotation: -8, scale: 0.8 }, { rotation: 2, scale: 1, duration: 0.5, ease: "back.out(1.7)" }, EV.hero - 0.1);
@@ -402,7 +406,7 @@
         b.p.forEach((p, j) => {
           const w = ws[j];
           const x = w.offsetLeft - 9, larg = w.offsetWidth + 18;
-          tl.to(id + "m", { x, scaleX: larg / 100, duration: j === 0 ? 0.001 : 0.1, ease: "power2.out" }, p.t - 0.05);
+          tl.set(id + "m", { x, scaleX: larg / 100 }, p.t - 0.03);   // o marcador salta junto com a troca de cor (sem palavra preta sobre a tarja preta)
           tl.set(w, { color: "#0e0d0b" }, p.t - 0.03);
           if (j > 0) tl.set(ws[j - 1], { color: b.p[j - 1].c === "k" ? "#f5b800" : "#ffffff" }, p.t - 0.03);
           tl.fromTo(w, { scale: 1.18 }, { scale: 1, duration: 0.16, ease: "back.out(3)" }, p.t - 0.03);
@@ -429,7 +433,7 @@
       tl.fromTo("#cartelaTopo .lago", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }, C + 1.05);
       tl.to("#cartelaTopo", { opacity: 0, duration: 0.3 }, TOTAL - 0.3);
       tl.to("#cartelaFundo", { opacity: 0, duration: 0.3 }, TOTAL - 0.3);
-      tl.to("#ticker", { y: 90, duration: 0.3 }, TOTAL - 0.3);
+      tl.to("#ticker", { y: 480, duration: 0.3 }, TOTAL - 0.3);
 
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
