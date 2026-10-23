@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>HERO — Emerson Gama</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; font-weight: 400; src: url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "UnifrakturCook"; font-weight: 700; src: url("assets/fonts/unifrakturcook-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("assets/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url("assets/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+
+      :root { --amarelo: #e9a71b; --amarelo-hi: #ffc62e; --laranja: #f26a1b; --preto: #141210; --creme: #f1e9d6; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--preto); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--preto); font-family: "Anton", sans-serif; color: #fff; }
+      .clip { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      img { display: block; }
+
+      /* palco amarelo atrás do vídeo (aparece quando o vídeo gira em 3D) */
+      #palco { position: absolute; inset: 0; background: radial-gradient(70% 50% at 50% 45%, #ffc62e 0%, #e9a71b 55%, #a8700c 100%); }
+      #palco-h { position: absolute; left: 140px; top: 360px; width: 800px; font-family: "UnifrakturCook", serif; font-size: 1100px; line-height: 1100px;
+        text-align: center; color: rgba(20,18,16,0.07); }
+
+      /* cena 3D */
+      #mundo { position: absolute; inset: 0; perspective: 1800px; perspective-origin: 50% 45%; }
+      #cartao { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-style: preserve-3d; transform-origin: 50% 50%; }
+      .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
+      #frente { border-radius: 0px; box-shadow: 0 50px 120px rgba(0,0,0,0.5); }
+      #base { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #verso { transform: rotateY(180deg); }
+      #verso img { width: 1080px; height: 1920px; object-fit: cover; }
+      #vinheta { position: absolute; inset: 0; background: radial-gradient(95% 65% at 50% 42%, rgba(0,0,0,0) 62%, rgba(10,8,4,0.38) 100%); }
+      #luz { position: absolute; inset: 0; opacity: 0; mix-blend-mode: screen;
+        background: radial-gradient(55% 35% at 50% 62%, rgba(255,170,60,0.55) 0%, rgba(255,120,30,0.18) 50%, rgba(0,0,0,0) 100%); }
+      #brilho { position: absolute; left: -600px; top: -300px; width: 360px; height: 2600px; transform: rotate(18deg); mix-blend-mode: soft-light;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0) 100%); }
+
+      /* elementos 3D sobre a fala */
+      .el3d { position: absolute; transform-style: preserve-3d; opacity: 0; }
+
+      #nome { left: 90px; top: 150px; width: 900px; height: 210px; transform-origin: 50% 0%; }
+      #nome .barra { position: absolute; left: 0; top: 0; width: 900px; height: 150px; background: var(--preto); border-left: 16px solid var(--amarelo-hi);
+        box-shadow: 0 26px 50px rgba(0,0,0,0.45); }
+      #nome .n { position: absolute; left: 50px; top: 18px; font-size: 104px; line-height: 116px; letter-spacing: 0.02em; color: #fff; white-space: nowrap; }
+      #nome .n b { color: var(--amarelo-hi); font-weight: 400; }
+      #nome .sub { position: absolute; left: 16px; top: 150px; padding: 8px 26px; background: var(--amarelo-hi); color: var(--preto);
+        font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 40px; line-height: 44px; letter-spacing: 0.08em; white-space: nowrap; }
+
+      /* cubo data/hora */
+      #cubo-wrap { left: 600px; top: 760px; width: 420px; height: 300px; perspective: 1400px; opacity: 0; }
+      #cubo { position: absolute; left: 0; top: 0; width: 420px; height: 300px; transform-style: preserve-3d; transform-origin: 50% 50% -150px; }
+      .cf { position: absolute; left: 0; top: 0; width: 420px; height: 300px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+        background: var(--amarelo-hi); border: 8px solid var(--preto); box-shadow: 0 30px 60px rgba(0,0,0,0.4); color: var(--preto); text-align: center; }
+      .cf .topo { height: 74px; background: var(--preto); color: var(--amarelo-hi); font-family: "Barlow Condensed", sans-serif; font-weight: 800;
+        font-size: 46px; line-height: 74px; letter-spacing: 0.12em; }
+      .cf .g { font-size: 168px; line-height: 210px; letter-spacing: 0.01em; }
+      #cf2 { transform: rotateX(-90deg) translateZ(150px) translateY(-150px); transform-origin: 50% 0%; }
+
+      /* Lagoinha */
+      #lagoinha { left: 140px; top: 170px; width: 800px; height: 259px; transform-origin: 50% 50%; }
+      #lagoinha img { width: 800px; height: 259px; filter: drop-shadow(0 0 26px rgba(255,255,255,0.35)) drop-shadow(0 12px 26px rgba(0,0,0,0.6)); }
+      #lag-brilho { position: absolute; inset: 0; overflow: hidden;
+        -webkit-mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 800px 259px no-repeat; mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 800px 259px no-repeat; }
+      #lag-brilho div { position: absolute; top: -40px; left: -300px; width: 200px; height: 360px; transform: skewX(-20deg);
+        background: linear-gradient(90deg, rgba(255,214,110,0) 0%, rgba(255,230,150,1) 50%, rgba(255,214,110,0) 100%); }
+
+      /* Patrocínio */
+      #local { left: 200px; top: 190px; width: 680px; height: 200px; }
+      #pino { position: absolute; left: 0; top: 10px; width: 120px; height: 164px; transform-origin: 50% 100%; }
+      #local .chip { position: absolute; left: 130px; top: 40px; height: 120px; padding: 0 40px; background: var(--preto); border: 6px solid var(--amarelo-hi);
+        font-size: 82px; line-height: 108px; letter-spacing: 0.03em; white-space: nowrap; transform-origin: 0% 50%; box-shadow: 0 24px 50px rgba(0,0,0,0.45); }
+      #local .chip b { color: var(--amarelo-hi); font-weight: 400; }
+
+      /* final */
+      #fim { opacity: 1; }
+      #fim-hero { left: 220px; top: 1440px; width: 640px; height: 294px; opacity: 0; transform-origin: 50% 50%; }
+      #fim-hero img { width: 640px; height: 294px; filter: drop-shadow(0 20px 34px rgba(0,0,0,0.6)); }
+      #fim-end { left: 170px; top: 1770px; width: 740px; height: 84px; opacity: 0; }
+      #fim-end .p { position: absolute; inset: 0; background: var(--preto); border-radius: 42px; box-shadow: 0 14px 30px rgba(0,0,0,0.4); }
+      #fim-end .t { position: absolute; left: 0; right: 0; top: 12px; text-align: center; font-family: "Barlow Condensed", sans-serif; font-weight: 800;
+        font-size: 50px; line-height: 60px; letter-spacing: 0.05em; color: var(--creme); white-space: nowrap; }
+      #fim-end .t b { color: var(--amarelo-hi); }
+      #escuro { position: absolute; left: 0; right: 0; bottom: 0; height: 420px; opacity: 0;
+        background: linear-gradient(180deg, rgba(20,18,16,0) 0%, rgba(20,18,16,0.55) 45%, rgba(20,18,16,0.9) 100%); }
+
+      #grao { position: absolute; inset: 0; background: url("assets/media/grao.png") 0 0 / 512px 512px repeat; opacity: 0.05; mix-blend-mode: overlay; }
+      #flash { position: absolute; inset: 0; background: #fff8e6; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24.5" data-width="1080" data-height="1920">
+      <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="24.5" data-track-index="20" data-volume="1"></audio>
+
+      <div id="palco" class="clip" data-start="0" data-duration="24.5" data-track-index="0"><div class="abs" id="palco-h">H</div></div>
+
+      <div id="mundo" class="clip">
+        <div id="cartao">
+          <div class="face" id="frente">
+            <video id="base" class="clip" src="assets/media/base.mp4" muted playsinline data-start="0" data-duration="21.5" data-track-index="2"></video>
+            <div id="vinheta"></div>
+            <div id="luz"></div>
+          </div>
+          <div class="face" id="verso">
+            <img id="flyer" src="assets/fotos/flyer.jpg" alt="Flyer HERO — 24 de outubro, 19h30, Av. Faria Pereira 3083" />
+            <div id="brilho"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sobre" class="clip" data-start="0" data-duration="24.5" data-track-index="3" style="perspective: 1600px;">
+        <div class="el3d" id="nome" data-layout-allow-overflow>
+          <div class="barra"></div><div class="n">EMERSON <b>GAMA</b></div><div class="sub">HERO • PATROCÍNIO/MG</div>
+        </div>
+
+        <div class="el3d" id="cubo-wrap" data-layout-allow-overflow>
+          <div id="cubo">
+            <div class="cf" id="cf1"><div class="topo">SÁBADO</div><div class="g">24/10</div></div>
+            <div class="cf" id="cf2"><div class="topo">A PARTIR DAS</div><div class="g">19H30</div></div>
+          </div>
+        </div>
+
+        <div class="el3d" id="lagoinha" data-layout-allow-overflow>
+          <img src="assets/brand/logo_lagoinha_patrocinio.png" alt="Igreja Batista da Lagoinha Patrocínio" />
+          <div id="lag-brilho"><div></div></div>
+        </div>
+
+        <div class="el3d" id="local" data-layout-allow-overflow>
+          <svg id="pino" viewBox="0 0 110 150">
+            <path d="M55 146 C40 118 8 92 8 55 A47 47 0 1 1 102 55 C102 92 70 118 55 146 Z" fill="#ffc62e" stroke="#141210" stroke-width="7" />
+            <circle cx="55" cy="55" r="19" fill="#141210" />
+          </svg>
+          <div class="chip">PATROCÍNIO<b>/MG</b></div>
+        </div>
+
+        <div id="escuro"></div>
+                <div class="abs" id="fim-end" data-layout-allow-overflow><div class="p"></div><div class="t">AV. FARIA PEREIRA, <b>3083</b> • <b>19H30</b></div></div>
+      </div>
+
+      <div id="grao" class="clip" data-start="0" data-duration="24.5" data-track-index="4"></div>
+      <div id="flash" class="clip" data-start="0" data-duration="24.5" data-track-index="5"></div>
+    </div>
+
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true });
+        // tempos (s) lidos das legendas já gravadas no vídeo
+        var E = { nome: 3.5, data: 5.75, hora: 8.0, lagoinha: 10.45, patro: 12.2, minist: 14.0, coracao: 16.2, aguardo: 17.25, vocela: 18.2, giro: 19.2, hero: 21.9, fim: 24.5 };
+
+        function shake(t, amp, dur, alvo) {
+          var seq = [[1, -0.6], [-0.8, 0.9], [0.7, 0.4], [-0.5, -0.7], [0.35, 0.5], [-0.2, -0.25], [0, 0]];
+          var dt = dur / seq.length;
+          seq.forEach(function (p, i) {
+            var k = 1 - i / seq.length;
+            tl.to(alvo || "#mundo", { x: p[0] * amp * k, y: p[1] * amp * k, duration: dt, ease: "none" }, t + i * dt);
+          });
+        }
+        function flash(t, op, dur) {
+          tl.fromTo("#flash", { opacity: op }, { opacity: 0, duration: dur, ease: "power2.out", immediateRender: false }, t);
+        }
+        // movimento de câmera do cartão (vídeo) em 3D
+        function cam(t, props, dur, ease) {
+          tl.to("#cartao", Object.assign({ duration: dur, ease: ease || "power3.inOut" }, props), t);
+        }
+
+        // ------------------------------------------------ abertura: o vídeo "pousa" em 3D
+        tl.set("#cartao", { rotationX: 0, rotationY: 0, z: 0, scale: 1, x: 0, y: 0 }, 0);
+        tl.fromTo("#cartao", { rotationX: 14, rotationY: -10, z: -500 },
+          { rotationX: 0, rotationY: 0, z: 0, duration: 0.75, ease: "power3.out", immediateRender: false }, 0);
+        // desfoque só na face (filtro no #cartao achataria o 3D e esconderia o verso)
+        tl.fromTo("#base", { filter: "blur(8px)" }, { filter: "blur(0px)", duration: 0.6, ease: "power2.out", immediateRender: false }, 0);
+        tl.set("#base", { filter: "none" }, 0.65);
+        flash(0.02, 0.5, 0.35);
+        cam(0.9, { scale: 1.06 }, 2.4, "sine.inOut");                  // "homens de Deus": aproximação lenta
+
+        // ------------------------------------------------ "Emerson Gama": tarja 3D que tomba de cima
+        cam(E.nome - 0.15, { scale: 1.0, rotationY: 4, z: -60 }, 0.5);
+        tl.fromTo("#nome", { opacity: 1, rotationX: -95 }, { rotationX: 0, duration: 0.55, ease: "back.out(1.6)", immediateRender: false }, E.nome);
+        tl.fromTo("#nome .sub", { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.3, ease: "power3.out", immediateRender: false }, E.nome + 0.3);
+        tl.to("#nome", { rotationX: 90, opacity: 0, duration: 0.35, ease: "power2.in" }, E.nome + 1.75);
+        cam(E.nome + 1.7, { rotationY: 0, z: 0 }, 0.5);
+
+        // ------------------------------------------------ "dia 24/10" -> "19:30": cubo 3D que gira
+        cam(E.data - 0.2, { rotationY: 9, x: -150, z: -120 }, 0.6);
+        tl.fromTo("#cubo-wrap", { opacity: 1, x: 500, rotationY: -70 }, { opacity: 1, x: 0, rotationY: -12, duration: 0.6, ease: "back.out(1.3)", immediateRender: false }, E.data - 0.05);
+        tl.to("#cubo-wrap", { y: -16, duration: 1.0, yoyo: true, repeat: 1, ease: "sine.inOut" }, E.data + 0.6);
+        tl.to("#cubo", { rotationX: 90, duration: 0.55, ease: "back.inOut(1.4)" }, E.hora - 0.1);
+        tl.to("#cubo-wrap", { scale: 1.08, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, E.hora + 0.4);
+        tl.to("#cubo-wrap", { x: 560, rotationY: 60, opacity: 0, duration: 0.45, ease: "power3.in" }, E.hora + 1.65);
+        cam(E.hora + 1.6, { rotationY: 0, x: 0, z: 0 }, 0.6);
+
+        // ------------------------------------------------ "igreja Batista da Lagoinha": logo gira e brilha
+        cam(E.lagoinha - 0.3, { rotationX: -5, z: -80 }, 0.6);
+        tl.fromTo("#lagoinha", { opacity: 0, rotationY: -100, z: -300 }, { opacity: 1, rotationY: 0, z: 0, duration: 0.7, ease: "back.out(1.4)", immediateRender: false }, E.lagoinha - 0.35);
+        tl.fromTo("#lag-brilho div", { x: 0 }, { x: 1300, duration: 0.8, ease: "power1.inOut", immediateRender: false }, E.lagoinha + 0.35);
+        tl.to("#lagoinha", { rotationY: 100, opacity: 0, duration: 0.35, ease: "power2.in" }, E.patro - 0.45);
+
+        // ------------------------------------------------ "Patrocínio": pino cai + chip
+        tl.set("#local", { opacity: 1 }, E.patro - 0.1);
+        tl.fromTo("#pino", { y: -500, rotationY: 0 }, { y: 0, rotationY: 360, duration: 0.5, ease: "bounce.out", immediateRender: false }, E.patro - 0.1);
+        tl.fromTo("#local .chip", { scaleX: 0, rotationY: 50 }, { scaleX: 1, rotationY: 0, duration: 0.4, ease: "power4.out", immediateRender: false }, E.patro + 0.25);
+        tl.to("#local", { opacity: 0, y: -40, duration: 0.3, ease: "power2.in" }, E.patro + 1.55);
+        cam(E.patro + 1.5, { rotationX: 0, z: 0 }, 0.5);
+
+        // ------------------------------------------------ "ministração / palavra": giro de câmera
+        cam(E.minist - 0.1, { rotationY: -7, rotationX: 3, scale: 1.08 }, 0.7, "power2.out");
+        cam(E.minist + 0.9, { rotationY: 5, rotationX: -2, scale: 1.04 }, 1.1, "sine.inOut");
+
+        // ------------------------------------------------ "coração de renovo": brilho quente
+        cam(E.coracao - 0.2, { rotationY: 0, rotationX: 0, scale: 1.0 }, 0.5);
+        tl.to("#luz", { opacity: 1, duration: 0.4, ease: "power2.out" }, E.coracao);
+        tl.to("#luz", { opacity: 0.55, duration: 0.25, yoyo: true, repeat: 1, ease: "sine.inOut" }, E.coracao + 0.45);
+        tl.to("#luz", { opacity: 0, duration: 0.5, ease: "power2.in" }, E.aguardo);
+
+        // ------------------------------------------------ "eu aguardo você lá": aproximação + punch
+        cam(E.aguardo, { scale: 1.07 }, 0.9, "power1.inOut");
+        cam(E.vocela, { scale: 1.16 }, 0.14, "power4.in");
+        shake(E.vocela + 0.14, 14, 0.3);
+
+        // ------------------------------------------------ giro 3D: o vídeo vira e mostra o flyer no verso
+        var G = E.giro;
+        cam(G, { scale: 0.62, z: -200, rotationX: 6, duration: 0.45 }, 0.45, "power3.inOut");
+        cam(G + 0.4, { rotationY: 180, rotationX: 0 }, 0.75, "power3.inOut");
+        cam(G + 1.15, { scale: 0.86, z: 0, rotationY: 172, rotationX: -3 }, 0.6, "power3.out");
+        tl.fromTo("#brilho", { x: 0 }, { x: 2300, duration: 1.0, ease: "power1.inOut", immediateRender: false }, G + 1.3);
+        cam(G + 1.75, { rotationY: 188, rotationX: 3 }, 1.6, "sine.inOut");
+        cam(G + 3.35, { rotationY: 180, rotationX: 0, scale: 0.8, y: -110 }, 0.6, "power3.inOut");   // flyer assenta e sobe para abrir espaço à assinatura
+
+        // ------------------------------------------------ assinatura final: logo HERO + endereço
+        var H = E.hero;
+        tl.to("#escuro", { opacity: 1, duration: 0.5, ease: "power2.out" }, H - 0.3);
+        flash(H + 0.2, 0.3, 0.3);
+        tl.fromTo("#fim-end", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", immediateRender: false }, H + 0.55);
+                tl.to("#root", { opacity: 1, duration: 0.01 }, E.fim - 0.01);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
