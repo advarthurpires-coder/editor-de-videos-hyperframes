@@ -3,9 +3,9 @@
 Jantar realizado em 23/10/2026. Tema da lembrancinha: Salmos 92:14, "Na velhice
 ainda darão frutos; serão viçosos e vigorosos".
 
-Material bruto recebido em 24/10/2026, em dois lotes.
+Material bruto recebido em 24/10/2026, em três lotes.
 
-## originais/fotos (16 JPG)
+## originais/fotos (21 JPG)
 
 | Arquivo | Conteúdo |
 |---|---|
@@ -25,8 +25,13 @@ Material bruto recebido em 24/10/2026, em dois lotes.
 | foto-14.jpg | Lembrancinha: card "1º Encontro da Melhor Idade", Salmos 92:14, 23/10/2026 |
 | foto-15.jpg | Pregador com o braço estendido, convidados ouvindo |
 | foto-16.jpg | Retrato do casal (mesma cena da foto-08, outro arquivo) |
+| foto-17.jpg | Pregador de mãos juntas, casal à mesa em primeiro plano |
+| foto-18.jpg | Retrato: casal (camiseta vinho e blusa florida) |
+| foto-19.jpg | Retrato: casal (camiseta do Brasil e blusa coral) |
+| foto-20.jpg | Detalhe da mesa posta em diagonal, convidados ao fundo (720x1280) |
+| foto-21.jpg | Mesa posta completa antes do jantar (1449x2576, a de maior resolução) |
 
-## originais/videos (16 clipes, 464x832, vertical, ~2 min no total)
+## originais/videos (21 clipes, vertical, ~2min40s no total)
 
 | Arquivo | Duração |
 |---|---|
@@ -46,6 +51,11 @@ Material bruto recebido em 24/10/2026, em dois lotes.
 | video-14.mp4 | 9,0 s |
 | video-15.mp4 | 10,2 s |
 | video-16.mp4 | 1,4 s |
+| video-17.mp4 | 4,7 s |
+| video-18.mp4 | 4,5 s |
+| video-19.mp4 | 6,3 s |
+| video-20.mp4 | 4,5 s |
+| video-21.mov | 6,2 s (720x1280) |
 
-Os vídeos chegaram em baixa resolução (464x832), provavelmente comprimidos pelo
+Quase todos os vídeos chegaram em baixa resolução (464x832; só o video-21 tem 720x1280), provavelmente comprimidos pelo
 WhatsApp. Para um Reel em 1080x1920, o ideal é obter os arquivos originais do celular.
