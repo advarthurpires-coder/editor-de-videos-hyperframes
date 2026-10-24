@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Noite da Melhor Idade — Lagoinha Patrocínio</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Playfair Display"; font-weight: 700; src: url("assets/fonts/playfair-display-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Playfair Display"; font-weight: 700; font-style: italic; src: url("assets/fonts/playfair-display-latin-700-italic.woff2") format("woff2"); }
+      @font-face { font-family: "Playfair Display"; font-weight: 400; font-style: italic; src: url("assets/fonts/playfair-display-latin-400-italic.woff2") format("woff2"); }
+      @font-face { font-family: "Great Vibes"; font-weight: 400; src: url("assets/fonts/great-vibes-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url("assets/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("assets/fonts/barlow-condensed-latin-800-normal.woff2") format("woff2"); }
+
+      :root { --ouro: #f0cd86; --ouro-esc: #c39445; --creme: #fbf4e6; --noite: #17110b; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--noite); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--noite); color: var(--creme); }
+      .clip { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      img { display: block; }
+
+      /* planos: vídeo ou foto ocupando a tela */
+      .plano { width: 1080px; height: 1920px; object-fit: cover; transform-origin: 50% 50%; }
+
+      /* sombras para leitura do texto */
+      #sombra-baixo { position: absolute; left: 0; right: 0; bottom: 0; height: 1100px; opacity: 0;
+        background: linear-gradient(180deg, rgba(23,17,11,0) 0%, rgba(23,17,11,0.55) 45%, rgba(23,17,11,0.86) 100%); }
+      #vinheta { position: absolute; inset: 0;
+        background: radial-gradient(100% 70% at 50% 45%, rgba(0,0,0,0) 60%, rgba(16,10,4,0.45) 100%); }
+      #luz { position: absolute; inset: 0; opacity: 0; mix-blend-mode: screen;
+        background: radial-gradient(60% 40% at 30% 35%, rgba(255,214,140,0.95) 0%, rgba(255,170,70,0.45) 45%, rgba(0,0,0,0) 100%),
+                    radial-gradient(50% 35% at 75% 70%, rgba(255,236,190,0.8) 0%, rgba(0,0,0,0) 100%); }
+      #grao { position: absolute; inset: 0; background: url("assets/media/grao.png") 0 0 / 512px 512px repeat; opacity: 0.045; mix-blend-mode: overlay; }
+
+      /* tipografia */
+      .script { font-family: "Great Vibes", cursive; font-weight: 400; color: var(--ouro); text-shadow: 0 4px 24px rgba(0,0,0,0.55); white-space: nowrap; }
+      .serif { font-family: "Playfair Display", serif; font-weight: 700; color: var(--creme); text-shadow: 0 6px 28px rgba(0,0,0,0.6); }
+      .caps { font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.32em; color: var(--ouro); white-space: nowrap; }
+      .linha-ouro { height: 3px; background: linear-gradient(90deg, rgba(240,205,134,0) 0%, var(--ouro) 50%, rgba(240,205,134,0) 100%); }
+      .txt { opacity: 0; }
+
+      /* título */
+      #titulo { left: 0; top: 1040px; width: 1080px; height: 460px; text-align: center; }
+      #titulo .script { position: absolute; left: 0; right: 0; top: 0; font-size: 150px; line-height: 170px; }
+      #titulo .serif { position: absolute; left: 0; right: 0; top: 160px; font-size: 118px; line-height: 130px; letter-spacing: 0.06em; }
+      #titulo .serif span { display: inline-block; }
+      #titulo .linha-ouro { position: absolute; left: 190px; width: 700px; top: 318px; }
+      #titulo .caps { position: absolute; left: 0; right: 0; top: 342px; font-size: 40px; line-height: 50px; }
+
+      /* frases curtas */
+      .frase { left: 0; width: 1080px; text-align: center; font-family: "Playfair Display", serif; font-style: italic; font-weight: 400;
+        font-size: 74px; line-height: 92px; color: var(--creme); text-shadow: 0 5px 26px rgba(0,0,0,0.7); }
+      .frase b { font-weight: 700; color: var(--ouro); }
+
+      /* versículo */
+      #versiculo { left: 80px; top: 1130px; width: 920px; height: 470px; text-align: center; }
+      #versiculo::before { content: ""; position: absolute; left: -80px; right: -80px; top: -90px; bottom: -70px;
+        background: radial-gradient(60% 55% at 50% 50%, rgba(23,17,11,0.62) 0%, rgba(23,17,11,0.38) 55%, rgba(23,17,11,0) 100%); }
+      #versiculo .caps { text-shadow: 0 3px 14px rgba(0,0,0,0.9); }
+      #versiculo .caps { position: absolute; left: 0; right: 0; top: 0; font-size: 42px; line-height: 50px; }
+      #versiculo .linha-ouro { position: absolute; left: 260px; width: 400px; top: 64px; }
+      #versiculo .v { position: absolute; left: 0; right: 0; font-family: "Playfair Display", serif; font-style: italic; font-weight: 400;
+        font-size: 80px; line-height: 100px; color: var(--creme); text-shadow: 0 5px 26px rgba(0,0,0,0.75); }
+      #versiculo .v1 { top: 96px; }
+      #versiculo .v2 { top: 266px; }
+      #versiculo .w { display: inline-block; opacity: 0; }
+      #versiculo .w.d { font-weight: 700; color: var(--ouro); }
+
+      /* palavras do refrão */
+      .palavra { left: 0; width: 1080px; height: 360px; text-align: center; }
+      .palavra .script { position: absolute; left: 0; right: 0; top: 0; font-size: 210px; line-height: 250px; }
+      .palavra .caps { position: absolute; left: 0; right: 0; top: 250px; font-size: 44px; line-height: 54px; color: var(--creme); text-shadow: 0 4px 18px rgba(0,0,0,0.8); }
+
+      /* rostos: polaroides */
+      #rostos { background: var(--noite); overflow: hidden; }
+      #rostos-fundo { position: absolute; left: -80px; top: -80px; width: 1240px; height: 2080px; object-fit: cover; filter: blur(34px) brightness(0.55) saturate(1.1); }
+      #rostos-tom { position: absolute; inset: 0; background: radial-gradient(80% 55% at 50% 50%, rgba(80,52,20,0.25) 0%, rgba(23,17,11,0.75) 100%); }
+      #rostos-titulo { left: 0; top: 190px; width: 1080px; height: 300px; text-align: center; }
+      #rostos-titulo .script { position: absolute; left: 0; right: 0; top: 0; font-size: 170px; line-height: 200px; }
+      #rostos-titulo .caps { position: absolute; left: 0; right: 0; top: 200px; font-size: 44px; line-height: 54px; color: var(--creme); }
+      .polaroide { left: 175px; top: 520px; width: 730px; height: 1010px; background: #fbf7ee; padding: 30px 30px 120px 30px; opacity: 0;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 6px 16px rgba(0,0,0,0.35); transform-origin: 50% 50%; }
+      .polaroide img { width: 670px; height: 860px; object-fit: cover; }
+
+      /* final */
+      #final { background: radial-gradient(90% 60% at 50% 42%, #3a2915 0%, #1f160d 55%, #120c06 100%); overflow: hidden; }
+      .poeira { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,222,150,0.95) 0%, rgba(255,200,110,0.35) 45%, rgba(255,200,110,0) 70%); }
+      #fim-script { left: 0; top: 330px; width: 1080px; text-align: center; font-size: 140px; line-height: 160px; }
+      #fim-lag { left: 190px; top: 560px; width: 700px; height: 227px; }
+      #fim-lag img { width: 700px; height: 227px; }
+      #fim-linha { left: 290px; top: 860px; width: 500px; }
+      #fim-hero { left: 290px; top: 930px; width: 500px; height: 229px; }
+      #fim-hero img { width: 500px; height: 229px; }
+      #fim-info { left: 0; top: 1240px; width: 1080px; text-align: center; }
+      #fim-info .serif { font-size: 58px; line-height: 72px; color: var(--creme); }
+      #fim-info .caps { margin-top: 18px; font-size: 40px; line-height: 50px; }
+      #fim-brilho { position: absolute; inset: 0; overflow: hidden;
+        -webkit-mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 700px 227px no-repeat; mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 700px 227px no-repeat; }
+      #fim-brilho div { position: absolute; top: -40px; left: -260px; width: 170px; height: 320px; transform: skewX(-20deg);
+        background: linear-gradient(90deg, rgba(255,214,110,0) 0%, rgba(255,228,160,1) 50%, rgba(255,214,110,0) 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="49" data-width="1080" data-height="1920">
+      <audio id="mix" src="assets/media/mix_master.wav" data-start="0" data-duration="49" data-track-index="30" data-volume="1"></audio>
+
+      <!-- ===================== planos (cortes nos tempos da trilha: 72 bpm, tempo = 0,8333 s) ===================== -->
+      <!-- preparo -->
+      <video id="p01" class="clip plano" style="z-index:1"  src="assets/media/clips/c01.mp4" muted playsinline data-start="0"     data-duration="3.83" data-track-index="1"></video>
+      <video id="p02" class="clip plano" style="z-index:2"  src="assets/media/clips/c02.mp4" muted playsinline data-start="3.033" data-duration="2.47" data-track-index="2"></video>
+      <video id="p03" class="clip plano" style="z-index:3"  src="assets/media/clips/c03.mp4" muted playsinline data-start="4.7"   data-duration="2.47" data-track-index="1"></video>
+      <video id="p04" class="clip plano" style="z-index:4"  src="assets/media/clips/c04.mp4" muted playsinline data-start="6.367" data-duration="2.47" data-track-index="2"></video>
+      <img   id="p05" class="clip plano" style="z-index:5"  src="assets/media/fotos/foto-20.jpg" alt="Mesa posta com pratos de borda dourada" data-start="8.033" data-duration="2.47" data-track-index="1" />
+      <!-- chegada -->
+      <video id="p06" class="clip plano" style="z-index:6"  src="assets/media/clips/c06.mp4" muted playsinline data-start="9.7"   data-duration="2.47" data-track-index="2"></video>
+      <video id="p07" class="clip plano" style="z-index:7"  src="assets/media/clips/c07.mp4" muted playsinline data-start="11.367" data-duration="2.47" data-track-index="1"></video>
+      <!-- a Palavra -->
+      <img   id="p08" class="clip plano" style="z-index:8"  src="assets/media/fotos/foto-13.jpg" alt="Mesa posta e o pregador ao fundo" data-start="13.033" data-duration="4.13" data-track-index="2" />
+      <video id="p09" class="clip plano" style="z-index:9"  src="assets/media/clips/c09.mp4" muted playsinline data-start="16.367" data-duration="2.47" data-track-index="1"></video>
+      <video id="p10" class="clip plano" style="z-index:10" src="assets/media/clips/c10.mp4" muted playsinline data-start="18.033" data-duration="2.47" data-track-index="2"></video>
+      <img   id="p11" class="clip plano" style="z-index:11" src="assets/media/fotos/foto-15.jpg" alt="Pregador falando aos convidados" data-start="19.7" data-duration="2.47" data-track-index="1" />
+      <video id="p12" class="clip plano" style="z-index:12" src="assets/media/clips/c12.mp4" muted playsinline data-start="21.367" data-duration="2.47" data-track-index="2"></video>
+      <video id="p13" class="clip plano" style="z-index:13" src="assets/media/clips/c13.mp4" muted playsinline data-start="23.033" data-duration="2.47" data-track-index="1"></video>
+      <img   id="p14" class="clip plano" style="z-index:14" src="assets/media/fotos/foto-11.jpg" alt="Pregador de pé, mãos fechadas" data-start="24.7" data-duration="2.47" data-track-index="2" />
+      <!-- comunhão (refrão) -->
+      <video id="p15" class="clip plano" style="z-index:15" src="assets/media/clips/c15.mp4" muted playsinline data-start="26.367" data-duration="2.47" data-track-index="1"></video>
+      <video id="p16" class="clip plano" style="z-index:16" src="assets/media/clips/c16.mp4" muted playsinline data-start="28.033" data-duration="2.47" data-track-index="2"></video>
+      <img   id="p17" class="clip plano" style="z-index:17" src="assets/media/fotos/foto-06.jpg" alt="Pratos servidos à mesa" data-start="29.7" data-duration="1.63" data-track-index="1" />
+      <img   id="p18" class="clip plano" style="z-index:18" src="assets/media/fotos/foto-02.jpg" alt="Convidados jantando" data-start="30.533" data-duration="1.63" data-track-index="2" />
+      <video id="p19" class="clip plano" style="z-index:19" src="assets/media/clips/c19.mp4" muted playsinline data-start="31.367" data-duration="2.47" data-track-index="1"></video>
+      <video id="p20" class="clip plano" style="z-index:20" src="assets/media/clips/c20.mp4" muted playsinline data-start="33.033" data-duration="2.47" data-track-index="2"></video>
+      <img   id="p21" class="clip plano" style="z-index:21" src="assets/media/fotos/foto-04.jpg" alt="A mesa completa durante o jantar" data-start="34.7" data-duration="2.47" data-track-index="1" />
+
+      <!-- rostos: polaroides -->
+      <div id="rostos" class="clip" style="z-index:22" data-start="36.367" data-duration="7.3" data-track-index="3">
+        <img id="rostos-fundo" data-layout-allow-overflow src="assets/media/fotos/foto-04.jpg" alt="" />
+        <div id="rostos-tom"></div>
+        <div class="abs polaroide" id="pol1"><img src="assets/media/fotos/foto-08.jpg" alt="Casal à mesa" /></div>
+        <div class="abs polaroide" id="pol2"><img src="assets/media/fotos/foto-18.jpg" alt="Casal à mesa" /></div>
+        <div class="abs polaroide" id="pol3"><img src="assets/media/fotos/foto-19.jpg" alt="Casal à mesa" /></div>
+        <div class="abs polaroide" id="pol4"><img src="assets/media/fotos/foto-07.jpg" alt="Convidado à mesa" /></div>
+        <div class="abs txt" id="rostos-titulo" data-layout-allow-overflow>
+          <div class="script">Obrigado</div>
+          <div class="caps">POR CADA HISTÓRIA</div>
+        </div>
+      </div>
+
+      <!-- lembrancinha -->
+      <img id="p23" class="clip plano" style="z-index:23" src="assets/media/fotos/foto-14.jpg" alt="Lembrancinha do 1º Encontro da Melhor Idade" data-start="43.033" data-duration="3.52" data-track-index="1" />
+
+      <!-- ===================== textos sobre os planos ===================== -->
+      <div id="textos" class="clip" style="z-index:40" data-start="0" data-duration="49" data-track-index="4">
+        <div id="sombra-baixo"></div>
+
+        <div class="abs txt" id="titulo" data-layout-allow-overflow>
+          <div class="script">Noite da</div>
+          <div class="serif"><span>M</span><span>E</span><span>L</span><span>H</span><span>O</span><span>R</span>&nbsp;<span>I</span><span>D</span><span>A</span><span>D</span><span>E</span></div>
+          <div class="linha-ouro"></div>
+          <div class="caps">LAGOINHA PATROCÍNIO • 23/10/2026</div>
+        </div>
+
+        <div class="abs txt frase" id="f-preparo" style="top: 1300px;" data-layout-allow-overflow>Preparado com <b>carinho</b>…</div>
+        <div class="abs txt frase" id="f-chegada" style="top: 1300px;" data-layout-allow-overflow>…para receber <b>vocês</b>.</div>
+
+        <div class="abs txt" id="versiculo" data-layout-allow-overflow>
+          <div class="caps">SALMOS 92:14</div>
+          <div class="linha-ouro"></div>
+          <div class="v v1"><span class="w">Na</span> <span class="w">velhice</span> <span class="w">ainda</span><br /><span class="w">darão</span> <span class="w d">frutos;</span></div>
+          <div class="v v2"><span class="w">serão</span> <span class="w d">viçosos</span><br /><span class="w">e</span> <span class="w d">vigorosos.</span></div>
+        </div>
+
+        <div class="abs txt palavra" id="w-comunhao" style="top: 1190px;" data-layout-allow-overflow>
+          <div class="script">Comunhão</div>
+          <div class="caps">À MESA, COMO FAMÍLIA</div>
+        </div>
+        <div class="abs txt palavra" id="w-gratidao" style="top: 1190px;" data-layout-allow-overflow>
+          <div class="script">Gratidão</div>
+          <div class="caps">POR CADA ANO VIVIDO</div>
+        </div>
+
+        <div class="abs txt frase" id="f-lembranca" style="top: 1330px;" data-layout-allow-overflow>“Na velhice ainda<br /><b>darão frutos</b>”</div>
+      </div>
+
+      <!-- ===================== final ===================== -->
+      <div id="final" class="clip" style="z-index:50" data-start="45.95" data-duration="3.05" data-track-index="5">
+        <div id="poeiras"></div>
+        <div class="abs txt script" id="fim-script">Até o próximo encontro</div>
+        <div class="abs txt" id="fim-lag" data-layout-allow-overflow>
+          <img src="assets/brand/logo_lagoinha_patrocinio.png" alt="Igreja Batista da Lagoinha Patrocínio" />
+          <div id="fim-brilho"><div></div></div>
+        </div>
+        <div class="abs txt linha-ouro" id="fim-linha"></div>
+        <div class="abs txt" id="fim-hero"><img src="assets/brand/logo_hero_patrocinio.png" alt="HERO Patrocínio/MG" /></div>
+        <div class="abs txt" id="fim-info" data-layout-allow-overflow>
+          <div class="serif">1º Encontro da Melhor Idade</div>
+          <div class="caps">23 • 10 • 2026</div>
+        </div>
+      </div>
+
+      <div id="efeitos" class="clip" style="z-index:60; pointer-events: none;" data-start="0" data-duration="49" data-track-index="6">
+        <div id="vinheta"></div>
+        <div id="luz"></div>
+        <div id="grao"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var B = 60 / 72, BAR = 4 * B;           // mesma grade de tools/roteiro.py
+        var tl = gsap.timeline({ paused: true });
+
+        // ------------------------------------------------ transições (todas começam 0,3 s antes do corte)
+        function luz(t, pico, dur) {
+          tl.fromTo("#luz", { opacity: 0 }, { opacity: pico, duration: 0.28, ease: "sine.in", immediateRender: false }, t - 0.28);
+          tl.to("#luz", { opacity: 0, duration: dur || 0.7, ease: "sine.out" }, t);
+        }
+        function entra(sel, t, tipo) {
+          var t0 = t - 0.3;
+          if (tipo === "dissolve") {
+            tl.fromTo(sel, { opacity: 0, filter: "blur(14px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.65, ease: "sine.inOut", immediateRender: false }, t0);
+            tl.set(sel, { filter: "none" }, t0 + 0.66);
+          } else if (tipo === "iris") {
+            tl.fromTo(sel, { clipPath: "circle(0% at 50% 48%)" }, { clipPath: "circle(75% at 50% 48%)", duration: 0.75, ease: "power2.inOut", immediateRender: false }, t0);
+            tl.set(sel, { clipPath: "none" }, t0 + 0.76);
+          } else if (tipo === "zoom") {          // a escala de entrada fica no Ken Burns (kb com z=true)
+            tl.fromTo(sel, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out", immediateRender: false }, t0);
+          } else if (tipo === "sobe") {
+            tl.fromTo(sel, { opacity: 0, y: 260, rotation: 2.5 }, { opacity: 1, y: 0, rotation: 0, duration: 0.55, ease: "power3.out", immediateRender: false }, t0);
+          } else if (tipo === "lado") {
+            tl.fromTo(sel, { opacity: 0.4, x: 1080 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out", immediateRender: false }, t0);
+          }
+        }
+        // Ken Burns: escala contínua durante o plano; z=true começa ampliado (efeito "zoom" de entrada)
+        function kb(sel, t, fim, de, para, z, origem) {
+          var t0 = Math.max(0, t - 0.3), d = fim + 0.5 - t0;
+          if (origem) tl.set(sel, { transformOrigin: origem }, t0);
+          tl.fromTo(sel, { scale: z ? de + 0.28 : de }, { scale: para, duration: d, ease: z ? "expo.out" : "sine.inOut", immediateRender: false }, t0);
+        }
+
+        // ------------------------------------------------ planos: [id, corte, próximo corte, transição, escala de, escala para, origem]
+        var C = [
+          ["#p01", 0,            BAR,           null,       1.12, 1.0,  "50% 60%"],
+          ["#p02", BAR,          BAR + 2 * B,   "luz",      1.0,  1.1,  "50% 70%"],
+          ["#p03", BAR + 2 * B,  2 * BAR,       "dissolve", 1.06, 1.0,  "40% 40%"],
+          ["#p04", 2 * BAR,      2 * BAR + 2*B, "zoom",     1.0,  1.06, "50% 60%"],
+          ["#p05", 2*BAR + 2*B,  3 * BAR,       "dissolve", 1.0,  1.1,  "50% 50%"],
+          ["#p06", 3 * BAR,      3 * BAR + 2*B, "iris",     1.05, 1.0,  "50% 35%"],
+          ["#p07", 3*BAR + 2*B,  4 * BAR,       "dissolve", 1.0,  1.07, "50% 30%"],
+          ["#p08", 4 * BAR,      5 * BAR,       "luz",      1.0,  1.14, "50% 30%"],
+          ["#p09", 5 * BAR,      5 * BAR + 2*B, "dissolve", 1.08, 1.0,  "30% 25%"],
+          ["#p10", 5*BAR + 2*B,  6 * BAR,       "zoom",     1.0,  1.05, "50% 30%"],
+          ["#p11", 6 * BAR,      6 * BAR + 2*B, "dissolve", 1.0,  1.1,  "50% 25%"],
+          ["#p12", 6*BAR + 2*B,  7 * BAR,       "iris",     1.06, 1.0,  "30% 20%"],
+          ["#p13", 7 * BAR,      7 * BAR + 2*B, "dissolve", 1.0,  1.08, "50% 30%"],
+          ["#p14", 7*BAR + 2*B,  8 * BAR,       "zoom",     1.0,  1.12, "50% 30%"],
+          ["#p15", 8 * BAR,      8 * BAR + 2*B, "zoom",     1.0,  1.06, "60% 60%"],
+          ["#p16", 8*BAR + 2*B,  9 * BAR,       "sobe",     1.06, 1.0,  "50% 50%"],
+          ["#p17", 9 * BAR,      9 * BAR + B,   "lado",     1.0,  1.08, "50% 50%"],
+          ["#p18", 9 * BAR + B,  9 * BAR + 2*B, "lado",     1.08, 1.0,  "50% 50%"],
+          ["#p19", 9*BAR + 2*B,  10 * BAR,      "zoom",     1.0,  1.06, "50% 50%"],
+          ["#p20", 10 * BAR,     10 * BAR + 2*B,"sobe",     1.06, 1.0,  "50% 40%"],
+          ["#p21", 10*BAR + 2*B, 11 * BAR,      "iris",     1.0,  1.1,  "50% 50%"],
+          ["#p23", 13 * BAR,     13*BAR + 3.5*B,"dissolve", 1.0,  1.16, "50% 70%"],
+        ];
+        C.forEach(function (c) {
+          var tipo = c[3];
+          if (tipo === "luz") { luz(c[1], 0.8); entra(c[0], c[1], "dissolve"); }
+          else if (tipo) entra(c[0], c[1], tipo);
+          kb(c[0], c[1], c[2], c[4], c[5], tipo === "zoom", c[6]);
+        });
+        // drop do refrão (compasso 9): luz forte + leve tremor de câmera
+        luz(8 * BAR, 0.95, 0.9);
+        tl.fromTo("#p15", { x: 0 }, { x: 10, duration: 0.05, yoyo: true, repeat: 3, ease: "sine.inOut", immediateRender: false }, 8 * BAR);
+
+        // ------------------------------------------------ título (abertura)
+        tl.fromTo("#sombra-baixo", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "sine.out", immediateRender: false }, 0);
+        tl.set("#titulo", { opacity: 1 }, 0.2);
+        tl.fromTo("#titulo .script", { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "power2.out", immediateRender: false }, 0.25);
+        tl.fromTo("#titulo .serif span", { opacity: 0, y: 50, rotationX: -80 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.6, ease: "back.out(1.6)", stagger: 0.06, immediateRender: false }, 0.75);
+        tl.fromTo("#titulo .linha-ouro", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut", immediateRender: false }, 1.45);
+        tl.fromTo("#titulo .caps", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, 1.7);
+        tl.to("#titulo", { opacity: 0, y: -40, filter: "blur(8px)", duration: 0.6, ease: "power2.in" }, BAR + 2 * B - 0.75);
+
+        // ------------------------------------------------ frases do preparo e da chegada
+        function frase(sel, ini, fim) {
+          tl.fromTo(sel, { opacity: 0, y: 34, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power2.out", immediateRender: false }, ini);
+          tl.to(sel, { opacity: 0, y: -24, filter: "blur(6px)", duration: 0.5, ease: "power2.in" }, fim - 0.5);
+        }
+        frase("#f-preparo", 2 * BAR - 0.2, 3 * BAR);
+        frase("#f-chegada", 3 * BAR + 0.15, 4 * BAR - 0.1);
+
+        // ------------------------------------------------ versículo (a Palavra): palavra por palavra, nos tempos
+        var V = 4 * BAR;
+        tl.set("#versiculo", { opacity: 1 }, V + 0.2);
+        tl.fromTo("#versiculo .caps", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, V + 0.25);
+        tl.fromTo("#versiculo .linha-ouro", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut", immediateRender: false }, V + 0.5);
+        var w1 = gsap.utils.toArray("#versiculo .v1 .w"), w2 = gsap.utils.toArray("#versiculo .v2 .w");
+        w1.forEach(function (el, i) {
+          tl.fromTo(el, { opacity: 0, y: 28, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power2.out", immediateRender: false }, V + 1.0 + i * B * 0.75);
+        });
+        w2.forEach(function (el, i) {
+          tl.fromTo(el, { opacity: 0, y: 28, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power2.out", immediateRender: false }, V + 2 * BAR + i * B * 0.75);
+        });
+        // destaque dourado pulsa nas palavras-chave
+        tl.fromTo("#versiculo .v1 .w.d", { scale: 1 }, { scale: 1.1, duration: 0.35, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, V + 1.0 + 4 * B * 0.75 + 0.5);
+        tl.fromTo("#versiculo .v2 .w.d", { scale: 1 }, { scale: 1.1, duration: 0.35, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false, stagger: 0.5 }, V + 2 * BAR + 3 * B * 0.75 + 0.5);
+        tl.to("#versiculo", { opacity: 0, y: -30, filter: "blur(8px)", duration: 0.5, ease: "power2.in" }, 8 * BAR - 0.55);
+
+        // ------------------------------------------------ palavras do refrão
+        function palavra(sel, ini, fim) {
+          tl.fromTo(sel + " .script", { opacity: 0, scale: 0.86, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.8, ease: "power3.out", immediateRender: false }, ini);
+          tl.set(sel, { opacity: 1 }, ini);
+          tl.fromTo(sel + " .caps", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, ini + 0.4);
+          tl.to(sel, { opacity: 0, scale: 1.04, filter: "blur(8px)", duration: 0.45, ease: "power2.in" }, fim - 0.45);
+        }
+        palavra("#w-comunhao", 8 * BAR + 0.15, 9 * BAR - 0.1);
+        palavra("#w-gratidao", 9 * BAR + 2 * B + 0.1, 11 * BAR - 0.35);
+        tl.to("#sombra-baixo", { opacity: 0, duration: 0.4 }, 11 * BAR - 0.4);
+
+        // ------------------------------------------------ rostos: polaroides caem no tempo da música
+        var R = 11 * BAR;
+        luz(R, 0.75, 0.8);
+        tl.fromTo("#rostos", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "sine.inOut", immediateRender: false }, R - 0.3);
+        tl.fromTo("#rostos-fundo", { scale: 1.0 }, { scale: 1.12, duration: 7.3, ease: "none", immediateRender: false }, R - 0.3);
+        tl.fromTo("#rostos-titulo", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", immediateRender: false }, R + 0.1);
+        tl.fromTo("#rostos-titulo .caps", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", immediateRender: false }, R + 0.45);
+        var POL = [["#pol1", -4.5, -30], ["#pol2", 3.5, 25], ["#pol3", -2.0, -12], ["#pol4", 4.0, 18]];
+        POL.forEach(function (p, i) {
+          var t = R + 0.15 + i * 2 * B;
+          tl.fromTo(p[0], { opacity: 1, y: 1500, x: p[2] * 6, rotation: p[1] * 4 },
+            { opacity: 1, y: 0, x: p[2], rotation: p[1], duration: 0.75, ease: "back.out(1.05)", immediateRender: false }, t);
+          if (i > 0) tl.to(POL[i - 1][0], { scale: 0.94, filter: "brightness(0.8)", duration: 0.6, ease: "sine.out" }, t + 0.2);
+        });
+        tl.to("#pol4", { scale: 1.04, duration: 1.4, ease: "sine.inOut" }, R + 0.9 + 6 * B);
+        tl.to("#rostos", { opacity: 0, duration: 0.5, ease: "sine.in" }, 13 * BAR - 0.3);
+
+        // ------------------------------------------------ lembrancinha: o versículo volta, curto
+        tl.fromTo("#sombra-baixo", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.out", immediateRender: false }, 13 * BAR - 0.1);
+        frase("#f-lembranca", 13 * BAR + 0.5, 13 * BAR + 3.5 * B - 0.05);
+
+        // ------------------------------------------------ final: poeira dourada, logos e assinatura
+        var F = 13 * BAR + 3.5 * B;           // 46,25 s
+        luz(F, 0.85, 0.9);
+        tl.fromTo("#final", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "sine.inOut", immediateRender: false }, F - 0.3);
+        // poeira: posições fixas (gerador determinístico)
+        var semente = 7, poeiras = document.getElementById("poeiras");
+        function rnd() { semente = (semente * 16807) % 2147483647; return (semente - 1) / 2147483646; }
+        for (var i = 0; i < 26; i++) {
+          var d = document.createElement("div"), s = 10 + rnd() * 34;
+          d.className = "poeira";
+          d.style.left = (rnd() * 1080 - s / 2).toFixed(0) + "px";
+          d.style.top = (200 + rnd() * 1500).toFixed(0) + "px";
+          d.style.width = d.style.height = s.toFixed(0) + "px";
+          d.style.opacity = (0.35 + rnd() * 0.5).toFixed(2);
+          poeiras.appendChild(d);
+          tl.fromTo(d, { y: 0, x: 0 }, { y: -160 - rnd() * 260, x: (rnd() - 0.5) * 120, duration: 3.1, ease: "none", immediateRender: false }, F - 0.3);
+        }
+        tl.fromTo("#fim-script", { opacity: 0, y: 26, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power2.out", immediateRender: false }, F + 0.05);
+        tl.fromTo("#fim-lag", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.7, ease: "power3.out", immediateRender: false }, F + 0.3);
+        tl.fromTo("#fim-brilho div", { x: 0 }, { x: 1100, duration: 0.9, ease: "power1.inOut", immediateRender: false }, F + 0.9);
+        tl.fromTo("#fim-linha", { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: "power2.inOut", immediateRender: false }, F + 0.6);
+        tl.fromTo("#fim-hero", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.4)", immediateRender: false }, F + 0.75);
+        tl.fromTo("#fim-info", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", immediateRender: false }, F + 1.0);
+        tl.to("#root", { opacity: 1, duration: 0.01 }, 48.99);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>
