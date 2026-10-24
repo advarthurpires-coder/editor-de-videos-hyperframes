@@ -1,8 +1,11 @@
-# Encontro da Melhor Idade — HERO
+# 1º Encontro da Melhor Idade — HERO Lagoinha Patrocínio
 
-Material bruto recebido em 24/10/2026: fotos e vídeos do jantar do encontro.
+Jantar realizado em 23/10/2026. Tema da lembrancinha: Salmos 92:14, "Na velhice
+ainda darão frutos; serão viçosos e vigorosos".
 
-## originais/fotos (9 JPG)
+Material bruto recebido em 24/10/2026, em dois lotes.
+
+## originais/fotos (16 JPG)
 
 | Arquivo | Conteúdo |
 |---|---|
@@ -15,8 +18,15 @@ Material bruto recebido em 24/10/2026: fotos e vídeos do jantar do encontro.
 | foto-07.jpg | Retrato: convidado de camiseta azul-marinho |
 | foto-08.jpg | Retrato: casal sentado à mesa |
 | foto-09.jpg | Fala de abertura, orador de costas para a câmera |
+| foto-10.jpg | Pregador de terno falando à mesa, convidados de costas em primeiro plano |
+| foto-11.jpg | Pregador de pé, gesto com os punhos fechados |
+| foto-12.jpg | Pregador gesticulando, palmeira ao fundo (720x1280) |
+| foto-13.jpg | Mesa posta completa, pregador ao fundo (melhor plano geral do ambiente) |
+| foto-14.jpg | Lembrancinha: card "1º Encontro da Melhor Idade", Salmos 92:14, 23/10/2026 |
+| foto-15.jpg | Pregador com o braço estendido, convidados ouvindo |
+| foto-16.jpg | Retrato do casal (mesma cena da foto-08, outro arquivo) |
 
-## originais/videos (7 clipes, 464x832, vertical)
+## originais/videos (16 clipes, 464x832, vertical, ~2 min no total)
 
 | Arquivo | Duração |
 |---|---|
@@ -27,6 +37,15 @@ Material bruto recebido em 24/10/2026: fotos e vídeos do jantar do encontro.
 | video-05.mp4 | 8,6 s |
 | video-06.mp4 | 7,5 s |
 | video-07.mov | 22,5 s |
+| video-08.mov | 3,7 s |
+| video-09.mov | 6,9 s |
+| video-10.mov | 8,7 s |
+| video-11.mov | 7,5 s |
+| video-12.mp4 | 4,4 s |
+| video-13.mp4 | 13,4 s |
+| video-14.mp4 | 9,0 s |
+| video-15.mp4 | 10,2 s |
+| video-16.mp4 | 1,4 s |
 
 Os vídeos chegaram em baixa resolução (464x832), provavelmente comprimidos pelo
 WhatsApp. Para um Reel em 1080x1920, o ideal é obter os arquivos originais do celular.
