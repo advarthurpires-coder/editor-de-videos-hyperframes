@@ -55,7 +55,7 @@
       .frase b { font-weight: 700; color: var(--ouro); }
 
       /* versículo */
-      #versiculo { left: 80px; top: 1130px; width: 920px; height: 470px; text-align: center; }
+      #versiculo { left: 80px; top: 1010px; width: 920px; height: 520px; text-align: center; }
       #versiculo::before { content: ""; position: absolute; left: -80px; right: -80px; top: -90px; bottom: -70px;
         background: radial-gradient(60% 55% at 50% 50%, rgba(23,17,11,0.62) 0%, rgba(23,17,11,0.38) 55%, rgba(23,17,11,0) 100%); }
       #versiculo .caps { text-shadow: 0 3px 14px rgba(0,0,0,0.9); }
@@ -64,7 +64,7 @@
       #versiculo .v { position: absolute; left: 0; right: 0; font-family: "Playfair Display", serif; font-style: italic; font-weight: 400;
         font-size: 80px; line-height: 100px; color: var(--creme); text-shadow: 0 5px 26px rgba(0,0,0,0.75); }
       #versiculo .v1 { top: 96px; }
-      #versiculo .v2 { top: 266px; }
+      #versiculo .v2 { top: 316px; }
       #versiculo .w { display: inline-block; opacity: 0; }
       #versiculo .w.d { font-weight: 700; color: var(--ouro); }
 
@@ -87,17 +87,15 @@
       /* final */
       #final { background: radial-gradient(90% 60% at 50% 42%, #3a2915 0%, #1f160d 55%, #120c06 100%); overflow: hidden; }
       .poeira { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,222,150,0.95) 0%, rgba(255,200,110,0.35) 45%, rgba(255,200,110,0) 70%); }
-      #fim-script { left: 0; top: 330px; width: 1080px; text-align: center; font-size: 140px; line-height: 160px; }
-      #fim-lag { left: 190px; top: 560px; width: 700px; height: 227px; }
-      #fim-lag img { width: 700px; height: 227px; }
-      #fim-linha { left: 290px; top: 860px; width: 500px; }
-      #fim-hero { left: 290px; top: 930px; width: 500px; height: 229px; }
-      #fim-hero img { width: 500px; height: 229px; }
-      #fim-info { left: 0; top: 1240px; width: 1080px; text-align: center; }
+      #fim-script { left: 0; top: 420px; width: 1080px; text-align: center; font-size: 140px; line-height: 160px; }
+      #fim-lag { left: 130px; top: 680px; width: 820px; height: 266px; }
+      #fim-lag img { width: 820px; height: 266px; }
+      #fim-linha { left: 290px; top: 1010px; width: 500px; }
+      #fim-info { left: 0; top: 1060px; width: 1080px; text-align: center; }
       #fim-info .serif { font-size: 58px; line-height: 72px; color: var(--creme); }
       #fim-info .caps { margin-top: 18px; font-size: 40px; line-height: 50px; }
       #fim-brilho { position: absolute; inset: 0; overflow: hidden;
-        -webkit-mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 700px 227px no-repeat; mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 700px 227px no-repeat; }
+        -webkit-mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 820px 266px no-repeat; mask: url("assets/brand/logo_lagoinha_patrocinio.png") 0 0 / 820px 266px no-repeat; }
       #fim-brilho div { position: absolute; top: -40px; left: -260px; width: 170px; height: 320px; transform: skewX(-20deg);
         background: linear-gradient(90deg, rgba(255,214,110,0) 0%, rgba(255,228,160,1) 50%, rgba(255,214,110,0) 100%); }
     </style>
@@ -192,7 +190,6 @@
           <div id="fim-brilho"><div></div></div>
         </div>
         <div class="abs txt linha-ouro" id="fim-linha"></div>
-        <div class="abs txt" id="fim-hero"><img src="assets/brand/logo_hero_patrocinio.png" alt="HERO Patrocínio/MG" /></div>
         <div class="abs txt" id="fim-info" data-layout-allow-overflow>
           <div class="serif">1º Encontro da Melhor Idade</div>
           <div class="caps">23 • 10 • 2026</div>
@@ -359,9 +356,8 @@
         }
         tl.fromTo("#fim-script", { opacity: 0, y: 26, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power2.out", immediateRender: false }, F + 0.05);
         tl.fromTo("#fim-lag", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.7, ease: "power3.out", immediateRender: false }, F + 0.3);
-        tl.fromTo("#fim-brilho div", { x: 0 }, { x: 1100, duration: 0.9, ease: "power1.inOut", immediateRender: false }, F + 0.9);
+        tl.fromTo("#fim-brilho div", { x: 0 }, { x: 1250, duration: 0.9, ease: "power1.inOut", immediateRender: false }, F + 0.9);
         tl.fromTo("#fim-linha", { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: "power2.inOut", immediateRender: false }, F + 0.6);
-        tl.fromTo("#fim-hero", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.4)", immediateRender: false }, F + 0.75);
         tl.fromTo("#fim-info", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", immediateRender: false }, F + 1.0);
         tl.to("#root", { opacity: 1, duration: 0.01 }, 48.99);
 

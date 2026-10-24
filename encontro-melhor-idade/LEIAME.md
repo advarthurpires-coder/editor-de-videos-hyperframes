@@ -20,7 +20,7 @@ nos tempos da música (tempo = 0,8333 s; compasso = 3,3333 s).
 | 26,7 | Comunhão (refrão) | jantar, cortes mais rápidos ("Comunhão", "Gratidão") | drop com luz, sobe, lateral |
 | 36,7 | Rostos | 4 polaroides caindo no tempo ("Obrigado por cada história") | luz |
 | 43,3 | Lembrancinha | card do encontro + versículo | dissolve |
-| 46,25 | Final | "Até o próximo encontro", logos Lagoinha e HERO, 23•10•2026 | luz, poeira dourada |
+| 46,25 | Final | "Até o próximo encontro", logo da Lagoinha Patrocínio, 23•10•2026 | luz, poeira dourada |
 
 ### Pipeline
 ```bash
