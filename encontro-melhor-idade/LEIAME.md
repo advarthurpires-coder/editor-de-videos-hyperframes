@@ -19,7 +19,7 @@ nos tempos da música (tempo = 0,8333 s; compasso = 3,3333 s).
 | 13,3 | A Palavra | pregador e ouvintes + Salmos 92:14 palavra por palavra | luz, dissolve, zoom, íris |
 | 26,7 | Comunhão (refrão) | jantar, cortes mais rápidos ("Comunhão", "Gratidão") | drop com luz, sobe, lateral |
 | 36,7 | Rostos | 4 polaroides caindo no tempo ("Obrigado por cada história") | luz |
-| 43,3 | Lembrancinha | card do encontro + versículo | dissolve |
+| 43,3 | Lembrancinha | card do encontro (o versículo já vem impresso nele) | dissolve |
 | 46,25 | Final | "Até o próximo encontro", logo da Lagoinha Patrocínio, 23•10•2026 | luz, poeira dourada |
 
 ### Pipeline

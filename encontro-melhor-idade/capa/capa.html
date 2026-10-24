@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Capa — Noite da Melhor Idade</title>
+    <style>
+      @font-face { font-family: "Playfair Display"; font-weight: 700; src: url("../assets/fonts/playfair-display-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Great Vibes"; font-weight: 400; src: url("../assets/fonts/great-vibes-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url("../assets/fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { width: 1080px; height: 1920px; overflow: hidden; background: #17110b; position: relative; }
+      #foto { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; object-position: 50% 60%; }
+      #sombra { position: absolute; left: 0; right: 0; bottom: 0; height: 1150px;
+        background: linear-gradient(180deg, rgba(23,17,11,0) 0%, rgba(23,17,11,0.6) 42%, rgba(23,17,11,0.9) 100%); }
+      #vinheta { position: absolute; inset: 0; background: radial-gradient(100% 70% at 50% 45%, rgba(0,0,0,0) 60%, rgba(16,10,4,0.45) 100%); }
+      #titulo { position: absolute; left: 0; top: 1010px; width: 1080px; text-align: center; }
+      .script { font-family: "Great Vibes", cursive; font-size: 170px; line-height: 190px; color: #f0cd86; text-shadow: 0 4px 24px rgba(0,0,0,0.6); }
+      .serif { font-family: "Playfair Display", serif; font-weight: 700; font-size: 104px; line-height: 124px; letter-spacing: 0.05em; color: #fbf4e6; text-shadow: 0 6px 28px rgba(0,0,0,0.6); }
+      .linha { margin: 22px auto 0; width: 700px; height: 3px; background: linear-gradient(90deg, rgba(240,205,134,0) 0%, #f0cd86 50%, rgba(240,205,134,0) 100%); }
+      .caps { margin-top: 22px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 42px; letter-spacing: 0.32em; color: #f0cd86; }
+    </style>
+  </head>
+  <body>
+    <img id="foto" src="../assets/media/fotos/foto-21.jpg" alt="Mesa posta para a Noite da Melhor Idade" />
+    <div id="sombra"></div>
+    <div id="vinheta"></div>
+    <div id="titulo">
+      <div class="script">Noite da</div>
+      <div class="serif">MELHOR IDADE</div>
+      <div class="linha"></div>
+      <div class="caps">LAGOINHA PATROCÍNIO • 23/10/2026</div>
+    </div>
+  </body>
+</html>

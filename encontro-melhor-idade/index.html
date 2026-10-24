@@ -44,7 +44,7 @@
       /* título */
       #titulo { left: 0; top: 1040px; width: 1080px; height: 460px; text-align: center; }
       #titulo .script { position: absolute; left: 0; right: 0; top: 0; font-size: 150px; line-height: 170px; }
-      #titulo .serif { position: absolute; left: 0; right: 0; top: 160px; font-size: 118px; line-height: 130px; letter-spacing: 0.06em; }
+      #titulo .serif { position: absolute; left: 0; right: 0; top: 165px; font-size: 104px; line-height: 124px; letter-spacing: 0.05em; }
       #titulo .serif span { display: inline-block; }
       #titulo .linha-ouro { position: absolute; left: 190px; width: 700px; top: 318px; }
       #titulo .caps { position: absolute; left: 0; right: 0; top: 342px; font-size: 40px; line-height: 50px; }
@@ -178,7 +178,6 @@
           <div class="caps">POR CADA ANO VIVIDO</div>
         </div>
 
-        <div class="abs txt frase" id="f-lembranca" style="top: 1330px;" data-layout-allow-overflow>“Na velhice ainda<br /><b>darão frutos</b>”</div>
       </div>
 
       <!-- ===================== final ===================== -->
@@ -332,10 +331,6 @@
         });
         tl.to("#pol4", { scale: 1.04, duration: 1.4, ease: "sine.inOut" }, R + 0.9 + 6 * B);
         tl.to("#rostos", { opacity: 0, duration: 0.5, ease: "sine.in" }, 13 * BAR - 0.3);
-
-        // ------------------------------------------------ lembrancinha: o versículo volta, curto
-        tl.fromTo("#sombra-baixo", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "sine.out", immediateRender: false }, 13 * BAR - 0.1);
-        frase("#f-lembranca", 13 * BAR + 0.5, 13 * BAR + 3.5 * B - 0.05);
 
         // ------------------------------------------------ final: poeira dourada, logos e assinatura
         var F = 13 * BAR + 3.5 * B;           // 46,25 s
